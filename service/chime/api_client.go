@@ -67,7 +67,12 @@ func timeOperationMetric[T any](
 	ctx context.Context, metric string, fn func() (T, error),
 	opts ...metrics.RecordMetricOption,
 ) (T, error) {
-	instr := getOperationMetrics(ctx).histogramFor(metric)
+	mm := getOperationMetrics(ctx)
+	if mm == nil { // not using the metrics system
+		return fn()
+	}
+
+	instr := mm.histogramFor(metric)
 	opts = append([]metrics.RecordMetricOption{withOperationMetadata(ctx)}, opts...)
 
 	start := time.Now()
@@ -80,7 +85,12 @@ func timeOperationMetric[T any](
 }
 
 func startMetricTimer(ctx context.Context, metric string, opts ...metrics.RecordMetricOption) func() {
-	instr := getOperationMetrics(ctx).histogramFor(metric)
+	mm := getOperationMetrics(ctx)
+	if mm == nil { // not using the metrics system
+		return func() {}
+	}
+
+	instr := mm.histogramFor(metric)
 	opts = append([]metrics.RecordMetricOption{withOperationMetadata(ctx)}, opts...)
 
 	var ended bool
@@ -108,6 +118,12 @@ func withOperationMetadata(ctx context.Context) metrics.RecordMetricOption {
 type operationMetricsKey struct{}
 
 func withOperationMetrics(parent context.Context, mp metrics.MeterProvider) (context.Context, error) {
+	if _, ok := mp.(metrics.NopMeterProvider); ok {
+		// not using the metrics system - setting up the metrics context is a memory-intensive operation
+		// so we should skip it in this case
+		return parent, nil
+	}
+
 	meter := mp.Meter("github.com/aws/aws-sdk-go-v2/service/chime")
 	om := &operationMetrics{}
 
@@ -155,7 +171,10 @@ func operationMetricTimer(m metrics.Meter, name, desc string) (metrics.Float64Hi
 }
 
 func getOperationMetrics(ctx context.Context) *operationMetrics {
-	return ctx.Value(operationMetricsKey{}).(*operationMetrics)
+	if v := ctx.Value(operationMetricsKey{}); v != nil {
+		return v.(*operationMetrics)
+	}
+	return nil
 }
 
 func operationTracer(p tracing.TracerProvider) tracing.Tracer {
