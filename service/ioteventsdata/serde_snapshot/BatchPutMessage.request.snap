@@ -1,0 +1,5 @@
+POST /inputs/messages
+
+Content-Type: application/json
+
+{"messages":[{"inputName":"__InputName__","messageId":"__MessageId__","payload":"YmxvYg==","timestamp":{"timeInMillis":1}},{"inputName":"__InputName__","messageId":"__MessageId__","payload":"YmxvYg==","timestamp":{"timeInMillis":1}}]}

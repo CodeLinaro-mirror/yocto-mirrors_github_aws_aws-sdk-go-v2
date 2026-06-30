@@ -1,0 +1,5 @@
+POST /jobs
+
+Content-Type: application/json
+
+{"DeviceIds":["__Member__","__Member__"],"DeviceJobConfig":{"OTAJobConfig":{"AllowMajorVersionUpdate":true,"ImageVersion":"__ImageVersion__"}},"JobType":"OTA"}

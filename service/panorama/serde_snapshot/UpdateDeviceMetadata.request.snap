@@ -1,0 +1,5 @@
+PUT /devices/__DeviceId__
+
+Content-Type: application/json
+
+{"Description":"__Description__"}

@@ -1,0 +1,5 @@
+POST /detectors/delete
+
+Content-Type: application/json
+
+{"detectors":[{"detectorModelName":"__DetectorModelName__","keyValue":"__KeyValue__","messageId":"__MessageId__"},{"detectorModelName":"__DetectorModelName__","keyValue":"__KeyValue__","messageId":"__MessageId__"}]}

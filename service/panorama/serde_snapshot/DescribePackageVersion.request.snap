@@ -1,0 +1,3 @@
+GET /packages/metadata/__PackageId__/versions/__PackageVersion__?OwnerAccount=__OwnerAccount__&PatchVersion=__PatchVersion__
+
+

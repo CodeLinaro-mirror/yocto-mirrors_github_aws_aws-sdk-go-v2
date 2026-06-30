@@ -1,0 +1,3 @@
+GET /nodes/__NodeId__?OwnerAccount=__OwnerAccount__
+
+

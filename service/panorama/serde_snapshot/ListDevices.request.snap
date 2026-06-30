@@ -1,0 +1,3 @@
+GET /devices?DeviceAggregatedStatusFilter=ERROR&MaxResults=1&NameFilter=__NameFilter__&NextToken=__NextToken__&SortBy=DEVICE_ID&SortOrder=ASCENDING
+
+

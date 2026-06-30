@@ -1,0 +1,3 @@
+GET /alarm-models?maxResults=1&nextToken=__NextToken__
+
+

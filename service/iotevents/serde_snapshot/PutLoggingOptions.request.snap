@@ -1,0 +1,5 @@
+PUT /logging
+
+Content-Type: application/json
+
+{"loggingOptions":{"detectorDebugOptions":[{"detectorModelName":"__DetectorModelName__","keyValue":"__KeyValue__"},{"detectorModelName":"__DetectorModelName__","keyValue":"__KeyValue__"}],"enabled":true,"level":"ERROR","roleArn":"__RoleArn__"}}

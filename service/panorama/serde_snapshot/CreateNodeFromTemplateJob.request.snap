@@ -1,0 +1,5 @@
+POST /packages/template-job
+
+Content-Type: application/json
+
+{"JobTags":[{"ResourceType":"PACKAGE","Tags":{"key0":"__Value__","key1":"__Value__"}},{"ResourceType":"PACKAGE","Tags":{"key0":"__Value__","key1":"__Value__"}}],"NodeDescription":"__NodeDescription__","NodeName":"__NodeName__","OutputPackageName":"__OutputPackageName__","OutputPackageVersion":"__OutputPackageVersion__","TemplateParameters":{"key0":"__Value__","key1":"__Value__"},"TemplateType":"RTSP_CAMERA_STREAM"}

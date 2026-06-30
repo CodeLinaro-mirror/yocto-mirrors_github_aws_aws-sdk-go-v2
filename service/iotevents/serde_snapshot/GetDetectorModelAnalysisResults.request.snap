@@ -1,0 +1,3 @@
+GET /analysis/detector-models/__AnalysisId__/results?maxResults=1&nextToken=__NextToken__
+
+

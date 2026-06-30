@@ -1,0 +1,5 @@
+POST /alarms/snooze
+
+Content-Type: application/json
+
+{"snoozeActionRequests":[{"alarmModelName":"__AlarmModelName__","keyValue":"__KeyValue__","note":"__Note__","requestId":"__RequestId__","snoozeDuration":1},{"alarmModelName":"__AlarmModelName__","keyValue":"__KeyValue__","note":"__Note__","requestId":"__RequestId__","snoozeDuration":1}]}

@@ -1,0 +1,5 @@
+PUT /packages/__PackageId__/versions/__PackageVersion__/patch/__PatchVersion__
+
+Content-Type: application/json
+
+{"MarkLatest":true,"OwnerAccount":"__OwnerAccount__"}

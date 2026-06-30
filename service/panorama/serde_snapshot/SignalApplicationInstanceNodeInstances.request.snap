@@ -1,0 +1,5 @@
+PUT /application-instances/__ApplicationInstanceId__/node-signals
+
+Content-Type: application/json
+
+{"NodeSignals":[{"NodeInstanceId":"__NodeInstanceId__","Signal":"PAUSE"},{"NodeInstanceId":"__NodeInstanceId__","Signal":"PAUSE"}]}

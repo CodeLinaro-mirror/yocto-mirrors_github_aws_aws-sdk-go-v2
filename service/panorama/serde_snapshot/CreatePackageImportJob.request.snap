@@ -1,0 +1,5 @@
+POST /packages/import-jobs
+
+Content-Type: application/json
+
+{"ClientToken":"__ClientToken__","InputConfig":{"PackageVersionInputConfig":{"S3Location":{"BucketName":"__BucketName__","ObjectKey":"__ObjectKey__","Region":"__Region__"}}},"JobTags":[{"ResourceType":"PACKAGE","Tags":{"key0":"__Value__","key1":"__Value__"}},{"ResourceType":"PACKAGE","Tags":{"key0":"__Value__","key1":"__Value__"}}],"JobType":"NODE_PACKAGE_VERSION","OutputConfig":{"PackageVersionOutputConfig":{"MarkLatest":true,"PackageName":"__PackageName__","PackageVersion":"__PackageVersion__"}}}

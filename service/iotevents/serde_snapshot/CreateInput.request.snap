@@ -1,0 +1,5 @@
+POST /inputs
+
+Content-Type: application/json
+
+{"inputDefinition":{"attributes":[{"jsonPath":"__JsonPath__"},{"jsonPath":"__JsonPath__"}]},"inputDescription":"__InputDescription__","inputName":"__InputName__","tags":[{"key":"__Key__","value":"__Value__"},{"key":"__Key__","value":"__Value__"}]}

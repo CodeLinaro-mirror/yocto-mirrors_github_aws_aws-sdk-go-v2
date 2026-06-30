@@ -1,0 +1,3 @@
+GET /detector-models/__DetectorModelName__?version=__DetectorModelVersion__
+
+

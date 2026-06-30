@@ -1,0 +1,3 @@
+GET /detectors/__DetectorModelName__/keyValues?keyValue=__KeyValue__
+
+

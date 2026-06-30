@@ -1,0 +1,5 @@
+POST /input-routings
+
+Content-Type: application/json
+
+{"inputIdentifier":{"iotEventsInputIdentifier":{"inputName":"__InputName__"},"iotSiteWiseInputIdentifier":{"iotSiteWiseAssetModelPropertyIdentifier":{"assetModelId":"__AssetModelId__","propertyId":"__PropertyId__"}}},"maxResults":1,"nextToken":"__NextToken__"}

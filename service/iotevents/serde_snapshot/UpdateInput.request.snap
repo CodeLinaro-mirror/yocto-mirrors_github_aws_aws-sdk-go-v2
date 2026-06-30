@@ -1,0 +1,5 @@
+PUT /inputs/__InputName__
+
+Content-Type: application/json
+
+{"inputDefinition":{"attributes":[{"jsonPath":"__JsonPath__"},{"jsonPath":"__JsonPath__"}]},"inputDescription":"__InputDescription__"}
