@@ -46,6 +46,8 @@
         "options.go",
         "protocol_test.go",
         "schemas/schemas.go",
+        "serde_response_snapshot_test.go",
+        "serde_response_snapshot_update_test.go",
         "serde_snapshot_test.go",
         "snapshot_test.go",
         "sra_operation_order_test.go",

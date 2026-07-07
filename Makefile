@@ -10,6 +10,7 @@ UNIT_TEST_TAGS=
 BUILD_TAGS=-tags "example,codegen,integration,ec2env,perftest"
 SNAPSHOT_TAGS=-tags "snapshot"
 SERDE_SNAPSHOT_TAGS=-tags "serde_snapshot"
+SERDE_RESPONSE_SNAPSHOT_TAGS=-tags "serde_response_snapshot"
 
 SMITHY_GO_SRC ?= $(abspath $(shell pwd)/..)/smithy-go
 
@@ -337,6 +338,21 @@ test-ci-check-serde-snapshot-%:
 	cd ./internal/repotools/cmd/eachmodule \
 		&& go run . -p $(subst _,/,$(subst test-ci-check-serde-snapshot-,,$@)) ${EACHMODULE_FLAGS} \
 		"go test ${SERDE_SNAPSHOT_TAGS} -run TestSerdeCheckSnapshot -failfast ."
+
+test-update-response-serde-snapshot-%:
+	cd ./internal/repotools/cmd/eachmodule \
+		&& go run . -p $(subst _,/,$(subst test-update-response-serde-snapshot-,,$@)) ${EACHMODULE_FLAGS} \
+		"go test ${SERDE_RESPONSE_SNAPSHOT_TAGS} -run TestSerdeUpdateResponseSnapshot ."
+
+test-check-response-serde-snapshot-%:
+	cd ./internal/repotools/cmd/eachmodule \
+		&& go run . -p $(subst _,/,$(subst test-check-response-serde-snapshot-,,$@)) ${EACHMODULE_FLAGS} \
+		"go test ${SERDE_RESPONSE_SNAPSHOT_TAGS} -run TestSerdeCheckResponseSnapshot ."
+
+test-ci-check-response-serde-snapshot-%:
+	cd ./internal/repotools/cmd/eachmodule \
+		&& go run . -p $(subst _,/,$(subst test-ci-check-response-serde-snapshot-,,$@)) ${EACHMODULE_FLAGS} \
+		"go test ${SERDE_RESPONSE_SNAPSHOT_TAGS} -run TestSerdeCheckResponseSnapshot -failfast ."
 
 cachedep: cachedep-modules-.
 
