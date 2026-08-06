@@ -117,7 +117,11 @@ func TestCheckResponseSnapshot_AssociateBackupVaultMpaApprovalTeam(t *testing.T)
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.AssociateBackupVaultMpaApprovalTeam(context.Background(), &AssociateBackupVaultMpaApprovalTeamInput{})
+	got, err := svc.AssociateBackupVaultMpaApprovalTeam(context.Background(), &AssociateBackupVaultMpaApprovalTeamInput{
+		BackupVaultName:    ptr.String("__BackupVaultName__"),
+		MpaApprovalTeamArn: ptr.String("__MpaApprovalTeamArn__"),
+		RequesterComment:   ptr.String("__RequesterComment__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -136,7 +140,11 @@ func TestCheckResponseSnapshot_CancelLegalHold(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.CancelLegalHold(context.Background(), &CancelLegalHoldInput{})
+	got, err := svc.CancelLegalHold(context.Background(), &CancelLegalHoldInput{
+		LegalHoldId:        ptr.String("__LegalHoldId__"),
+		CancelDescription:  ptr.String("__CancelDescription__"),
+		RetainRecordInDays: ptr.Int64(1),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -174,7 +182,175 @@ func TestCheckResponseSnapshot_CreateBackupPlan(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.CreateBackupPlan(context.Background(), &CreateBackupPlanInput{})
+	got, err := svc.CreateBackupPlan(context.Background(), &CreateBackupPlanInput{
+		BackupPlan: &types.BackupPlanInput{
+			BackupPlanName: ptr.String("__BackupPlanName__"),
+			Rules: []types.BackupRuleInput{
+				{
+					RuleName:                               ptr.String("__RuleName__"),
+					TargetBackupVaultName:                  ptr.String("__TargetBackupVaultName__"),
+					TargetLogicallyAirGappedBackupVaultArn: ptr.String("__TargetLogicallyAirGappedBackupVaultArn__"),
+					ScheduleExpression:                     ptr.String("__ScheduleExpression__"),
+					StartWindowMinutes:                     ptr.Int64(1),
+					CompletionWindowMinutes:                ptr.Int64(1),
+					Lifecycle: &types.Lifecycle{
+						MoveToColdStorageAfterDays:          ptr.Int64(1),
+						DeleteAfterDays:                     ptr.Int64(1),
+						OptInToArchiveForSupportedResources: ptr.Bool(true),
+						DeleteAfterEvent:                    types.LifecycleDeleteAfterEvent("DELETE_AFTER_COPY"),
+					},
+					RecoveryPointTags: map[string]string{
+						"key0": "__Value__",
+					},
+					CopyActions: []types.CopyAction{
+						{
+							Lifecycle: &types.Lifecycle{
+								MoveToColdStorageAfterDays:          ptr.Int64(1),
+								DeleteAfterDays:                     ptr.Int64(1),
+								OptInToArchiveForSupportedResources: ptr.Bool(true),
+								DeleteAfterEvent:                    types.LifecycleDeleteAfterEvent("DELETE_AFTER_COPY"),
+							},
+							DestinationBackupVaultArn: ptr.String("__DestinationBackupVaultArn__"),
+						},
+						{
+							Lifecycle: &types.Lifecycle{
+								MoveToColdStorageAfterDays:          ptr.Int64(1),
+								DeleteAfterDays:                     ptr.Int64(1),
+								OptInToArchiveForSupportedResources: ptr.Bool(true),
+								DeleteAfterEvent:                    types.LifecycleDeleteAfterEvent("DELETE_AFTER_COPY"),
+							},
+							DestinationBackupVaultArn: ptr.String("__DestinationBackupVaultArn__"),
+						},
+					},
+					EnableContinuousBackup:     ptr.Bool(true),
+					ScheduleExpressionTimezone: ptr.String("__ScheduleExpressionTimezone__"),
+					IndexActions: []types.IndexAction{
+						{
+							ResourceTypes: []string{
+								"__Member__",
+								"__Member__",
+							},
+						},
+						{
+							ResourceTypes: []string{
+								"__Member__",
+								"__Member__",
+							},
+						},
+					},
+					ScanActions: []types.ScanAction{
+						{
+							MalwareScanner: types.MalwareScanner("GUARDDUTY"),
+							ScanMode:       types.ScanMode("FULL_SCAN"),
+						},
+						{
+							MalwareScanner: types.MalwareScanner("GUARDDUTY"),
+							ScanMode:       types.ScanMode("FULL_SCAN"),
+						},
+					},
+				},
+				{
+					RuleName:                               ptr.String("__RuleName__"),
+					TargetBackupVaultName:                  ptr.String("__TargetBackupVaultName__"),
+					TargetLogicallyAirGappedBackupVaultArn: ptr.String("__TargetLogicallyAirGappedBackupVaultArn__"),
+					ScheduleExpression:                     ptr.String("__ScheduleExpression__"),
+					StartWindowMinutes:                     ptr.Int64(1),
+					CompletionWindowMinutes:                ptr.Int64(1),
+					Lifecycle: &types.Lifecycle{
+						MoveToColdStorageAfterDays:          ptr.Int64(1),
+						DeleteAfterDays:                     ptr.Int64(1),
+						OptInToArchiveForSupportedResources: ptr.Bool(true),
+						DeleteAfterEvent:                    types.LifecycleDeleteAfterEvent("DELETE_AFTER_COPY"),
+					},
+					RecoveryPointTags: map[string]string{
+						"key0": "__Value__",
+					},
+					CopyActions: []types.CopyAction{
+						{
+							Lifecycle: &types.Lifecycle{
+								MoveToColdStorageAfterDays:          ptr.Int64(1),
+								DeleteAfterDays:                     ptr.Int64(1),
+								OptInToArchiveForSupportedResources: ptr.Bool(true),
+								DeleteAfterEvent:                    types.LifecycleDeleteAfterEvent("DELETE_AFTER_COPY"),
+							},
+							DestinationBackupVaultArn: ptr.String("__DestinationBackupVaultArn__"),
+						},
+						{
+							Lifecycle: &types.Lifecycle{
+								MoveToColdStorageAfterDays:          ptr.Int64(1),
+								DeleteAfterDays:                     ptr.Int64(1),
+								OptInToArchiveForSupportedResources: ptr.Bool(true),
+								DeleteAfterEvent:                    types.LifecycleDeleteAfterEvent("DELETE_AFTER_COPY"),
+							},
+							DestinationBackupVaultArn: ptr.String("__DestinationBackupVaultArn__"),
+						},
+					},
+					EnableContinuousBackup:     ptr.Bool(true),
+					ScheduleExpressionTimezone: ptr.String("__ScheduleExpressionTimezone__"),
+					IndexActions: []types.IndexAction{
+						{
+							ResourceTypes: []string{
+								"__Member__",
+								"__Member__",
+							},
+						},
+						{
+							ResourceTypes: []string{
+								"__Member__",
+								"__Member__",
+							},
+						},
+					},
+					ScanActions: []types.ScanAction{
+						{
+							MalwareScanner: types.MalwareScanner("GUARDDUTY"),
+							ScanMode:       types.ScanMode("FULL_SCAN"),
+						},
+						{
+							MalwareScanner: types.MalwareScanner("GUARDDUTY"),
+							ScanMode:       types.ScanMode("FULL_SCAN"),
+						},
+					},
+				},
+			},
+			AdvancedBackupSettings: []types.AdvancedBackupSetting{
+				{
+					ResourceType: ptr.String("__ResourceType__"),
+					BackupOptions: map[string]string{
+						"key0": "__Value__",
+					},
+				},
+				{
+					ResourceType: ptr.String("__ResourceType__"),
+					BackupOptions: map[string]string{
+						"key0": "__Value__",
+					},
+				},
+			},
+			ScanSettings: []types.ScanSetting{
+				{
+					MalwareScanner: types.MalwareScanner("GUARDDUTY"),
+					ResourceTypes: []string{
+						"__Member__",
+						"__Member__",
+					},
+					ScannerRoleArn: ptr.String("__ScannerRoleArn__"),
+				},
+				{
+					MalwareScanner: types.MalwareScanner("GUARDDUTY"),
+					ResourceTypes: []string{
+						"__Member__",
+						"__Member__",
+					},
+					ScannerRoleArn: ptr.String("__ScannerRoleArn__"),
+				},
+			},
+		},
+		BackupPlanTags: map[string]string{
+			"key0": "__Value__",
+		},
+		CreatorRequestId: ptr.String("__CreatorRequestId__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -197,7 +373,76 @@ func TestCheckResponseSnapshot_CreateBackupSelection(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.CreateBackupSelection(context.Background(), &CreateBackupSelectionInput{})
+	got, err := svc.CreateBackupSelection(context.Background(), &CreateBackupSelectionInput{
+		BackupPlanId: ptr.String("__BackupPlanId__"),
+		BackupSelection: &types.BackupSelection{
+			SelectionName: ptr.String("__SelectionName__"),
+			IamRoleArn:    ptr.String("__IamRoleArn__"),
+			Resources: []string{
+				"__Member__",
+				"__Member__",
+			},
+			ListOfTags: []types.Condition{
+				{
+					ConditionType:  types.ConditionType("STRINGEQUALS"),
+					ConditionKey:   ptr.String("__ConditionKey__"),
+					ConditionValue: ptr.String("__ConditionValue__"),
+				},
+				{
+					ConditionType:  types.ConditionType("STRINGEQUALS"),
+					ConditionKey:   ptr.String("__ConditionKey__"),
+					ConditionValue: ptr.String("__ConditionValue__"),
+				},
+			},
+			NotResources: []string{
+				"__Member__",
+				"__Member__",
+			},
+			Conditions: &types.Conditions{
+				StringEquals: []types.ConditionParameter{
+					{
+						ConditionKey:   ptr.String("__ConditionKey__"),
+						ConditionValue: ptr.String("__ConditionValue__"),
+					},
+					{
+						ConditionKey:   ptr.String("__ConditionKey__"),
+						ConditionValue: ptr.String("__ConditionValue__"),
+					},
+				},
+				StringNotEquals: []types.ConditionParameter{
+					{
+						ConditionKey:   ptr.String("__ConditionKey__"),
+						ConditionValue: ptr.String("__ConditionValue__"),
+					},
+					{
+						ConditionKey:   ptr.String("__ConditionKey__"),
+						ConditionValue: ptr.String("__ConditionValue__"),
+					},
+				},
+				StringLike: []types.ConditionParameter{
+					{
+						ConditionKey:   ptr.String("__ConditionKey__"),
+						ConditionValue: ptr.String("__ConditionValue__"),
+					},
+					{
+						ConditionKey:   ptr.String("__ConditionKey__"),
+						ConditionValue: ptr.String("__ConditionValue__"),
+					},
+				},
+				StringNotLike: []types.ConditionParameter{
+					{
+						ConditionKey:   ptr.String("__ConditionKey__"),
+						ConditionValue: ptr.String("__ConditionValue__"),
+					},
+					{
+						ConditionKey:   ptr.String("__ConditionKey__"),
+						ConditionValue: ptr.String("__ConditionValue__"),
+					},
+				},
+			},
+		},
+		CreatorRequestId: ptr.String("__CreatorRequestId__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -220,7 +465,14 @@ func TestCheckResponseSnapshot_CreateBackupVault(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.CreateBackupVault(context.Background(), &CreateBackupVaultInput{})
+	got, err := svc.CreateBackupVault(context.Background(), &CreateBackupVaultInput{
+		BackupVaultName: ptr.String("__BackupVaultName__"),
+		BackupVaultTags: map[string]string{
+			"key0": "__Value__",
+		},
+		EncryptionKeyArn: ptr.String("__EncryptionKeyArn__"),
+		CreatorRequestId: ptr.String("__CreatorRequestId__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -242,7 +494,68 @@ func TestCheckResponseSnapshot_CreateFramework(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.CreateFramework(context.Background(), &CreateFrameworkInput{})
+	got, err := svc.CreateFramework(context.Background(), &CreateFrameworkInput{
+		FrameworkName:        ptr.String("__FrameworkName__"),
+		FrameworkDescription: ptr.String("__FrameworkDescription__"),
+		FrameworkControls: []types.FrameworkControl{
+			{
+				ControlName: ptr.String("__ControlName__"),
+				ControlInputParameters: []types.ControlInputParameter{
+					{
+						ParameterName:  ptr.String("__ParameterName__"),
+						ParameterValue: ptr.String("__ParameterValue__"),
+					},
+					{
+						ParameterName:  ptr.String("__ParameterName__"),
+						ParameterValue: ptr.String("__ParameterValue__"),
+					},
+				},
+				ControlScope: &types.ControlScope{
+					ComplianceResourceIds: []string{
+						"__Member__",
+						"__Member__",
+					},
+					ComplianceResourceTypes: []string{
+						"__Member__",
+						"__Member__",
+					},
+					Tags: map[string]string{
+						"key0": "__Value__",
+					},
+				},
+			},
+			{
+				ControlName: ptr.String("__ControlName__"),
+				ControlInputParameters: []types.ControlInputParameter{
+					{
+						ParameterName:  ptr.String("__ParameterName__"),
+						ParameterValue: ptr.String("__ParameterValue__"),
+					},
+					{
+						ParameterName:  ptr.String("__ParameterName__"),
+						ParameterValue: ptr.String("__ParameterValue__"),
+					},
+				},
+				ControlScope: &types.ControlScope{
+					ComplianceResourceIds: []string{
+						"__Member__",
+						"__Member__",
+					},
+					ComplianceResourceTypes: []string{
+						"__Member__",
+						"__Member__",
+					},
+					Tags: map[string]string{
+						"key0": "__Value__",
+					},
+				},
+			},
+		},
+		IdempotencyToken: ptr.String("__IdempotencyToken__"),
+		FrameworkTags: map[string]string{
+			"key0": "__Value__",
+		},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -282,7 +595,28 @@ func TestCheckResponseSnapshot_CreateLegalHold(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.CreateLegalHold(context.Background(), &CreateLegalHoldInput{})
+	got, err := svc.CreateLegalHold(context.Background(), &CreateLegalHoldInput{
+		Title:            ptr.String("__Title__"),
+		Description:      ptr.String("__Description__"),
+		IdempotencyToken: ptr.String("__IdempotencyToken__"),
+		RecoveryPointSelection: &types.RecoveryPointSelection{
+			VaultNames: []string{
+				"__Member__",
+				"__Member__",
+			},
+			ResourceIdentifiers: []string{
+				"__Member__",
+				"__Member__",
+			},
+			DateRange: &types.DateRange{
+				FromDate: ptr.Time(time.Date(2000, 1, 1, 0, 0, 0, 0, time.UTC)),
+				ToDate:   ptr.Time(time.Date(2000, 1, 1, 0, 0, 0, 0, time.UTC)),
+			},
+		},
+		Tags: map[string]string{
+			"key0": "__Value__",
+		},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -306,7 +640,16 @@ func TestCheckResponseSnapshot_CreateLogicallyAirGappedBackupVault(t *testing.T)
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.CreateLogicallyAirGappedBackupVault(context.Background(), &CreateLogicallyAirGappedBackupVaultInput{})
+	got, err := svc.CreateLogicallyAirGappedBackupVault(context.Background(), &CreateLogicallyAirGappedBackupVaultInput{
+		BackupVaultName: ptr.String("__BackupVaultName__"),
+		BackupVaultTags: map[string]string{
+			"key0": "__Value__",
+		},
+		CreatorRequestId: ptr.String("__CreatorRequestId__"),
+		MinRetentionDays: ptr.Int64(1),
+		MaxRetentionDays: ptr.Int64(1),
+		EncryptionKeyArn: ptr.String("__EncryptionKeyArn__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -329,7 +672,42 @@ func TestCheckResponseSnapshot_CreateReportPlan(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.CreateReportPlan(context.Background(), &CreateReportPlanInput{})
+	got, err := svc.CreateReportPlan(context.Background(), &CreateReportPlanInput{
+		ReportPlanName:        ptr.String("__ReportPlanName__"),
+		ReportPlanDescription: ptr.String("__ReportPlanDescription__"),
+		ReportDeliveryChannel: &types.ReportDeliveryChannel{
+			S3BucketName: ptr.String("__S3BucketName__"),
+			S3KeyPrefix:  ptr.String("__S3KeyPrefix__"),
+			Formats: []string{
+				"__Member__",
+				"__Member__",
+			},
+		},
+		ReportSetting: &types.ReportSetting{
+			ReportTemplate: ptr.String("__ReportTemplate__"),
+			FrameworkArns: []string{
+				"__Member__",
+				"__Member__",
+			},
+			NumberOfFrameworks: 1,
+			Accounts: []string{
+				"__Member__",
+				"__Member__",
+			},
+			OrganizationUnits: []string{
+				"__Member__",
+				"__Member__",
+			},
+			Regions: []string{
+				"__Member__",
+				"__Member__",
+			},
+		},
+		ReportPlanTags: map[string]string{
+			"key0": "__Value__",
+		},
+		IdempotencyToken: ptr.String("__IdempotencyToken__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -353,7 +731,15 @@ func TestCheckResponseSnapshot_CreateRestoreAccessBackupVault(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.CreateRestoreAccessBackupVault(context.Background(), &CreateRestoreAccessBackupVaultInput{})
+	got, err := svc.CreateRestoreAccessBackupVault(context.Background(), &CreateRestoreAccessBackupVaultInput{
+		SourceBackupVaultArn: ptr.String("__SourceBackupVaultArn__"),
+		BackupVaultName:      ptr.String("__BackupVaultName__"),
+		BackupVaultTags: map[string]string{
+			"key0": "__Value__",
+		},
+		CreatorRequestId: ptr.String("__CreatorRequestId__"),
+		RequesterComment: ptr.String("__RequesterComment__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -376,7 +762,34 @@ func TestCheckResponseSnapshot_CreateRestoreTestingPlan(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.CreateRestoreTestingPlan(context.Background(), &CreateRestoreTestingPlanInput{})
+	got, err := svc.CreateRestoreTestingPlan(context.Background(), &CreateRestoreTestingPlanInput{
+		CreatorRequestId: ptr.String("__CreatorRequestId__"),
+		RestoreTestingPlan: &types.RestoreTestingPlanForCreate{
+			RecoveryPointSelection: &types.RestoreTestingRecoveryPointSelection{
+				Algorithm: types.RestoreTestingRecoveryPointSelectionAlgorithm("LATEST_WITHIN_WINDOW"),
+				ExcludeVaults: []string{
+					"__Member__",
+					"__Member__",
+				},
+				IncludeVaults: []string{
+					"__Member__",
+					"__Member__",
+				},
+				RecoveryPointTypes: []types.RestoreTestingRecoveryPointType{
+					types.RestoreTestingRecoveryPointType("CONTINUOUS"),
+					types.RestoreTestingRecoveryPointType("CONTINUOUS"),
+				},
+				SelectionWindowDays: 1,
+			},
+			RestoreTestingPlanName:     ptr.String("__RestoreTestingPlanName__"),
+			ScheduleExpression:         ptr.String("__ScheduleExpression__"),
+			ScheduleExpressionTimezone: ptr.String("__ScheduleExpressionTimezone__"),
+			StartWindowHours:           1,
+		},
+		Tags: map[string]string{
+			"key0": "__Value__",
+		},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -400,7 +813,45 @@ func TestCheckResponseSnapshot_CreateRestoreTestingSelection(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.CreateRestoreTestingSelection(context.Background(), &CreateRestoreTestingSelectionInput{})
+	got, err := svc.CreateRestoreTestingSelection(context.Background(), &CreateRestoreTestingSelectionInput{
+		CreatorRequestId:       ptr.String("__CreatorRequestId__"),
+		RestoreTestingPlanName: ptr.String("__RestoreTestingPlanName__"),
+		RestoreTestingSelection: &types.RestoreTestingSelectionForCreate{
+			IamRoleArn: ptr.String("__IamRoleArn__"),
+			ProtectedResourceArns: []string{
+				"__Member__",
+				"__Member__",
+			},
+			ProtectedResourceConditions: &types.ProtectedResourceConditions{
+				StringEquals: []types.KeyValue{
+					{
+						Key:   ptr.String("__Key__"),
+						Value: ptr.String("__Value__"),
+					},
+					{
+						Key:   ptr.String("__Key__"),
+						Value: ptr.String("__Value__"),
+					},
+				},
+				StringNotEquals: []types.KeyValue{
+					{
+						Key:   ptr.String("__Key__"),
+						Value: ptr.String("__Value__"),
+					},
+					{
+						Key:   ptr.String("__Key__"),
+						Value: ptr.String("__Value__"),
+					},
+				},
+			},
+			ProtectedResourceType: ptr.String("__ProtectedResourceType__"),
+			RestoreMetadataOverrides: map[string]string{
+				"key0": "__Value__",
+			},
+			RestoreTestingSelectionName: ptr.String("__RestoreTestingSelectionName__"),
+			ValidationWindowHours:       1,
+		},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -423,7 +874,34 @@ func TestCheckResponseSnapshot_CreateTieringConfiguration(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.CreateTieringConfiguration(context.Background(), &CreateTieringConfigurationInput{})
+	got, err := svc.CreateTieringConfiguration(context.Background(), &CreateTieringConfigurationInput{
+		TieringConfiguration: &types.TieringConfigurationInputForCreate{
+			TieringConfigurationName: ptr.String("__TieringConfigurationName__"),
+			BackupVaultName:          ptr.String("__BackupVaultName__"),
+			ResourceSelection: []types.ResourceSelection{
+				{
+					Resources: []string{
+						"__Member__",
+						"__Member__",
+					},
+					TieringDownSettingsInDays: ptr.Int32(1),
+					ResourceType:              ptr.String("__ResourceType__"),
+				},
+				{
+					Resources: []string{
+						"__Member__",
+						"__Member__",
+					},
+					TieringDownSettingsInDays: ptr.Int32(1),
+					ResourceType:              ptr.String("__ResourceType__"),
+				},
+			},
+		},
+		TieringConfigurationTags: map[string]string{
+			"key0": "__Value__",
+		},
+		CreatorRequestId: ptr.String("__CreatorRequestId__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -447,7 +925,9 @@ func TestCheckResponseSnapshot_DeleteBackupPlan(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DeleteBackupPlan(context.Background(), &DeleteBackupPlanInput{})
+	got, err := svc.DeleteBackupPlan(context.Background(), &DeleteBackupPlanInput{
+		BackupPlanId: ptr.String("__BackupPlanId__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -466,7 +946,10 @@ func TestCheckResponseSnapshot_DeleteBackupSelection(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DeleteBackupSelection(context.Background(), &DeleteBackupSelectionInput{})
+	got, err := svc.DeleteBackupSelection(context.Background(), &DeleteBackupSelectionInput{
+		BackupPlanId: ptr.String("__BackupPlanId__"),
+		SelectionId:  ptr.String("__SelectionId__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -485,7 +968,9 @@ func TestCheckResponseSnapshot_DeleteBackupVault(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DeleteBackupVault(context.Background(), &DeleteBackupVaultInput{})
+	got, err := svc.DeleteBackupVault(context.Background(), &DeleteBackupVaultInput{
+		BackupVaultName: ptr.String("__BackupVaultName__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -504,7 +989,9 @@ func TestCheckResponseSnapshot_DeleteBackupVaultAccessPolicy(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DeleteBackupVaultAccessPolicy(context.Background(), &DeleteBackupVaultAccessPolicyInput{})
+	got, err := svc.DeleteBackupVaultAccessPolicy(context.Background(), &DeleteBackupVaultAccessPolicyInput{
+		BackupVaultName: ptr.String("__BackupVaultName__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -523,7 +1010,9 @@ func TestCheckResponseSnapshot_DeleteBackupVaultLockConfiguration(t *testing.T) 
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DeleteBackupVaultLockConfiguration(context.Background(), &DeleteBackupVaultLockConfigurationInput{})
+	got, err := svc.DeleteBackupVaultLockConfiguration(context.Background(), &DeleteBackupVaultLockConfigurationInput{
+		BackupVaultName: ptr.String("__BackupVaultName__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -542,7 +1031,9 @@ func TestCheckResponseSnapshot_DeleteBackupVaultNotifications(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DeleteBackupVaultNotifications(context.Background(), &DeleteBackupVaultNotificationsInput{})
+	got, err := svc.DeleteBackupVaultNotifications(context.Background(), &DeleteBackupVaultNotificationsInput{
+		BackupVaultName: ptr.String("__BackupVaultName__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -561,7 +1052,9 @@ func TestCheckResponseSnapshot_DeleteFramework(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DeleteFramework(context.Background(), &DeleteFrameworkInput{})
+	got, err := svc.DeleteFramework(context.Background(), &DeleteFrameworkInput{
+		FrameworkName: ptr.String("__FrameworkName__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -580,7 +1073,10 @@ func TestCheckResponseSnapshot_DeleteRecoveryPoint(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DeleteRecoveryPoint(context.Background(), &DeleteRecoveryPointInput{})
+	got, err := svc.DeleteRecoveryPoint(context.Background(), &DeleteRecoveryPointInput{
+		BackupVaultName:  ptr.String("__BackupVaultName__"),
+		RecoveryPointArn: ptr.String("__RecoveryPointArn__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -599,7 +1095,9 @@ func TestCheckResponseSnapshot_DeleteReportPlan(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DeleteReportPlan(context.Background(), &DeleteReportPlanInput{})
+	got, err := svc.DeleteReportPlan(context.Background(), &DeleteReportPlanInput{
+		ReportPlanName: ptr.String("__ReportPlanName__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -618,7 +1116,9 @@ func TestCheckResponseSnapshot_DeleteRestoreTestingPlan(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DeleteRestoreTestingPlan(context.Background(), &DeleteRestoreTestingPlanInput{})
+	got, err := svc.DeleteRestoreTestingPlan(context.Background(), &DeleteRestoreTestingPlanInput{
+		RestoreTestingPlanName: ptr.String("__RestoreTestingPlanName__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -637,7 +1137,10 @@ func TestCheckResponseSnapshot_DeleteRestoreTestingSelection(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DeleteRestoreTestingSelection(context.Background(), &DeleteRestoreTestingSelectionInput{})
+	got, err := svc.DeleteRestoreTestingSelection(context.Background(), &DeleteRestoreTestingSelectionInput{
+		RestoreTestingPlanName:      ptr.String("__RestoreTestingPlanName__"),
+		RestoreTestingSelectionName: ptr.String("__RestoreTestingSelectionName__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -656,7 +1159,9 @@ func TestCheckResponseSnapshot_DeleteTieringConfiguration(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DeleteTieringConfiguration(context.Background(), &DeleteTieringConfigurationInput{})
+	got, err := svc.DeleteTieringConfiguration(context.Background(), &DeleteTieringConfigurationInput{
+		TieringConfigurationName: ptr.String("__TieringConfigurationName__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -726,7 +1231,9 @@ func TestCheckResponseSnapshot_DescribeBackupJob(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DescribeBackupJob(context.Background(), &DescribeBackupJobInput{})
+	got, err := svc.DescribeBackupJob(context.Background(), &DescribeBackupJobInput{
+		BackupJobId: ptr.String("__BackupJobId__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -769,7 +1276,10 @@ func TestCheckResponseSnapshot_DescribeBackupVault(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DescribeBackupVault(context.Background(), &DescribeBackupVaultInput{})
+	got, err := svc.DescribeBackupVault(context.Background(), &DescribeBackupVaultInput{
+		BackupVaultName:      ptr.String("__BackupVaultName__"),
+		BackupVaultAccountId: ptr.String("__BackupVaultAccountId__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -834,7 +1344,9 @@ func TestCheckResponseSnapshot_DescribeCopyJob(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DescribeCopyJob(context.Background(), &DescribeCopyJobInput{})
+	got, err := svc.DescribeCopyJob(context.Background(), &DescribeCopyJobInput{
+		CopyJobId: ptr.String("__CopyJobId__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -915,7 +1427,9 @@ func TestCheckResponseSnapshot_DescribeFramework(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DescribeFramework(context.Background(), &DescribeFrameworkInput{})
+	got, err := svc.DescribeFramework(context.Background(), &DescribeFrameworkInput{
+		FrameworkName: ptr.String("__FrameworkName__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -968,7 +1482,9 @@ func TestCheckResponseSnapshot_DescribeProtectedResource(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DescribeProtectedResource(context.Background(), &DescribeProtectedResourceInput{})
+	got, err := svc.DescribeProtectedResource(context.Background(), &DescribeProtectedResourceInput{
+		ResourceArn: ptr.String("__ResourceArn__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1053,7 +1569,11 @@ func TestCheckResponseSnapshot_DescribeRecoveryPoint(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DescribeRecoveryPoint(context.Background(), &DescribeRecoveryPointInput{})
+	got, err := svc.DescribeRecoveryPoint(context.Background(), &DescribeRecoveryPointInput{
+		BackupVaultName:      ptr.String("__BackupVaultName__"),
+		RecoveryPointArn:     ptr.String("__RecoveryPointArn__"),
+		BackupVaultAccountId: ptr.String("__BackupVaultAccountId__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1115,7 +1635,9 @@ func TestCheckResponseSnapshot_DescribeReportJob(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DescribeReportJob(context.Background(), &DescribeReportJobInput{})
+	got, err := svc.DescribeReportJob(context.Background(), &DescribeReportJobInput{
+		ReportJobId: ptr.String("__ReportJobId__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1172,7 +1694,9 @@ func TestCheckResponseSnapshot_DescribeReportPlan(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DescribeReportPlan(context.Background(), &DescribeReportPlanInput{})
+	got, err := svc.DescribeReportPlan(context.Background(), &DescribeReportPlanInput{
+		ReportPlanName: ptr.String("__ReportPlanName__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1217,7 +1741,9 @@ func TestCheckResponseSnapshot_DescribeRestoreJob(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DescribeRestoreJob(context.Background(), &DescribeRestoreJobInput{})
+	got, err := svc.DescribeRestoreJob(context.Background(), &DescribeRestoreJobInput{
+		RestoreJobId: ptr.String("__RestoreJobId__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1266,7 +1792,9 @@ func TestCheckResponseSnapshot_DescribeScanJob(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DescribeScanJob(context.Background(), &DescribeScanJobInput{})
+	got, err := svc.DescribeScanJob(context.Background(), &DescribeScanJobInput{
+		ScanJobId: ptr.String("__ScanJobId__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1285,7 +1813,10 @@ func TestCheckResponseSnapshot_DisassociateBackupVaultMpaApprovalTeam(t *testing
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DisassociateBackupVaultMpaApprovalTeam(context.Background(), &DisassociateBackupVaultMpaApprovalTeamInput{})
+	got, err := svc.DisassociateBackupVaultMpaApprovalTeam(context.Background(), &DisassociateBackupVaultMpaApprovalTeamInput{
+		BackupVaultName:  ptr.String("__BackupVaultName__"),
+		RequesterComment: ptr.String("__RequesterComment__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1304,7 +1835,10 @@ func TestCheckResponseSnapshot_DisassociateRecoveryPoint(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DisassociateRecoveryPoint(context.Background(), &DisassociateRecoveryPointInput{})
+	got, err := svc.DisassociateRecoveryPoint(context.Background(), &DisassociateRecoveryPointInput{
+		BackupVaultName:  ptr.String("__BackupVaultName__"),
+		RecoveryPointArn: ptr.String("__RecoveryPointArn__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1323,7 +1857,10 @@ func TestCheckResponseSnapshot_DisassociateRecoveryPointFromParent(t *testing.T)
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DisassociateRecoveryPointFromParent(context.Background(), &DisassociateRecoveryPointFromParentInput{})
+	got, err := svc.DisassociateRecoveryPointFromParent(context.Background(), &DisassociateRecoveryPointFromParentInput{
+		BackupVaultName:  ptr.String("__BackupVaultName__"),
+		RecoveryPointArn: ptr.String("__RecoveryPointArn__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1344,7 +1881,9 @@ func TestCheckResponseSnapshot_ExportBackupPlanTemplate(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ExportBackupPlanTemplate(context.Background(), &ExportBackupPlanTemplateInput{})
+	got, err := svc.ExportBackupPlanTemplate(context.Background(), &ExportBackupPlanTemplateInput{
+		BackupPlanId: ptr.String("__BackupPlanId__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1562,7 +2101,11 @@ func TestCheckResponseSnapshot_GetBackupPlan(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.GetBackupPlan(context.Background(), &GetBackupPlanInput{})
+	got, err := svc.GetBackupPlan(context.Background(), &GetBackupPlanInput{
+		BackupPlanId:            ptr.String("__BackupPlanId__"),
+		VersionId:               ptr.String("__VersionId__"),
+		MaxScheduledRunsPreview: 1,
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1747,7 +2290,9 @@ func TestCheckResponseSnapshot_GetBackupPlanFromJSON(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.GetBackupPlanFromJSON(context.Background(), &GetBackupPlanFromJSONInput{})
+	got, err := svc.GetBackupPlanFromJSON(context.Background(), &GetBackupPlanFromJSONInput{
+		BackupPlanTemplateJson: ptr.String("__BackupPlanTemplateJson__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1932,7 +2477,9 @@ func TestCheckResponseSnapshot_GetBackupPlanFromTemplate(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.GetBackupPlanFromTemplate(context.Background(), &GetBackupPlanFromTemplateInput{})
+	got, err := svc.GetBackupPlanFromTemplate(context.Background(), &GetBackupPlanFromTemplateInput{
+		BackupPlanTemplateId: ptr.String("__BackupPlanTemplateId__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -2022,7 +2569,10 @@ func TestCheckResponseSnapshot_GetBackupSelection(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.GetBackupSelection(context.Background(), &GetBackupSelectionInput{})
+	got, err := svc.GetBackupSelection(context.Background(), &GetBackupSelectionInput{
+		BackupPlanId: ptr.String("__BackupPlanId__"),
+		SelectionId:  ptr.String("__SelectionId__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -2045,7 +2595,9 @@ func TestCheckResponseSnapshot_GetBackupVaultAccessPolicy(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.GetBackupVaultAccessPolicy(context.Background(), &GetBackupVaultAccessPolicyInput{})
+	got, err := svc.GetBackupVaultAccessPolicy(context.Background(), &GetBackupVaultAccessPolicyInput{
+		BackupVaultName: ptr.String("__BackupVaultName__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -2072,7 +2624,9 @@ func TestCheckResponseSnapshot_GetBackupVaultNotifications(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.GetBackupVaultNotifications(context.Background(), &GetBackupVaultNotificationsInput{})
+	got, err := svc.GetBackupVaultNotifications(context.Background(), &GetBackupVaultNotificationsInput{
+		BackupVaultName: ptr.String("__BackupVaultName__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -2115,7 +2669,9 @@ func TestCheckResponseSnapshot_GetLegalHold(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.GetLegalHold(context.Background(), &GetLegalHoldInput{})
+	got, err := svc.GetLegalHold(context.Background(), &GetLegalHoldInput{
+		LegalHoldId: ptr.String("__LegalHoldId__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -2142,7 +2698,12 @@ func TestCheckResponseSnapshot_GetPITRMalwareScanResults(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.GetPITRMalwareScanResults(context.Background(), &GetPITRMalwareScanResultsInput{})
+	got, err := svc.GetPITRMalwareScanResults(context.Background(), &GetPITRMalwareScanResultsInput{
+		RecoveryPointArn: ptr.String("__RecoveryPointArn__"),
+		BackupVaultName:  ptr.String("__BackupVaultName__"),
+		ScanEndTime:      ptr.Time(time.Date(2000, 1, 1, 0, 0, 0, 0, time.UTC)),
+		MalwareScanner:   types.MalwareScanner("GUARDDUTY"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -2171,7 +2732,10 @@ func TestCheckResponseSnapshot_GetRecoveryPointIndexDetails(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.GetRecoveryPointIndexDetails(context.Background(), &GetRecoveryPointIndexDetailsInput{})
+	got, err := svc.GetRecoveryPointIndexDetails(context.Background(), &GetRecoveryPointIndexDetailsInput{
+		BackupVaultName:  ptr.String("__BackupVaultName__"),
+		RecoveryPointArn: ptr.String("__RecoveryPointArn__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -2197,7 +2761,11 @@ func TestCheckResponseSnapshot_GetRecoveryPointRestoreMetadata(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.GetRecoveryPointRestoreMetadata(context.Background(), &GetRecoveryPointRestoreMetadataInput{})
+	got, err := svc.GetRecoveryPointRestoreMetadata(context.Background(), &GetRecoveryPointRestoreMetadataInput{
+		BackupVaultName:      ptr.String("__BackupVaultName__"),
+		RecoveryPointArn:     ptr.String("__RecoveryPointArn__"),
+		BackupVaultAccountId: ptr.String("__BackupVaultAccountId__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -2221,7 +2789,9 @@ func TestCheckResponseSnapshot_GetRestoreJobMetadata(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.GetRestoreJobMetadata(context.Background(), &GetRestoreJobMetadataInput{})
+	got, err := svc.GetRestoreJobMetadata(context.Background(), &GetRestoreJobMetadataInput{
+		RestoreJobId: ptr.String("__RestoreJobId__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -2244,7 +2814,11 @@ func TestCheckResponseSnapshot_GetRestoreTestingInferredMetadata(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.GetRestoreTestingInferredMetadata(context.Background(), &GetRestoreTestingInferredMetadataInput{})
+	got, err := svc.GetRestoreTestingInferredMetadata(context.Background(), &GetRestoreTestingInferredMetadataInput{
+		BackupVaultAccountId: ptr.String("__BackupVaultAccountId__"),
+		BackupVaultName:      ptr.String("__BackupVaultName__"),
+		RecoveryPointArn:     ptr.String("__RecoveryPointArn__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -2291,7 +2865,9 @@ func TestCheckResponseSnapshot_GetRestoreTestingPlan(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.GetRestoreTestingPlan(context.Background(), &GetRestoreTestingPlanInput{})
+	got, err := svc.GetRestoreTestingPlan(context.Background(), &GetRestoreTestingPlanInput{
+		RestoreTestingPlanName: ptr.String("__RestoreTestingPlanName__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -2349,7 +2925,10 @@ func TestCheckResponseSnapshot_GetRestoreTestingSelection(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.GetRestoreTestingSelection(context.Background(), &GetRestoreTestingSelectionInput{})
+	got, err := svc.GetRestoreTestingSelection(context.Background(), &GetRestoreTestingSelectionInput{
+		RestoreTestingPlanName:      ptr.String("__RestoreTestingPlanName__"),
+		RestoreTestingSelectionName: ptr.String("__RestoreTestingSelectionName__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -2419,7 +2998,9 @@ func TestCheckResponseSnapshot_GetTieringConfiguration(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.GetTieringConfiguration(context.Background(), &GetTieringConfigurationInput{})
+	got, err := svc.GetTieringConfiguration(context.Background(), &GetTieringConfigurationInput{
+		TieringConfigurationName: ptr.String("__TieringConfigurationName__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -2463,7 +3044,15 @@ func TestCheckResponseSnapshot_ListBackupJobSummaries(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListBackupJobSummaries(context.Background(), &ListBackupJobSummariesInput{})
+	got, err := svc.ListBackupJobSummaries(context.Background(), &ListBackupJobSummariesInput{
+		AccountId:         ptr.String("__AccountId__"),
+		State:             types.BackupJobStatus("CREATED"),
+		ResourceType:      ptr.String("__ResourceType__"),
+		MessageCategory:   ptr.String("__MessageCategory__"),
+		AggregationPeriod: types.AggregationPeriod("ONE_DAY"),
+		MaxResults:        ptr.Int32(1),
+		NextToken:         ptr.String("__NextToken__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -2582,7 +3171,21 @@ func TestCheckResponseSnapshot_ListBackupJobs(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListBackupJobs(context.Background(), &ListBackupJobsInput{})
+	got, err := svc.ListBackupJobs(context.Background(), &ListBackupJobsInput{
+		NextToken:         ptr.String("__NextToken__"),
+		MaxResults:        ptr.Int32(1),
+		ByResourceArn:     ptr.String("__ByResourceArn__"),
+		ByState:           types.BackupJobState("CREATED"),
+		ByBackupVaultName: ptr.String("__ByBackupVaultName__"),
+		ByCreatedBefore:   ptr.Time(time.Date(2000, 1, 1, 0, 0, 0, 0, time.UTC)),
+		ByCreatedAfter:    ptr.Time(time.Date(2000, 1, 1, 0, 0, 0, 0, time.UTC)),
+		ByResourceType:    ptr.String("__ByResourceType__"),
+		ByAccountId:       ptr.String("__ByAccountId__"),
+		ByCompleteAfter:   ptr.Time(time.Date(2000, 1, 1, 0, 0, 0, 0, time.UTC)),
+		ByCompleteBefore:  ptr.Time(time.Date(2000, 1, 1, 0, 0, 0, 0, time.UTC)),
+		ByParentJobId:     ptr.String("__ByParentJobId__"),
+		ByMessageCategory: ptr.String("__ByMessageCategory__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -2613,7 +3216,10 @@ func TestCheckResponseSnapshot_ListBackupPlanTemplates(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListBackupPlanTemplates(context.Background(), &ListBackupPlanTemplatesInput{})
+	got, err := svc.ListBackupPlanTemplates(context.Background(), &ListBackupPlanTemplatesInput{
+		NextToken:  ptr.String("__NextToken__"),
+		MaxResults: ptr.Int32(1),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -2684,7 +3290,11 @@ func TestCheckResponseSnapshot_ListBackupPlanVersions(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListBackupPlanVersions(context.Background(), &ListBackupPlanVersionsInput{})
+	got, err := svc.ListBackupPlanVersions(context.Background(), &ListBackupPlanVersionsInput{
+		BackupPlanId: ptr.String("__BackupPlanId__"),
+		NextToken:    ptr.String("__NextToken__"),
+		MaxResults:   ptr.Int32(1),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -2755,7 +3365,11 @@ func TestCheckResponseSnapshot_ListBackupPlans(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListBackupPlans(context.Background(), &ListBackupPlansInput{})
+	got, err := svc.ListBackupPlans(context.Background(), &ListBackupPlansInput{
+		NextToken:      ptr.String("__NextToken__"),
+		MaxResults:     ptr.Int32(1),
+		IncludeDeleted: ptr.Bool(true),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -2794,7 +3408,11 @@ func TestCheckResponseSnapshot_ListBackupSelections(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListBackupSelections(context.Background(), &ListBackupSelectionsInput{})
+	got, err := svc.ListBackupSelections(context.Background(), &ListBackupSelectionsInput{
+		BackupPlanId: ptr.String("__BackupPlanId__"),
+		NextToken:    ptr.String("__NextToken__"),
+		MaxResults:   ptr.Int32(1),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -2847,7 +3465,12 @@ func TestCheckResponseSnapshot_ListBackupVaults(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListBackupVaults(context.Background(), &ListBackupVaultsInput{})
+	got, err := svc.ListBackupVaults(context.Background(), &ListBackupVaultsInput{
+		ByVaultType: types.VaultType("BACKUP_VAULT"),
+		ByShared:    true,
+		NextToken:   ptr.String("__NextToken__"),
+		MaxResults:  ptr.Int32(1),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -2891,7 +3514,15 @@ func TestCheckResponseSnapshot_ListCopyJobSummaries(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListCopyJobSummaries(context.Background(), &ListCopyJobSummariesInput{})
+	got, err := svc.ListCopyJobSummaries(context.Background(), &ListCopyJobSummariesInput{
+		AccountId:         ptr.String("__AccountId__"),
+		State:             types.CopyJobStatus("CREATED"),
+		ResourceType:      ptr.String("__ResourceType__"),
+		MessageCategory:   ptr.String("__MessageCategory__"),
+		AggregationPeriod: types.AggregationPeriod("ONE_DAY"),
+		MaxResults:        ptr.Int32(1),
+		NextToken:         ptr.String("__NextToken__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -3004,7 +3635,22 @@ func TestCheckResponseSnapshot_ListCopyJobs(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListCopyJobs(context.Background(), &ListCopyJobsInput{})
+	got, err := svc.ListCopyJobs(context.Background(), &ListCopyJobsInput{
+		NextToken:                ptr.String("__NextToken__"),
+		MaxResults:               ptr.Int32(1),
+		ByResourceArn:            ptr.String("__ByResourceArn__"),
+		ByState:                  types.CopyJobState("CREATED"),
+		ByCreatedBefore:          ptr.Time(time.Date(2000, 1, 1, 0, 0, 0, 0, time.UTC)),
+		ByCreatedAfter:           ptr.Time(time.Date(2000, 1, 1, 0, 0, 0, 0, time.UTC)),
+		ByResourceType:           ptr.String("__ByResourceType__"),
+		ByDestinationVaultArn:    ptr.String("__ByDestinationVaultArn__"),
+		ByAccountId:              ptr.String("__ByAccountId__"),
+		ByCompleteBefore:         ptr.Time(time.Date(2000, 1, 1, 0, 0, 0, 0, time.UTC)),
+		ByCompleteAfter:          ptr.Time(time.Date(2000, 1, 1, 0, 0, 0, 0, time.UTC)),
+		ByParentJobId:            ptr.String("__ByParentJobId__"),
+		ByMessageCategory:        ptr.String("__ByMessageCategory__"),
+		BySourceRecoveryPointArn: ptr.String("__BySourceRecoveryPointArn__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -3043,7 +3689,10 @@ func TestCheckResponseSnapshot_ListFrameworks(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListFrameworks(context.Background(), &ListFrameworksInput{})
+	got, err := svc.ListFrameworks(context.Background(), &ListFrameworksInput{
+		MaxResults: ptr.Int32(1),
+		NextToken:  ptr.String("__NextToken__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -3088,7 +3737,15 @@ func TestCheckResponseSnapshot_ListIndexedRecoveryPoints(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListIndexedRecoveryPoints(context.Background(), &ListIndexedRecoveryPointsInput{})
+	got, err := svc.ListIndexedRecoveryPoints(context.Background(), &ListIndexedRecoveryPointsInput{
+		NextToken:         ptr.String("__NextToken__"),
+		MaxResults:        ptr.Int32(1),
+		SourceResourceArn: ptr.String("__SourceResourceArn__"),
+		CreatedBefore:     ptr.Time(time.Date(2000, 1, 1, 0, 0, 0, 0, time.UTC)),
+		CreatedAfter:      ptr.Time(time.Date(2000, 1, 1, 0, 0, 0, 0, time.UTC)),
+		ResourceType:      ptr.String("__ResourceType__"),
+		IndexStatus:       types.IndexStatus("PENDING"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -3129,7 +3786,10 @@ func TestCheckResponseSnapshot_ListLegalHolds(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListLegalHolds(context.Background(), &ListLegalHoldsInput{})
+	got, err := svc.ListLegalHolds(context.Background(), &ListLegalHoldsInput{
+		NextToken:  ptr.String("__NextToken__"),
+		MaxResults: ptr.Int32(1),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -3168,7 +3828,10 @@ func TestCheckResponseSnapshot_ListProtectedResources(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListProtectedResources(context.Background(), &ListProtectedResourcesInput{})
+	got, err := svc.ListProtectedResources(context.Background(), &ListProtectedResourcesInput{
+		NextToken:  ptr.String("__NextToken__"),
+		MaxResults: ptr.Int32(1),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -3207,7 +3870,12 @@ func TestCheckResponseSnapshot_ListProtectedResourcesByBackupVault(t *testing.T)
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListProtectedResourcesByBackupVault(context.Background(), &ListProtectedResourcesByBackupVaultInput{})
+	got, err := svc.ListProtectedResourcesByBackupVault(context.Background(), &ListProtectedResourcesByBackupVaultInput{
+		BackupVaultName:      ptr.String("__BackupVaultName__"),
+		BackupVaultAccountId: ptr.String("__BackupVaultAccountId__"),
+		NextToken:            ptr.String("__NextToken__"),
+		MaxResults:           ptr.Int32(1),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -3338,7 +4006,18 @@ func TestCheckResponseSnapshot_ListRecoveryPointsByBackupVault(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListRecoveryPointsByBackupVault(context.Background(), &ListRecoveryPointsByBackupVaultInput{})
+	got, err := svc.ListRecoveryPointsByBackupVault(context.Background(), &ListRecoveryPointsByBackupVaultInput{
+		BackupVaultName:          ptr.String("__BackupVaultName__"),
+		BackupVaultAccountId:     ptr.String("__BackupVaultAccountId__"),
+		NextToken:                ptr.String("__NextToken__"),
+		MaxResults:               ptr.Int32(1),
+		ByResourceArn:            ptr.String("__ByResourceArn__"),
+		ByResourceType:           ptr.String("__ByResourceType__"),
+		ByBackupPlanId:           ptr.String("__ByBackupPlanId__"),
+		ByCreatedBefore:          ptr.Time(time.Date(2000, 1, 1, 0, 0, 0, 0, time.UTC)),
+		ByCreatedAfter:           ptr.Time(time.Date(2000, 1, 1, 0, 0, 0, 0, time.UTC)),
+		ByParentRecoveryPointArn: ptr.String("__ByParentRecoveryPointArn__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -3373,7 +4052,11 @@ func TestCheckResponseSnapshot_ListRecoveryPointsByLegalHold(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListRecoveryPointsByLegalHold(context.Background(), &ListRecoveryPointsByLegalHoldInput{})
+	got, err := svc.ListRecoveryPointsByLegalHold(context.Background(), &ListRecoveryPointsByLegalHoldInput{
+		LegalHoldId: ptr.String("__LegalHoldId__"),
+		NextToken:   ptr.String("__NextToken__"),
+		MaxResults:  ptr.Int32(1),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -3444,7 +4127,12 @@ func TestCheckResponseSnapshot_ListRecoveryPointsByResource(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListRecoveryPointsByResource(context.Background(), &ListRecoveryPointsByResourceInput{})
+	got, err := svc.ListRecoveryPointsByResource(context.Background(), &ListRecoveryPointsByResourceInput{
+		ResourceArn:            ptr.String("__ResourceArn__"),
+		NextToken:              ptr.String("__NextToken__"),
+		MaxResults:             ptr.Int32(1),
+		ManagedByAWSBackupOnly: true,
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -3499,7 +4187,14 @@ func TestCheckResponseSnapshot_ListReportJobs(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListReportJobs(context.Background(), &ListReportJobsInput{})
+	got, err := svc.ListReportJobs(context.Background(), &ListReportJobsInput{
+		ByReportPlanName: ptr.String("__ByReportPlanName__"),
+		ByCreationBefore: ptr.Time(time.Date(2000, 1, 1, 0, 0, 0, 0, time.UTC)),
+		ByCreationAfter:  ptr.Time(time.Date(2000, 1, 1, 0, 0, 0, 0, time.UTC)),
+		ByStatus:         ptr.String("__ByStatus__"),
+		MaxResults:       ptr.Int32(1),
+		NextToken:        ptr.String("__NextToken__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -3596,7 +4291,10 @@ func TestCheckResponseSnapshot_ListReportPlans(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListReportPlans(context.Background(), &ListReportPlansInput{})
+	got, err := svc.ListReportPlans(context.Background(), &ListReportPlansInput{
+		MaxResults: ptr.Int32(1),
+		NextToken:  ptr.String("__NextToken__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -3645,7 +4343,11 @@ func TestCheckResponseSnapshot_ListRestoreAccessBackupVaults(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListRestoreAccessBackupVaults(context.Background(), &ListRestoreAccessBackupVaultsInput{})
+	got, err := svc.ListRestoreAccessBackupVaults(context.Background(), &ListRestoreAccessBackupVaultsInput{
+		BackupVaultName: ptr.String("__BackupVaultName__"),
+		NextToken:       ptr.String("__NextToken__"),
+		MaxResults:      ptr.Int32(1),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -3687,7 +4389,14 @@ func TestCheckResponseSnapshot_ListRestoreJobSummaries(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListRestoreJobSummaries(context.Background(), &ListRestoreJobSummariesInput{})
+	got, err := svc.ListRestoreJobSummaries(context.Background(), &ListRestoreJobSummariesInput{
+		AccountId:         ptr.String("__AccountId__"),
+		State:             types.RestoreJobState("CREATED"),
+		ResourceType:      ptr.String("__ResourceType__"),
+		AggregationPeriod: types.AggregationPeriod("ONE_DAY"),
+		MaxResults:        ptr.Int32(1),
+		NextToken:         ptr.String("__NextToken__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -3764,7 +4473,19 @@ func TestCheckResponseSnapshot_ListRestoreJobs(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListRestoreJobs(context.Background(), &ListRestoreJobsInput{})
+	got, err := svc.ListRestoreJobs(context.Background(), &ListRestoreJobsInput{
+		NextToken:               ptr.String("__NextToken__"),
+		MaxResults:              ptr.Int32(1),
+		ByAccountId:             ptr.String("__ByAccountId__"),
+		ByResourceType:          ptr.String("__ByResourceType__"),
+		ByCreatedBefore:         ptr.Time(time.Date(2000, 1, 1, 0, 0, 0, 0, time.UTC)),
+		ByCreatedAfter:          ptr.Time(time.Date(2000, 1, 1, 0, 0, 0, 0, time.UTC)),
+		ByStatus:                types.RestoreJobStatus("PENDING"),
+		ByCompleteBefore:        ptr.Time(time.Date(2000, 1, 1, 0, 0, 0, 0, time.UTC)),
+		ByCompleteAfter:         ptr.Time(time.Date(2000, 1, 1, 0, 0, 0, 0, time.UTC)),
+		ByRestoreTestingPlanArn: ptr.String("__ByRestoreTestingPlanArn__"),
+		ByParentJobId:           ptr.String("__ByParentJobId__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -3841,7 +4562,14 @@ func TestCheckResponseSnapshot_ListRestoreJobsByProtectedResource(t *testing.T) 
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListRestoreJobsByProtectedResource(context.Background(), &ListRestoreJobsByProtectedResourceInput{})
+	got, err := svc.ListRestoreJobsByProtectedResource(context.Background(), &ListRestoreJobsByProtectedResourceInput{
+		ResourceArn:                       ptr.String("__ResourceArn__"),
+		ByStatus:                          types.RestoreJobStatus("PENDING"),
+		ByRecoveryPointCreationDateAfter:  ptr.Time(time.Date(2000, 1, 1, 0, 0, 0, 0, time.UTC)),
+		ByRecoveryPointCreationDateBefore: ptr.Time(time.Date(2000, 1, 1, 0, 0, 0, 0, time.UTC)),
+		NextToken:                         ptr.String("__NextToken__"),
+		MaxResults:                        ptr.Int32(1),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -3884,7 +4612,10 @@ func TestCheckResponseSnapshot_ListRestoreTestingPlans(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListRestoreTestingPlans(context.Background(), &ListRestoreTestingPlansInput{})
+	got, err := svc.ListRestoreTestingPlans(context.Background(), &ListRestoreTestingPlansInput{
+		MaxResults: ptr.Int32(1),
+		NextToken:  ptr.String("__NextToken__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -3923,7 +4654,11 @@ func TestCheckResponseSnapshot_ListRestoreTestingSelections(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListRestoreTestingSelections(context.Background(), &ListRestoreTestingSelectionsInput{})
+	got, err := svc.ListRestoreTestingSelections(context.Background(), &ListRestoreTestingSelectionsInput{
+		MaxResults:             ptr.Int32(1),
+		NextToken:              ptr.String("__NextToken__"),
+		RestoreTestingPlanName: ptr.String("__RestoreTestingPlanName__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -3969,7 +4704,16 @@ func TestCheckResponseSnapshot_ListScanJobSummaries(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListScanJobSummaries(context.Background(), &ListScanJobSummariesInput{})
+	got, err := svc.ListScanJobSummaries(context.Background(), &ListScanJobSummariesInput{
+		AccountId:         ptr.String("__AccountId__"),
+		ResourceType:      ptr.String("__ResourceType__"),
+		MalwareScanner:    types.MalwareScanner("GUARDDUTY"),
+		ScanResultStatus:  types.ScanResultStatus("NO_THREATS_FOUND"),
+		State:             types.ScanJobStatus("CREATED"),
+		AggregationPeriod: types.AggregationPeriod("ONE_DAY"),
+		MaxResults:        ptr.Int32(1),
+		NextToken:         ptr.String("__NextToken__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -4054,7 +4798,20 @@ func TestCheckResponseSnapshot_ListScanJobs(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListScanJobs(context.Background(), &ListScanJobsInput{})
+	got, err := svc.ListScanJobs(context.Background(), &ListScanJobsInput{
+		ByAccountId:        ptr.String("__ByAccountId__"),
+		ByBackupVaultName:  ptr.String("__ByBackupVaultName__"),
+		ByCompleteAfter:    ptr.Time(time.Date(2000, 1, 1, 0, 0, 0, 0, time.UTC)),
+		ByCompleteBefore:   ptr.Time(time.Date(2000, 1, 1, 0, 0, 0, 0, time.UTC)),
+		ByMalwareScanner:   types.MalwareScanner("GUARDDUTY"),
+		ByRecoveryPointArn: ptr.String("__ByRecoveryPointArn__"),
+		ByResourceArn:      ptr.String("__ByResourceArn__"),
+		ByResourceType:     types.ScanResourceType("EBS"),
+		ByScanResultStatus: types.ScanResultStatus("NO_THREATS_FOUND"),
+		ByState:            types.ScanState("CANCELED"),
+		MaxResults:         ptr.Int32(1),
+		NextToken:          ptr.String("__NextToken__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -4078,7 +4835,11 @@ func TestCheckResponseSnapshot_ListTags(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListTags(context.Background(), &ListTagsInput{})
+	got, err := svc.ListTags(context.Background(), &ListTagsInput{
+		ResourceArn: ptr.String("__ResourceArn__"),
+		NextToken:   ptr.String("__NextToken__"),
+		MaxResults:  ptr.Int32(1),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -4115,7 +4876,10 @@ func TestCheckResponseSnapshot_ListTieringConfigurations(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListTieringConfigurations(context.Background(), &ListTieringConfigurationsInput{})
+	got, err := svc.ListTieringConfigurations(context.Background(), &ListTieringConfigurationsInput{
+		MaxResults: ptr.Int32(1),
+		NextToken:  ptr.String("__NextToken__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -4134,7 +4898,10 @@ func TestCheckResponseSnapshot_PutBackupVaultAccessPolicy(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.PutBackupVaultAccessPolicy(context.Background(), &PutBackupVaultAccessPolicyInput{})
+	got, err := svc.PutBackupVaultAccessPolicy(context.Background(), &PutBackupVaultAccessPolicyInput{
+		BackupVaultName: ptr.String("__BackupVaultName__"),
+		Policy:          ptr.String("__Policy__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -4153,7 +4920,12 @@ func TestCheckResponseSnapshot_PutBackupVaultLockConfiguration(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.PutBackupVaultLockConfiguration(context.Background(), &PutBackupVaultLockConfigurationInput{})
+	got, err := svc.PutBackupVaultLockConfiguration(context.Background(), &PutBackupVaultLockConfigurationInput{
+		BackupVaultName:   ptr.String("__BackupVaultName__"),
+		MinRetentionDays:  ptr.Int64(1),
+		MaxRetentionDays:  ptr.Int64(1),
+		ChangeableForDays: ptr.Int64(1),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -4172,7 +4944,14 @@ func TestCheckResponseSnapshot_PutBackupVaultNotifications(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.PutBackupVaultNotifications(context.Background(), &PutBackupVaultNotificationsInput{})
+	got, err := svc.PutBackupVaultNotifications(context.Background(), &PutBackupVaultNotificationsInput{
+		BackupVaultName: ptr.String("__BackupVaultName__"),
+		SNSTopicArn:     ptr.String("__SNSTopicArn__"),
+		BackupVaultEvents: []types.BackupVaultEvent{
+			types.BackupVaultEvent("BACKUP_JOB_STARTED"),
+			types.BackupVaultEvent("BACKUP_JOB_STARTED"),
+		},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -4191,7 +4970,11 @@ func TestCheckResponseSnapshot_PutRestoreValidationResult(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.PutRestoreValidationResult(context.Background(), &PutRestoreValidationResultInput{})
+	got, err := svc.PutRestoreValidationResult(context.Background(), &PutRestoreValidationResultInput{
+		RestoreJobId:            ptr.String("__RestoreJobId__"),
+		ValidationStatus:        types.RestoreValidationStatus("FAILED"),
+		ValidationStatusMessage: ptr.String("__ValidationStatusMessage__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -4210,7 +4993,11 @@ func TestCheckResponseSnapshot_RevokeRestoreAccessBackupVault(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.RevokeRestoreAccessBackupVault(context.Background(), &RevokeRestoreAccessBackupVaultInput{})
+	got, err := svc.RevokeRestoreAccessBackupVault(context.Background(), &RevokeRestoreAccessBackupVaultInput{
+		BackupVaultName:             ptr.String("__BackupVaultName__"),
+		RestoreAccessBackupVaultArn: ptr.String("__RestoreAccessBackupVaultArn__"),
+		RequesterComment:            ptr.String("__RequesterComment__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -4234,7 +5021,28 @@ func TestCheckResponseSnapshot_StartBackupJob(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.StartBackupJob(context.Background(), &StartBackupJobInput{})
+	got, err := svc.StartBackupJob(context.Background(), &StartBackupJobInput{
+		BackupVaultName:                  ptr.String("__BackupVaultName__"),
+		LogicallyAirGappedBackupVaultArn: ptr.String("__LogicallyAirGappedBackupVaultArn__"),
+		ResourceArn:                      ptr.String("__ResourceArn__"),
+		IamRoleArn:                       ptr.String("__IamRoleArn__"),
+		IdempotencyToken:                 ptr.String("__IdempotencyToken__"),
+		StartWindowMinutes:               ptr.Int64(1),
+		CompleteWindowMinutes:            ptr.Int64(1),
+		Lifecycle: &types.Lifecycle{
+			MoveToColdStorageAfterDays:          ptr.Int64(1),
+			DeleteAfterDays:                     ptr.Int64(1),
+			OptInToArchiveForSupportedResources: ptr.Bool(true),
+			DeleteAfterEvent:                    types.LifecycleDeleteAfterEvent("DELETE_AFTER_COPY"),
+		},
+		RecoveryPointTags: map[string]string{
+			"key0": "__Value__",
+		},
+		BackupOptions: map[string]string{
+			"key0": "__Value__",
+		},
+		Index: types.Index("ENABLED"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -4257,7 +5065,19 @@ func TestCheckResponseSnapshot_StartCopyJob(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.StartCopyJob(context.Background(), &StartCopyJobInput{})
+	got, err := svc.StartCopyJob(context.Background(), &StartCopyJobInput{
+		RecoveryPointArn:          ptr.String("__RecoveryPointArn__"),
+		SourceBackupVaultName:     ptr.String("__SourceBackupVaultName__"),
+		DestinationBackupVaultArn: ptr.String("__DestinationBackupVaultArn__"),
+		IamRoleArn:                ptr.String("__IamRoleArn__"),
+		IdempotencyToken:          ptr.String("__IdempotencyToken__"),
+		Lifecycle: &types.Lifecycle{
+			MoveToColdStorageAfterDays:          ptr.Int64(1),
+			DeleteAfterDays:                     ptr.Int64(1),
+			OptInToArchiveForSupportedResources: ptr.Bool(true),
+			DeleteAfterEvent:                    types.LifecycleDeleteAfterEvent("DELETE_AFTER_COPY"),
+		},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -4278,7 +5098,10 @@ func TestCheckResponseSnapshot_StartReportJob(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.StartReportJob(context.Background(), &StartReportJobInput{})
+	got, err := svc.StartReportJob(context.Background(), &StartReportJobInput{
+		ReportPlanName:   ptr.String("__ReportPlanName__"),
+		IdempotencyToken: ptr.String("__IdempotencyToken__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -4299,7 +5122,16 @@ func TestCheckResponseSnapshot_StartRestoreJob(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.StartRestoreJob(context.Background(), &StartRestoreJobInput{})
+	got, err := svc.StartRestoreJob(context.Background(), &StartRestoreJobInput{
+		RecoveryPointArn: ptr.String("__RecoveryPointArn__"),
+		Metadata: map[string]string{
+			"key0": "__Value__",
+		},
+		IamRoleArn:                       ptr.String("__IamRoleArn__"),
+		IdempotencyToken:                 ptr.String("__IdempotencyToken__"),
+		ResourceType:                     ptr.String("__ResourceType__"),
+		CopySourceTagsToRestoredResource: true,
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -4321,7 +5153,17 @@ func TestCheckResponseSnapshot_StartScanJob(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.StartScanJob(context.Background(), &StartScanJobInput{})
+	got, err := svc.StartScanJob(context.Background(), &StartScanJobInput{
+		BackupVaultName:          ptr.String("__BackupVaultName__"),
+		ContinuousScanEndTime:    ptr.Time(time.Date(2000, 1, 1, 0, 0, 0, 0, time.UTC)),
+		IamRoleArn:               ptr.String("__IamRoleArn__"),
+		IdempotencyToken:         ptr.String("__IdempotencyToken__"),
+		MalwareScanner:           types.MalwareScanner("GUARDDUTY"),
+		RecoveryPointArn:         ptr.String("__RecoveryPointArn__"),
+		ScanBaseRecoveryPointArn: ptr.String("__ScanBaseRecoveryPointArn__"),
+		ScanMode:                 types.ScanMode("FULL_SCAN"),
+		ScannerRoleArn:           ptr.String("__ScannerRoleArn__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -4340,7 +5182,9 @@ func TestCheckResponseSnapshot_StopBackupJob(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.StopBackupJob(context.Background(), &StopBackupJobInput{})
+	got, err := svc.StopBackupJob(context.Background(), &StopBackupJobInput{
+		BackupJobId: ptr.String("__BackupJobId__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -4359,7 +5203,12 @@ func TestCheckResponseSnapshot_TagResource(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.TagResource(context.Background(), &TagResourceInput{})
+	got, err := svc.TagResource(context.Background(), &TagResourceInput{
+		ResourceArn: ptr.String("__ResourceArn__"),
+		Tags: map[string]string{
+			"key0": "__Value__",
+		},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -4378,7 +5227,13 @@ func TestCheckResponseSnapshot_UntagResource(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.UntagResource(context.Background(), &UntagResourceInput{})
+	got, err := svc.UntagResource(context.Background(), &UntagResourceInput{
+		ResourceArn: ptr.String("__ResourceArn__"),
+		TagKeyList: []string{
+			"__Member__",
+			"__Member__",
+		},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -4434,7 +5289,172 @@ func TestCheckResponseSnapshot_UpdateBackupPlan(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.UpdateBackupPlan(context.Background(), &UpdateBackupPlanInput{})
+	got, err := svc.UpdateBackupPlan(context.Background(), &UpdateBackupPlanInput{
+		BackupPlanId: ptr.String("__BackupPlanId__"),
+		BackupPlan: &types.BackupPlanInput{
+			BackupPlanName: ptr.String("__BackupPlanName__"),
+			Rules: []types.BackupRuleInput{
+				{
+					RuleName:                               ptr.String("__RuleName__"),
+					TargetBackupVaultName:                  ptr.String("__TargetBackupVaultName__"),
+					TargetLogicallyAirGappedBackupVaultArn: ptr.String("__TargetLogicallyAirGappedBackupVaultArn__"),
+					ScheduleExpression:                     ptr.String("__ScheduleExpression__"),
+					StartWindowMinutes:                     ptr.Int64(1),
+					CompletionWindowMinutes:                ptr.Int64(1),
+					Lifecycle: &types.Lifecycle{
+						MoveToColdStorageAfterDays:          ptr.Int64(1),
+						DeleteAfterDays:                     ptr.Int64(1),
+						OptInToArchiveForSupportedResources: ptr.Bool(true),
+						DeleteAfterEvent:                    types.LifecycleDeleteAfterEvent("DELETE_AFTER_COPY"),
+					},
+					RecoveryPointTags: map[string]string{
+						"key0": "__Value__",
+					},
+					CopyActions: []types.CopyAction{
+						{
+							Lifecycle: &types.Lifecycle{
+								MoveToColdStorageAfterDays:          ptr.Int64(1),
+								DeleteAfterDays:                     ptr.Int64(1),
+								OptInToArchiveForSupportedResources: ptr.Bool(true),
+								DeleteAfterEvent:                    types.LifecycleDeleteAfterEvent("DELETE_AFTER_COPY"),
+							},
+							DestinationBackupVaultArn: ptr.String("__DestinationBackupVaultArn__"),
+						},
+						{
+							Lifecycle: &types.Lifecycle{
+								MoveToColdStorageAfterDays:          ptr.Int64(1),
+								DeleteAfterDays:                     ptr.Int64(1),
+								OptInToArchiveForSupportedResources: ptr.Bool(true),
+								DeleteAfterEvent:                    types.LifecycleDeleteAfterEvent("DELETE_AFTER_COPY"),
+							},
+							DestinationBackupVaultArn: ptr.String("__DestinationBackupVaultArn__"),
+						},
+					},
+					EnableContinuousBackup:     ptr.Bool(true),
+					ScheduleExpressionTimezone: ptr.String("__ScheduleExpressionTimezone__"),
+					IndexActions: []types.IndexAction{
+						{
+							ResourceTypes: []string{
+								"__Member__",
+								"__Member__",
+							},
+						},
+						{
+							ResourceTypes: []string{
+								"__Member__",
+								"__Member__",
+							},
+						},
+					},
+					ScanActions: []types.ScanAction{
+						{
+							MalwareScanner: types.MalwareScanner("GUARDDUTY"),
+							ScanMode:       types.ScanMode("FULL_SCAN"),
+						},
+						{
+							MalwareScanner: types.MalwareScanner("GUARDDUTY"),
+							ScanMode:       types.ScanMode("FULL_SCAN"),
+						},
+					},
+				},
+				{
+					RuleName:                               ptr.String("__RuleName__"),
+					TargetBackupVaultName:                  ptr.String("__TargetBackupVaultName__"),
+					TargetLogicallyAirGappedBackupVaultArn: ptr.String("__TargetLogicallyAirGappedBackupVaultArn__"),
+					ScheduleExpression:                     ptr.String("__ScheduleExpression__"),
+					StartWindowMinutes:                     ptr.Int64(1),
+					CompletionWindowMinutes:                ptr.Int64(1),
+					Lifecycle: &types.Lifecycle{
+						MoveToColdStorageAfterDays:          ptr.Int64(1),
+						DeleteAfterDays:                     ptr.Int64(1),
+						OptInToArchiveForSupportedResources: ptr.Bool(true),
+						DeleteAfterEvent:                    types.LifecycleDeleteAfterEvent("DELETE_AFTER_COPY"),
+					},
+					RecoveryPointTags: map[string]string{
+						"key0": "__Value__",
+					},
+					CopyActions: []types.CopyAction{
+						{
+							Lifecycle: &types.Lifecycle{
+								MoveToColdStorageAfterDays:          ptr.Int64(1),
+								DeleteAfterDays:                     ptr.Int64(1),
+								OptInToArchiveForSupportedResources: ptr.Bool(true),
+								DeleteAfterEvent:                    types.LifecycleDeleteAfterEvent("DELETE_AFTER_COPY"),
+							},
+							DestinationBackupVaultArn: ptr.String("__DestinationBackupVaultArn__"),
+						},
+						{
+							Lifecycle: &types.Lifecycle{
+								MoveToColdStorageAfterDays:          ptr.Int64(1),
+								DeleteAfterDays:                     ptr.Int64(1),
+								OptInToArchiveForSupportedResources: ptr.Bool(true),
+								DeleteAfterEvent:                    types.LifecycleDeleteAfterEvent("DELETE_AFTER_COPY"),
+							},
+							DestinationBackupVaultArn: ptr.String("__DestinationBackupVaultArn__"),
+						},
+					},
+					EnableContinuousBackup:     ptr.Bool(true),
+					ScheduleExpressionTimezone: ptr.String("__ScheduleExpressionTimezone__"),
+					IndexActions: []types.IndexAction{
+						{
+							ResourceTypes: []string{
+								"__Member__",
+								"__Member__",
+							},
+						},
+						{
+							ResourceTypes: []string{
+								"__Member__",
+								"__Member__",
+							},
+						},
+					},
+					ScanActions: []types.ScanAction{
+						{
+							MalwareScanner: types.MalwareScanner("GUARDDUTY"),
+							ScanMode:       types.ScanMode("FULL_SCAN"),
+						},
+						{
+							MalwareScanner: types.MalwareScanner("GUARDDUTY"),
+							ScanMode:       types.ScanMode("FULL_SCAN"),
+						},
+					},
+				},
+			},
+			AdvancedBackupSettings: []types.AdvancedBackupSetting{
+				{
+					ResourceType: ptr.String("__ResourceType__"),
+					BackupOptions: map[string]string{
+						"key0": "__Value__",
+					},
+				},
+				{
+					ResourceType: ptr.String("__ResourceType__"),
+					BackupOptions: map[string]string{
+						"key0": "__Value__",
+					},
+				},
+			},
+			ScanSettings: []types.ScanSetting{
+				{
+					MalwareScanner: types.MalwareScanner("GUARDDUTY"),
+					ResourceTypes: []string{
+						"__Member__",
+						"__Member__",
+					},
+					ScannerRoleArn: ptr.String("__ScannerRoleArn__"),
+				},
+				{
+					MalwareScanner: types.MalwareScanner("GUARDDUTY"),
+					ResourceTypes: []string{
+						"__Member__",
+						"__Member__",
+					},
+					ScannerRoleArn: ptr.String("__ScannerRoleArn__"),
+				},
+			},
+		},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -4457,7 +5477,65 @@ func TestCheckResponseSnapshot_UpdateFramework(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.UpdateFramework(context.Background(), &UpdateFrameworkInput{})
+	got, err := svc.UpdateFramework(context.Background(), &UpdateFrameworkInput{
+		FrameworkName:        ptr.String("__FrameworkName__"),
+		FrameworkDescription: ptr.String("__FrameworkDescription__"),
+		FrameworkControls: []types.FrameworkControl{
+			{
+				ControlName: ptr.String("__ControlName__"),
+				ControlInputParameters: []types.ControlInputParameter{
+					{
+						ParameterName:  ptr.String("__ParameterName__"),
+						ParameterValue: ptr.String("__ParameterValue__"),
+					},
+					{
+						ParameterName:  ptr.String("__ParameterName__"),
+						ParameterValue: ptr.String("__ParameterValue__"),
+					},
+				},
+				ControlScope: &types.ControlScope{
+					ComplianceResourceIds: []string{
+						"__Member__",
+						"__Member__",
+					},
+					ComplianceResourceTypes: []string{
+						"__Member__",
+						"__Member__",
+					},
+					Tags: map[string]string{
+						"key0": "__Value__",
+					},
+				},
+			},
+			{
+				ControlName: ptr.String("__ControlName__"),
+				ControlInputParameters: []types.ControlInputParameter{
+					{
+						ParameterName:  ptr.String("__ParameterName__"),
+						ParameterValue: ptr.String("__ParameterValue__"),
+					},
+					{
+						ParameterName:  ptr.String("__ParameterName__"),
+						ParameterValue: ptr.String("__ParameterValue__"),
+					},
+				},
+				ControlScope: &types.ControlScope{
+					ComplianceResourceIds: []string{
+						"__Member__",
+						"__Member__",
+					},
+					ComplianceResourceTypes: []string{
+						"__Member__",
+						"__Member__",
+					},
+					Tags: map[string]string{
+						"key0": "__Value__",
+					},
+				},
+			},
+		},
+		IdempotencyToken: ptr.String("__IdempotencyToken__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -4476,7 +5554,11 @@ func TestCheckResponseSnapshot_UpdateGlobalSettings(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.UpdateGlobalSettings(context.Background(), &UpdateGlobalSettingsInput{})
+	got, err := svc.UpdateGlobalSettings(context.Background(), &UpdateGlobalSettingsInput{
+		GlobalSettings: map[string]string{
+			"key0": "__Value__",
+		},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -4500,7 +5582,12 @@ func TestCheckResponseSnapshot_UpdateRecoveryPointIndexSettings(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.UpdateRecoveryPointIndexSettings(context.Background(), &UpdateRecoveryPointIndexSettingsInput{})
+	got, err := svc.UpdateRecoveryPointIndexSettings(context.Background(), &UpdateRecoveryPointIndexSettingsInput{
+		BackupVaultName:  ptr.String("__BackupVaultName__"),
+		RecoveryPointArn: ptr.String("__RecoveryPointArn__"),
+		IamRoleArn:       ptr.String("__IamRoleArn__"),
+		Index:            types.Index("ENABLED"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -4532,7 +5619,16 @@ func TestCheckResponseSnapshot_UpdateRecoveryPointLifecycle(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.UpdateRecoveryPointLifecycle(context.Background(), &UpdateRecoveryPointLifecycleInput{})
+	got, err := svc.UpdateRecoveryPointLifecycle(context.Background(), &UpdateRecoveryPointLifecycleInput{
+		BackupVaultName:  ptr.String("__BackupVaultName__"),
+		RecoveryPointArn: ptr.String("__RecoveryPointArn__"),
+		Lifecycle: &types.Lifecycle{
+			MoveToColdStorageAfterDays:          ptr.Int64(1),
+			DeleteAfterDays:                     ptr.Int64(1),
+			OptInToArchiveForSupportedResources: ptr.Bool(true),
+			DeleteAfterEvent:                    types.LifecycleDeleteAfterEvent("DELETE_AFTER_COPY"),
+		},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -4551,7 +5647,14 @@ func TestCheckResponseSnapshot_UpdateRegionSettings(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.UpdateRegionSettings(context.Background(), &UpdateRegionSettingsInput{})
+	got, err := svc.UpdateRegionSettings(context.Background(), &UpdateRegionSettingsInput{
+		ResourceTypeOptInPreference: map[string]bool{
+			"key0": true,
+		},
+		ResourceTypeManagementPreference: map[string]bool{
+			"key0": true,
+		},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -4574,7 +5677,39 @@ func TestCheckResponseSnapshot_UpdateReportPlan(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.UpdateReportPlan(context.Background(), &UpdateReportPlanInput{})
+	got, err := svc.UpdateReportPlan(context.Background(), &UpdateReportPlanInput{
+		ReportPlanName:        ptr.String("__ReportPlanName__"),
+		ReportPlanDescription: ptr.String("__ReportPlanDescription__"),
+		ReportDeliveryChannel: &types.ReportDeliveryChannel{
+			S3BucketName: ptr.String("__S3BucketName__"),
+			S3KeyPrefix:  ptr.String("__S3KeyPrefix__"),
+			Formats: []string{
+				"__Member__",
+				"__Member__",
+			},
+		},
+		ReportSetting: &types.ReportSetting{
+			ReportTemplate: ptr.String("__ReportTemplate__"),
+			FrameworkArns: []string{
+				"__Member__",
+				"__Member__",
+			},
+			NumberOfFrameworks: 1,
+			Accounts: []string{
+				"__Member__",
+				"__Member__",
+			},
+			OrganizationUnits: []string{
+				"__Member__",
+				"__Member__",
+			},
+			Regions: []string{
+				"__Member__",
+				"__Member__",
+			},
+		},
+		IdempotencyToken: ptr.String("__IdempotencyToken__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -4598,7 +5733,30 @@ func TestCheckResponseSnapshot_UpdateRestoreTestingPlan(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.UpdateRestoreTestingPlan(context.Background(), &UpdateRestoreTestingPlanInput{})
+	got, err := svc.UpdateRestoreTestingPlan(context.Background(), &UpdateRestoreTestingPlanInput{
+		RestoreTestingPlan: &types.RestoreTestingPlanForUpdate{
+			RecoveryPointSelection: &types.RestoreTestingRecoveryPointSelection{
+				Algorithm: types.RestoreTestingRecoveryPointSelectionAlgorithm("LATEST_WITHIN_WINDOW"),
+				ExcludeVaults: []string{
+					"__Member__",
+					"__Member__",
+				},
+				IncludeVaults: []string{
+					"__Member__",
+					"__Member__",
+				},
+				RecoveryPointTypes: []types.RestoreTestingRecoveryPointType{
+					types.RestoreTestingRecoveryPointType("CONTINUOUS"),
+					types.RestoreTestingRecoveryPointType("CONTINUOUS"),
+				},
+				SelectionWindowDays: 1,
+			},
+			ScheduleExpression:         ptr.String("__ScheduleExpression__"),
+			ScheduleExpressionTimezone: ptr.String("__ScheduleExpressionTimezone__"),
+			StartWindowHours:           1,
+		},
+		RestoreTestingPlanName: ptr.String("__RestoreTestingPlanName__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -4623,7 +5781,43 @@ func TestCheckResponseSnapshot_UpdateRestoreTestingSelection(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.UpdateRestoreTestingSelection(context.Background(), &UpdateRestoreTestingSelectionInput{})
+	got, err := svc.UpdateRestoreTestingSelection(context.Background(), &UpdateRestoreTestingSelectionInput{
+		RestoreTestingPlanName: ptr.String("__RestoreTestingPlanName__"),
+		RestoreTestingSelection: &types.RestoreTestingSelectionForUpdate{
+			IamRoleArn: ptr.String("__IamRoleArn__"),
+			ProtectedResourceArns: []string{
+				"__Member__",
+				"__Member__",
+			},
+			ProtectedResourceConditions: &types.ProtectedResourceConditions{
+				StringEquals: []types.KeyValue{
+					{
+						Key:   ptr.String("__Key__"),
+						Value: ptr.String("__Value__"),
+					},
+					{
+						Key:   ptr.String("__Key__"),
+						Value: ptr.String("__Value__"),
+					},
+				},
+				StringNotEquals: []types.KeyValue{
+					{
+						Key:   ptr.String("__Key__"),
+						Value: ptr.String("__Value__"),
+					},
+					{
+						Key:   ptr.String("__Key__"),
+						Value: ptr.String("__Value__"),
+					},
+				},
+			},
+			RestoreMetadataOverrides: map[string]string{
+				"key0": "__Value__",
+			},
+			ValidationWindowHours: 1,
+		},
+		RestoreTestingSelectionName: ptr.String("__RestoreTestingSelectionName__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -4647,7 +5841,30 @@ func TestCheckResponseSnapshot_UpdateTieringConfiguration(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.UpdateTieringConfiguration(context.Background(), &UpdateTieringConfigurationInput{})
+	got, err := svc.UpdateTieringConfiguration(context.Background(), &UpdateTieringConfigurationInput{
+		TieringConfigurationName: ptr.String("__TieringConfigurationName__"),
+		TieringConfiguration: &types.TieringConfigurationInputForUpdate{
+			ResourceSelection: []types.ResourceSelection{
+				{
+					Resources: []string{
+						"__Member__",
+						"__Member__",
+					},
+					TieringDownSettingsInDays: ptr.Int32(1),
+					ResourceType:              ptr.String("__ResourceType__"),
+				},
+				{
+					Resources: []string{
+						"__Member__",
+						"__Member__",
+					},
+					TieringDownSettingsInDays: ptr.Int32(1),
+					ResourceType:              ptr.String("__ResourceType__"),
+				},
+			},
+			BackupVaultName: ptr.String("__BackupVaultName__"),
+		},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -4658,7 +5875,7 @@ func TestCheckResponseSnapshot_UpdateTieringConfiguration(t *testing.T) {
 
 func TestCheckResponseSnapshot_Error_AlreadyExistsException(t *testing.T) {
 	want := &types.AlreadyExistsException{
-		Code:             ptr.String("__Code__"),
+		Code:             ptr.String("AlreadyExistsException"),
 		Message:          ptr.String("__Message__"),
 		CreatorRequestId: ptr.String("__CreatorRequestId__"),
 		Arn:              ptr.String("__Arn__"),
@@ -4673,7 +5890,175 @@ func TestCheckResponseSnapshot_Error_AlreadyExistsException(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	_, opErr := svc.CreateBackupPlan(context.Background(), &CreateBackupPlanInput{})
+	_, opErr := svc.CreateBackupPlan(context.Background(), &CreateBackupPlanInput{
+		BackupPlan: &types.BackupPlanInput{
+			BackupPlanName: ptr.String("__BackupPlanName__"),
+			Rules: []types.BackupRuleInput{
+				{
+					RuleName:                               ptr.String("__RuleName__"),
+					TargetBackupVaultName:                  ptr.String("__TargetBackupVaultName__"),
+					TargetLogicallyAirGappedBackupVaultArn: ptr.String("__TargetLogicallyAirGappedBackupVaultArn__"),
+					ScheduleExpression:                     ptr.String("__ScheduleExpression__"),
+					StartWindowMinutes:                     ptr.Int64(1),
+					CompletionWindowMinutes:                ptr.Int64(1),
+					Lifecycle: &types.Lifecycle{
+						MoveToColdStorageAfterDays:          ptr.Int64(1),
+						DeleteAfterDays:                     ptr.Int64(1),
+						OptInToArchiveForSupportedResources: ptr.Bool(true),
+						DeleteAfterEvent:                    types.LifecycleDeleteAfterEvent("DELETE_AFTER_COPY"),
+					},
+					RecoveryPointTags: map[string]string{
+						"key0": "__Value__",
+					},
+					CopyActions: []types.CopyAction{
+						{
+							Lifecycle: &types.Lifecycle{
+								MoveToColdStorageAfterDays:          ptr.Int64(1),
+								DeleteAfterDays:                     ptr.Int64(1),
+								OptInToArchiveForSupportedResources: ptr.Bool(true),
+								DeleteAfterEvent:                    types.LifecycleDeleteAfterEvent("DELETE_AFTER_COPY"),
+							},
+							DestinationBackupVaultArn: ptr.String("__DestinationBackupVaultArn__"),
+						},
+						{
+							Lifecycle: &types.Lifecycle{
+								MoveToColdStorageAfterDays:          ptr.Int64(1),
+								DeleteAfterDays:                     ptr.Int64(1),
+								OptInToArchiveForSupportedResources: ptr.Bool(true),
+								DeleteAfterEvent:                    types.LifecycleDeleteAfterEvent("DELETE_AFTER_COPY"),
+							},
+							DestinationBackupVaultArn: ptr.String("__DestinationBackupVaultArn__"),
+						},
+					},
+					EnableContinuousBackup:     ptr.Bool(true),
+					ScheduleExpressionTimezone: ptr.String("__ScheduleExpressionTimezone__"),
+					IndexActions: []types.IndexAction{
+						{
+							ResourceTypes: []string{
+								"__Member__",
+								"__Member__",
+							},
+						},
+						{
+							ResourceTypes: []string{
+								"__Member__",
+								"__Member__",
+							},
+						},
+					},
+					ScanActions: []types.ScanAction{
+						{
+							MalwareScanner: types.MalwareScanner("GUARDDUTY"),
+							ScanMode:       types.ScanMode("FULL_SCAN"),
+						},
+						{
+							MalwareScanner: types.MalwareScanner("GUARDDUTY"),
+							ScanMode:       types.ScanMode("FULL_SCAN"),
+						},
+					},
+				},
+				{
+					RuleName:                               ptr.String("__RuleName__"),
+					TargetBackupVaultName:                  ptr.String("__TargetBackupVaultName__"),
+					TargetLogicallyAirGappedBackupVaultArn: ptr.String("__TargetLogicallyAirGappedBackupVaultArn__"),
+					ScheduleExpression:                     ptr.String("__ScheduleExpression__"),
+					StartWindowMinutes:                     ptr.Int64(1),
+					CompletionWindowMinutes:                ptr.Int64(1),
+					Lifecycle: &types.Lifecycle{
+						MoveToColdStorageAfterDays:          ptr.Int64(1),
+						DeleteAfterDays:                     ptr.Int64(1),
+						OptInToArchiveForSupportedResources: ptr.Bool(true),
+						DeleteAfterEvent:                    types.LifecycleDeleteAfterEvent("DELETE_AFTER_COPY"),
+					},
+					RecoveryPointTags: map[string]string{
+						"key0": "__Value__",
+					},
+					CopyActions: []types.CopyAction{
+						{
+							Lifecycle: &types.Lifecycle{
+								MoveToColdStorageAfterDays:          ptr.Int64(1),
+								DeleteAfterDays:                     ptr.Int64(1),
+								OptInToArchiveForSupportedResources: ptr.Bool(true),
+								DeleteAfterEvent:                    types.LifecycleDeleteAfterEvent("DELETE_AFTER_COPY"),
+							},
+							DestinationBackupVaultArn: ptr.String("__DestinationBackupVaultArn__"),
+						},
+						{
+							Lifecycle: &types.Lifecycle{
+								MoveToColdStorageAfterDays:          ptr.Int64(1),
+								DeleteAfterDays:                     ptr.Int64(1),
+								OptInToArchiveForSupportedResources: ptr.Bool(true),
+								DeleteAfterEvent:                    types.LifecycleDeleteAfterEvent("DELETE_AFTER_COPY"),
+							},
+							DestinationBackupVaultArn: ptr.String("__DestinationBackupVaultArn__"),
+						},
+					},
+					EnableContinuousBackup:     ptr.Bool(true),
+					ScheduleExpressionTimezone: ptr.String("__ScheduleExpressionTimezone__"),
+					IndexActions: []types.IndexAction{
+						{
+							ResourceTypes: []string{
+								"__Member__",
+								"__Member__",
+							},
+						},
+						{
+							ResourceTypes: []string{
+								"__Member__",
+								"__Member__",
+							},
+						},
+					},
+					ScanActions: []types.ScanAction{
+						{
+							MalwareScanner: types.MalwareScanner("GUARDDUTY"),
+							ScanMode:       types.ScanMode("FULL_SCAN"),
+						},
+						{
+							MalwareScanner: types.MalwareScanner("GUARDDUTY"),
+							ScanMode:       types.ScanMode("FULL_SCAN"),
+						},
+					},
+				},
+			},
+			AdvancedBackupSettings: []types.AdvancedBackupSetting{
+				{
+					ResourceType: ptr.String("__ResourceType__"),
+					BackupOptions: map[string]string{
+						"key0": "__Value__",
+					},
+				},
+				{
+					ResourceType: ptr.String("__ResourceType__"),
+					BackupOptions: map[string]string{
+						"key0": "__Value__",
+					},
+				},
+			},
+			ScanSettings: []types.ScanSetting{
+				{
+					MalwareScanner: types.MalwareScanner("GUARDDUTY"),
+					ResourceTypes: []string{
+						"__Member__",
+						"__Member__",
+					},
+					ScannerRoleArn: ptr.String("__ScannerRoleArn__"),
+				},
+				{
+					MalwareScanner: types.MalwareScanner("GUARDDUTY"),
+					ResourceTypes: []string{
+						"__Member__",
+						"__Member__",
+					},
+					ScannerRoleArn: ptr.String("__ScannerRoleArn__"),
+				},
+			},
+		},
+		BackupPlanTags: map[string]string{
+			"key0": "__Value__",
+		},
+		CreatorRequestId: ptr.String("__CreatorRequestId__"),
+	})
 	if opErr == nil {
 		t.Fatal("expected error, got nil")
 	}
@@ -4688,7 +6073,7 @@ func TestCheckResponseSnapshot_Error_AlreadyExistsException(t *testing.T) {
 
 func TestCheckResponseSnapshot_Error_ConflictException(t *testing.T) {
 	want := &types.ConflictException{
-		Code:    ptr.String("__Code__"),
+		Code:    ptr.String("ConflictException"),
 		Message: ptr.String("__Message__"),
 		Type:    ptr.String("__Type__"),
 		Context: ptr.String("__Context__"),
@@ -4701,7 +6086,34 @@ func TestCheckResponseSnapshot_Error_ConflictException(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	_, opErr := svc.CreateRestoreTestingPlan(context.Background(), &CreateRestoreTestingPlanInput{})
+	_, opErr := svc.CreateRestoreTestingPlan(context.Background(), &CreateRestoreTestingPlanInput{
+		CreatorRequestId: ptr.String("__CreatorRequestId__"),
+		RestoreTestingPlan: &types.RestoreTestingPlanForCreate{
+			RecoveryPointSelection: &types.RestoreTestingRecoveryPointSelection{
+				Algorithm: types.RestoreTestingRecoveryPointSelectionAlgorithm("LATEST_WITHIN_WINDOW"),
+				ExcludeVaults: []string{
+					"__Member__",
+					"__Member__",
+				},
+				IncludeVaults: []string{
+					"__Member__",
+					"__Member__",
+				},
+				RecoveryPointTypes: []types.RestoreTestingRecoveryPointType{
+					types.RestoreTestingRecoveryPointType("CONTINUOUS"),
+					types.RestoreTestingRecoveryPointType("CONTINUOUS"),
+				},
+				SelectionWindowDays: 1,
+			},
+			RestoreTestingPlanName:     ptr.String("__RestoreTestingPlanName__"),
+			ScheduleExpression:         ptr.String("__ScheduleExpression__"),
+			ScheduleExpressionTimezone: ptr.String("__ScheduleExpressionTimezone__"),
+			StartWindowHours:           1,
+		},
+		Tags: map[string]string{
+			"key0": "__Value__",
+		},
+	})
 	if opErr == nil {
 		t.Fatal("expected error, got nil")
 	}
@@ -4716,7 +6128,7 @@ func TestCheckResponseSnapshot_Error_ConflictException(t *testing.T) {
 
 func TestCheckResponseSnapshot_Error_DependencyFailureException(t *testing.T) {
 	want := &types.DependencyFailureException{
-		Code:    ptr.String("__Code__"),
+		Code:    ptr.String("DependencyFailureException"),
 		Message: ptr.String("__Message__"),
 		Type:    ptr.String("__Type__"),
 		Context: ptr.String("__Context__"),
@@ -4729,7 +6141,9 @@ func TestCheckResponseSnapshot_Error_DependencyFailureException(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	_, opErr := svc.DescribeBackupJob(context.Background(), &DescribeBackupJobInput{})
+	_, opErr := svc.DescribeBackupJob(context.Background(), &DescribeBackupJobInput{
+		BackupJobId: ptr.String("__BackupJobId__"),
+	})
 	if opErr == nil {
 		t.Fatal("expected error, got nil")
 	}
@@ -4744,7 +6158,7 @@ func TestCheckResponseSnapshot_Error_DependencyFailureException(t *testing.T) {
 
 func TestCheckResponseSnapshot_Error_InvalidParameterValueException(t *testing.T) {
 	want := &types.InvalidParameterValueException{
-		Code:    ptr.String("__Code__"),
+		Code:    ptr.String("InvalidParameterValueException"),
 		Message: ptr.String("__Message__"),
 		Type:    ptr.String("__Type__"),
 		Context: ptr.String("__Context__"),
@@ -4757,7 +6171,11 @@ func TestCheckResponseSnapshot_Error_InvalidParameterValueException(t *testing.T
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	_, opErr := svc.AssociateBackupVaultMpaApprovalTeam(context.Background(), &AssociateBackupVaultMpaApprovalTeamInput{})
+	_, opErr := svc.AssociateBackupVaultMpaApprovalTeam(context.Background(), &AssociateBackupVaultMpaApprovalTeamInput{
+		BackupVaultName:    ptr.String("__BackupVaultName__"),
+		MpaApprovalTeamArn: ptr.String("__MpaApprovalTeamArn__"),
+		RequesterComment:   ptr.String("__RequesterComment__"),
+	})
 	if opErr == nil {
 		t.Fatal("expected error, got nil")
 	}
@@ -4772,7 +6190,7 @@ func TestCheckResponseSnapshot_Error_InvalidParameterValueException(t *testing.T
 
 func TestCheckResponseSnapshot_Error_InvalidRequestException(t *testing.T) {
 	want := &types.InvalidRequestException{
-		Code:    ptr.String("__Code__"),
+		Code:    ptr.String("InvalidRequestException"),
 		Message: ptr.String("__Message__"),
 		Type:    ptr.String("__Type__"),
 		Context: ptr.String("__Context__"),
@@ -4785,7 +6203,11 @@ func TestCheckResponseSnapshot_Error_InvalidRequestException(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	_, opErr := svc.AssociateBackupVaultMpaApprovalTeam(context.Background(), &AssociateBackupVaultMpaApprovalTeamInput{})
+	_, opErr := svc.AssociateBackupVaultMpaApprovalTeam(context.Background(), &AssociateBackupVaultMpaApprovalTeamInput{
+		BackupVaultName:    ptr.String("__BackupVaultName__"),
+		MpaApprovalTeamArn: ptr.String("__MpaApprovalTeamArn__"),
+		RequesterComment:   ptr.String("__RequesterComment__"),
+	})
 	if opErr == nil {
 		t.Fatal("expected error, got nil")
 	}
@@ -4800,7 +6222,7 @@ func TestCheckResponseSnapshot_Error_InvalidRequestException(t *testing.T) {
 
 func TestCheckResponseSnapshot_Error_InvalidResourceStateException(t *testing.T) {
 	want := &types.InvalidResourceStateException{
-		Code:    ptr.String("__Code__"),
+		Code:    ptr.String("InvalidResourceStateException"),
 		Message: ptr.String("__Message__"),
 		Type:    ptr.String("__Type__"),
 		Context: ptr.String("__Context__"),
@@ -4813,7 +6235,11 @@ func TestCheckResponseSnapshot_Error_InvalidResourceStateException(t *testing.T)
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	_, opErr := svc.CancelLegalHold(context.Background(), &CancelLegalHoldInput{})
+	_, opErr := svc.CancelLegalHold(context.Background(), &CancelLegalHoldInput{
+		LegalHoldId:        ptr.String("__LegalHoldId__"),
+		CancelDescription:  ptr.String("__CancelDescription__"),
+		RetainRecordInDays: ptr.Int64(1),
+	})
 	if opErr == nil {
 		t.Fatal("expected error, got nil")
 	}
@@ -4828,7 +6254,7 @@ func TestCheckResponseSnapshot_Error_InvalidResourceStateException(t *testing.T)
 
 func TestCheckResponseSnapshot_Error_LimitExceededException(t *testing.T) {
 	want := &types.LimitExceededException{
-		Code:    ptr.String("__Code__"),
+		Code:    ptr.String("LimitExceededException"),
 		Message: ptr.String("__Message__"),
 		Type:    ptr.String("__Type__"),
 		Context: ptr.String("__Context__"),
@@ -4841,7 +6267,175 @@ func TestCheckResponseSnapshot_Error_LimitExceededException(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	_, opErr := svc.CreateBackupPlan(context.Background(), &CreateBackupPlanInput{})
+	_, opErr := svc.CreateBackupPlan(context.Background(), &CreateBackupPlanInput{
+		BackupPlan: &types.BackupPlanInput{
+			BackupPlanName: ptr.String("__BackupPlanName__"),
+			Rules: []types.BackupRuleInput{
+				{
+					RuleName:                               ptr.String("__RuleName__"),
+					TargetBackupVaultName:                  ptr.String("__TargetBackupVaultName__"),
+					TargetLogicallyAirGappedBackupVaultArn: ptr.String("__TargetLogicallyAirGappedBackupVaultArn__"),
+					ScheduleExpression:                     ptr.String("__ScheduleExpression__"),
+					StartWindowMinutes:                     ptr.Int64(1),
+					CompletionWindowMinutes:                ptr.Int64(1),
+					Lifecycle: &types.Lifecycle{
+						MoveToColdStorageAfterDays:          ptr.Int64(1),
+						DeleteAfterDays:                     ptr.Int64(1),
+						OptInToArchiveForSupportedResources: ptr.Bool(true),
+						DeleteAfterEvent:                    types.LifecycleDeleteAfterEvent("DELETE_AFTER_COPY"),
+					},
+					RecoveryPointTags: map[string]string{
+						"key0": "__Value__",
+					},
+					CopyActions: []types.CopyAction{
+						{
+							Lifecycle: &types.Lifecycle{
+								MoveToColdStorageAfterDays:          ptr.Int64(1),
+								DeleteAfterDays:                     ptr.Int64(1),
+								OptInToArchiveForSupportedResources: ptr.Bool(true),
+								DeleteAfterEvent:                    types.LifecycleDeleteAfterEvent("DELETE_AFTER_COPY"),
+							},
+							DestinationBackupVaultArn: ptr.String("__DestinationBackupVaultArn__"),
+						},
+						{
+							Lifecycle: &types.Lifecycle{
+								MoveToColdStorageAfterDays:          ptr.Int64(1),
+								DeleteAfterDays:                     ptr.Int64(1),
+								OptInToArchiveForSupportedResources: ptr.Bool(true),
+								DeleteAfterEvent:                    types.LifecycleDeleteAfterEvent("DELETE_AFTER_COPY"),
+							},
+							DestinationBackupVaultArn: ptr.String("__DestinationBackupVaultArn__"),
+						},
+					},
+					EnableContinuousBackup:     ptr.Bool(true),
+					ScheduleExpressionTimezone: ptr.String("__ScheduleExpressionTimezone__"),
+					IndexActions: []types.IndexAction{
+						{
+							ResourceTypes: []string{
+								"__Member__",
+								"__Member__",
+							},
+						},
+						{
+							ResourceTypes: []string{
+								"__Member__",
+								"__Member__",
+							},
+						},
+					},
+					ScanActions: []types.ScanAction{
+						{
+							MalwareScanner: types.MalwareScanner("GUARDDUTY"),
+							ScanMode:       types.ScanMode("FULL_SCAN"),
+						},
+						{
+							MalwareScanner: types.MalwareScanner("GUARDDUTY"),
+							ScanMode:       types.ScanMode("FULL_SCAN"),
+						},
+					},
+				},
+				{
+					RuleName:                               ptr.String("__RuleName__"),
+					TargetBackupVaultName:                  ptr.String("__TargetBackupVaultName__"),
+					TargetLogicallyAirGappedBackupVaultArn: ptr.String("__TargetLogicallyAirGappedBackupVaultArn__"),
+					ScheduleExpression:                     ptr.String("__ScheduleExpression__"),
+					StartWindowMinutes:                     ptr.Int64(1),
+					CompletionWindowMinutes:                ptr.Int64(1),
+					Lifecycle: &types.Lifecycle{
+						MoveToColdStorageAfterDays:          ptr.Int64(1),
+						DeleteAfterDays:                     ptr.Int64(1),
+						OptInToArchiveForSupportedResources: ptr.Bool(true),
+						DeleteAfterEvent:                    types.LifecycleDeleteAfterEvent("DELETE_AFTER_COPY"),
+					},
+					RecoveryPointTags: map[string]string{
+						"key0": "__Value__",
+					},
+					CopyActions: []types.CopyAction{
+						{
+							Lifecycle: &types.Lifecycle{
+								MoveToColdStorageAfterDays:          ptr.Int64(1),
+								DeleteAfterDays:                     ptr.Int64(1),
+								OptInToArchiveForSupportedResources: ptr.Bool(true),
+								DeleteAfterEvent:                    types.LifecycleDeleteAfterEvent("DELETE_AFTER_COPY"),
+							},
+							DestinationBackupVaultArn: ptr.String("__DestinationBackupVaultArn__"),
+						},
+						{
+							Lifecycle: &types.Lifecycle{
+								MoveToColdStorageAfterDays:          ptr.Int64(1),
+								DeleteAfterDays:                     ptr.Int64(1),
+								OptInToArchiveForSupportedResources: ptr.Bool(true),
+								DeleteAfterEvent:                    types.LifecycleDeleteAfterEvent("DELETE_AFTER_COPY"),
+							},
+							DestinationBackupVaultArn: ptr.String("__DestinationBackupVaultArn__"),
+						},
+					},
+					EnableContinuousBackup:     ptr.Bool(true),
+					ScheduleExpressionTimezone: ptr.String("__ScheduleExpressionTimezone__"),
+					IndexActions: []types.IndexAction{
+						{
+							ResourceTypes: []string{
+								"__Member__",
+								"__Member__",
+							},
+						},
+						{
+							ResourceTypes: []string{
+								"__Member__",
+								"__Member__",
+							},
+						},
+					},
+					ScanActions: []types.ScanAction{
+						{
+							MalwareScanner: types.MalwareScanner("GUARDDUTY"),
+							ScanMode:       types.ScanMode("FULL_SCAN"),
+						},
+						{
+							MalwareScanner: types.MalwareScanner("GUARDDUTY"),
+							ScanMode:       types.ScanMode("FULL_SCAN"),
+						},
+					},
+				},
+			},
+			AdvancedBackupSettings: []types.AdvancedBackupSetting{
+				{
+					ResourceType: ptr.String("__ResourceType__"),
+					BackupOptions: map[string]string{
+						"key0": "__Value__",
+					},
+				},
+				{
+					ResourceType: ptr.String("__ResourceType__"),
+					BackupOptions: map[string]string{
+						"key0": "__Value__",
+					},
+				},
+			},
+			ScanSettings: []types.ScanSetting{
+				{
+					MalwareScanner: types.MalwareScanner("GUARDDUTY"),
+					ResourceTypes: []string{
+						"__Member__",
+						"__Member__",
+					},
+					ScannerRoleArn: ptr.String("__ScannerRoleArn__"),
+				},
+				{
+					MalwareScanner: types.MalwareScanner("GUARDDUTY"),
+					ResourceTypes: []string{
+						"__Member__",
+						"__Member__",
+					},
+					ScannerRoleArn: ptr.String("__ScannerRoleArn__"),
+				},
+			},
+		},
+		BackupPlanTags: map[string]string{
+			"key0": "__Value__",
+		},
+		CreatorRequestId: ptr.String("__CreatorRequestId__"),
+	})
 	if opErr == nil {
 		t.Fatal("expected error, got nil")
 	}
@@ -4856,7 +6450,7 @@ func TestCheckResponseSnapshot_Error_LimitExceededException(t *testing.T) {
 
 func TestCheckResponseSnapshot_Error_MissingParameterValueException(t *testing.T) {
 	want := &types.MissingParameterValueException{
-		Code:    ptr.String("__Code__"),
+		Code:    ptr.String("MissingParameterValueException"),
 		Message: ptr.String("__Message__"),
 		Type:    ptr.String("__Type__"),
 		Context: ptr.String("__Context__"),
@@ -4869,7 +6463,11 @@ func TestCheckResponseSnapshot_Error_MissingParameterValueException(t *testing.T
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	_, opErr := svc.AssociateBackupVaultMpaApprovalTeam(context.Background(), &AssociateBackupVaultMpaApprovalTeamInput{})
+	_, opErr := svc.AssociateBackupVaultMpaApprovalTeam(context.Background(), &AssociateBackupVaultMpaApprovalTeamInput{
+		BackupVaultName:    ptr.String("__BackupVaultName__"),
+		MpaApprovalTeamArn: ptr.String("__MpaApprovalTeamArn__"),
+		RequesterComment:   ptr.String("__RequesterComment__"),
+	})
 	if opErr == nil {
 		t.Fatal("expected error, got nil")
 	}
@@ -4884,7 +6482,7 @@ func TestCheckResponseSnapshot_Error_MissingParameterValueException(t *testing.T
 
 func TestCheckResponseSnapshot_Error_ResourceNotFoundException(t *testing.T) {
 	want := &types.ResourceNotFoundException{
-		Code:    ptr.String("__Code__"),
+		Code:    ptr.String("ResourceNotFoundException"),
 		Message: ptr.String("__Message__"),
 		Type:    ptr.String("__Type__"),
 		Context: ptr.String("__Context__"),
@@ -4897,7 +6495,11 @@ func TestCheckResponseSnapshot_Error_ResourceNotFoundException(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	_, opErr := svc.AssociateBackupVaultMpaApprovalTeam(context.Background(), &AssociateBackupVaultMpaApprovalTeamInput{})
+	_, opErr := svc.AssociateBackupVaultMpaApprovalTeam(context.Background(), &AssociateBackupVaultMpaApprovalTeamInput{
+		BackupVaultName:    ptr.String("__BackupVaultName__"),
+		MpaApprovalTeamArn: ptr.String("__MpaApprovalTeamArn__"),
+		RequesterComment:   ptr.String("__RequesterComment__"),
+	})
 	if opErr == nil {
 		t.Fatal("expected error, got nil")
 	}
@@ -4912,7 +6514,7 @@ func TestCheckResponseSnapshot_Error_ResourceNotFoundException(t *testing.T) {
 
 func TestCheckResponseSnapshot_Error_ServiceUnavailableException(t *testing.T) {
 	want := &types.ServiceUnavailableException{
-		Code:    ptr.String("__Code__"),
+		Code:    ptr.String("ServiceUnavailableException"),
 		Message: ptr.String("__Message__"),
 		Type:    ptr.String("__Type__"),
 		Context: ptr.String("__Context__"),
@@ -4925,7 +6527,11 @@ func TestCheckResponseSnapshot_Error_ServiceUnavailableException(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	_, opErr := svc.AssociateBackupVaultMpaApprovalTeam(context.Background(), &AssociateBackupVaultMpaApprovalTeamInput{})
+	_, opErr := svc.AssociateBackupVaultMpaApprovalTeam(context.Background(), &AssociateBackupVaultMpaApprovalTeamInput{
+		BackupVaultName:    ptr.String("__BackupVaultName__"),
+		MpaApprovalTeamArn: ptr.String("__MpaApprovalTeamArn__"),
+		RequesterComment:   ptr.String("__RequesterComment__"),
+	})
 	if opErr == nil {
 		t.Fatal("expected error, got nil")
 	}

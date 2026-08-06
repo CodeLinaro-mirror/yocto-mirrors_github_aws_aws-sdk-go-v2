@@ -152,7 +152,71 @@ func TestCheckResponseSnapshot_AssociateWhatsAppBusinessAccount(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.AssociateWhatsAppBusinessAccount(context.Background(), &AssociateWhatsAppBusinessAccountInput{})
+	got, err := svc.AssociateWhatsAppBusinessAccount(context.Background(), &AssociateWhatsAppBusinessAccountInput{
+		SignupCallback: &types.WhatsAppSignupCallback{
+			AccessToken: ptr.String("__AccessToken__"),
+			CallbackUrl: ptr.String("__CallbackUrl__"),
+		},
+		SetupFinalization: &types.WhatsAppSetupFinalization{
+			AssociateInProgressToken: ptr.String("__AssociateInProgressToken__"),
+			PhoneNumbers: []types.WabaPhoneNumberSetupFinalization{
+				{
+					Id:                     ptr.String("__Id__"),
+					TwoFactorPin:           ptr.String("__TwoFactorPin__"),
+					DataLocalizationRegion: ptr.String("__DataLocalizationRegion__"),
+					Tags: []types.Tag{
+						{
+							Key:   ptr.String("__Key__"),
+							Value: ptr.String("__Value__"),
+						},
+						{
+							Key:   ptr.String("__Key__"),
+							Value: ptr.String("__Value__"),
+						},
+					},
+				},
+				{
+					Id:                     ptr.String("__Id__"),
+					TwoFactorPin:           ptr.String("__TwoFactorPin__"),
+					DataLocalizationRegion: ptr.String("__DataLocalizationRegion__"),
+					Tags: []types.Tag{
+						{
+							Key:   ptr.String("__Key__"),
+							Value: ptr.String("__Value__"),
+						},
+						{
+							Key:   ptr.String("__Key__"),
+							Value: ptr.String("__Value__"),
+						},
+					},
+				},
+			},
+			PhoneNumberParent: ptr.String("__PhoneNumberParent__"),
+			Waba: &types.WabaSetupFinalization{
+				Id: ptr.String("__Id__"),
+				EventDestinations: []types.WhatsAppBusinessAccountEventDestination{
+					{
+						EventDestinationArn: ptr.String("__EventDestinationArn__"),
+						RoleArn:             ptr.String("__RoleArn__"),
+					},
+					{
+						EventDestinationArn: ptr.String("__EventDestinationArn__"),
+						RoleArn:             ptr.String("__RoleArn__"),
+					},
+				},
+				Tags: []types.Tag{
+					{
+						Key:   ptr.String("__Key__"),
+						Value: ptr.String("__Value__"),
+					},
+					{
+						Key:   ptr.String("__Key__"),
+						Value: ptr.String("__Value__"),
+					},
+				},
+			},
+		},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -177,7 +241,17 @@ func TestCheckResponseSnapshot_CreateWhatsAppFlow(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.CreateWhatsAppFlow(context.Background(), &CreateWhatsAppFlowInput{})
+	got, err := svc.CreateWhatsAppFlow(context.Background(), &CreateWhatsAppFlowInput{
+		Id:       ptr.String("__Id__"),
+		FlowName: ptr.String("__FlowName__"),
+		Categories: []types.MetaFlowCategory{
+			types.MetaFlowCategory("SIGN_UP"),
+			types.MetaFlowCategory("SIGN_UP"),
+		},
+		FlowJson:    []byte("blob"),
+		Publish:     ptr.Bool(true),
+		CloneFlowId: ptr.String("__CloneFlowId__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -200,7 +274,10 @@ func TestCheckResponseSnapshot_CreateWhatsAppMessageTemplate(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.CreateWhatsAppMessageTemplate(context.Background(), &CreateWhatsAppMessageTemplateInput{})
+	got, err := svc.CreateWhatsAppMessageTemplate(context.Background(), &CreateWhatsAppMessageTemplateInput{
+		TemplateDefinition: []byte("blob"),
+		Id:                 ptr.String("__Id__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -223,7 +300,58 @@ func TestCheckResponseSnapshot_CreateWhatsAppMessageTemplateFromLibrary(t *testi
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.CreateWhatsAppMessageTemplateFromLibrary(context.Background(), &CreateWhatsAppMessageTemplateFromLibraryInput{})
+	got, err := svc.CreateWhatsAppMessageTemplateFromLibrary(context.Background(), &CreateWhatsAppMessageTemplateFromLibraryInput{
+		MetaLibraryTemplate: &types.MetaLibraryTemplate{
+			TemplateName:        ptr.String("__TemplateName__"),
+			LibraryTemplateName: ptr.String("__LibraryTemplateName__"),
+			TemplateCategory:    ptr.String("__TemplateCategory__"),
+			TemplateLanguage:    ptr.String("__TemplateLanguage__"),
+			LibraryTemplateButtonInputs: []types.LibraryTemplateButtonInput{
+				{
+					Type:        ptr.String("__Type__"),
+					PhoneNumber: ptr.String("__PhoneNumber__"),
+					Url: map[string]string{
+						"key0": "__Value__",
+					},
+					OtpType:              ptr.String("__OtpType__"),
+					ZeroTapTermsAccepted: ptr.Bool(true),
+					SupportedApps: []map[string]string{
+						{
+							"key0": "__Value__",
+						},
+						{
+							"key0": "__Value__",
+						},
+					},
+				},
+				{
+					Type:        ptr.String("__Type__"),
+					PhoneNumber: ptr.String("__PhoneNumber__"),
+					Url: map[string]string{
+						"key0": "__Value__",
+					},
+					OtpType:              ptr.String("__OtpType__"),
+					ZeroTapTermsAccepted: ptr.Bool(true),
+					SupportedApps: []map[string]string{
+						{
+							"key0": "__Value__",
+						},
+						{
+							"key0": "__Value__",
+						},
+					},
+				},
+			},
+			LibraryTemplateBodyInputs: &types.LibraryTemplateBodyInputs{
+				AddContactNumber:          ptr.Bool(true),
+				AddLearnMoreLink:          ptr.Bool(true),
+				AddSecurityRecommendation: ptr.Bool(true),
+				AddTrackPackageLink:       ptr.Bool(true),
+				CodeExpirationMinutes:     ptr.Int32(1),
+			},
+		},
+		Id: ptr.String("__Id__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -244,7 +372,13 @@ func TestCheckResponseSnapshot_CreateWhatsAppMessageTemplateMedia(t *testing.T) 
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.CreateWhatsAppMessageTemplateMedia(context.Background(), &CreateWhatsAppMessageTemplateMediaInput{})
+	got, err := svc.CreateWhatsAppMessageTemplateMedia(context.Background(), &CreateWhatsAppMessageTemplateMediaInput{
+		Id: ptr.String("__Id__"),
+		SourceS3File: &types.S3File{
+			BucketName: ptr.String("__BucketName__"),
+			Key:        ptr.String("__Key__"),
+		},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -263,7 +397,10 @@ func TestCheckResponseSnapshot_DeleteWhatsAppFlow(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DeleteWhatsAppFlow(context.Background(), &DeleteWhatsAppFlowInput{})
+	got, err := svc.DeleteWhatsAppFlow(context.Background(), &DeleteWhatsAppFlowInput{
+		Id:     ptr.String("__Id__"),
+		FlowId: ptr.String("__FlowId__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -284,7 +421,10 @@ func TestCheckResponseSnapshot_DeleteWhatsAppMessageMedia(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DeleteWhatsAppMessageMedia(context.Background(), &DeleteWhatsAppMessageMediaInput{})
+	got, err := svc.DeleteWhatsAppMessageMedia(context.Background(), &DeleteWhatsAppMessageMediaInput{
+		MediaId:                  ptr.String("__MediaId__"),
+		OriginationPhoneNumberId: ptr.String("__OriginationPhoneNumberId__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -303,7 +443,12 @@ func TestCheckResponseSnapshot_DeleteWhatsAppMessageTemplate(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DeleteWhatsAppMessageTemplate(context.Background(), &DeleteWhatsAppMessageTemplateInput{})
+	got, err := svc.DeleteWhatsAppMessageTemplate(context.Background(), &DeleteWhatsAppMessageTemplateInput{
+		MetaTemplateId:     ptr.String("__MetaTemplateId__"),
+		DeleteAllLanguages: ptr.Bool(true),
+		Id:                 ptr.String("__Id__"),
+		TemplateName:       ptr.String("__TemplateName__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -322,7 +467,10 @@ func TestCheckResponseSnapshot_DeprecateWhatsAppFlow(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DeprecateWhatsAppFlow(context.Background(), &DeprecateWhatsAppFlowInput{})
+	got, err := svc.DeprecateWhatsAppFlow(context.Background(), &DeprecateWhatsAppFlowInput{
+		Id:     ptr.String("__Id__"),
+		FlowId: ptr.String("__FlowId__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -341,7 +489,9 @@ func TestCheckResponseSnapshot_DisassociateWhatsAppBusinessAccount(t *testing.T)
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DisassociateWhatsAppBusinessAccount(context.Background(), &DisassociateWhatsAppBusinessAccountInput{})
+	got, err := svc.DisassociateWhatsAppBusinessAccount(context.Background(), &DisassociateWhatsAppBusinessAccountInput{
+		Id: ptr.String("__Id__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -402,7 +552,9 @@ func TestCheckResponseSnapshot_GetLinkedWhatsAppBusinessAccount(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.GetLinkedWhatsAppBusinessAccount(context.Background(), &GetLinkedWhatsAppBusinessAccountInput{})
+	got, err := svc.GetLinkedWhatsAppBusinessAccount(context.Background(), &GetLinkedWhatsAppBusinessAccountInput{
+		Id: ptr.String("__Id__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -433,7 +585,9 @@ func TestCheckResponseSnapshot_GetLinkedWhatsAppBusinessAccountPhoneNumber(t *te
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.GetLinkedWhatsAppBusinessAccountPhoneNumber(context.Background(), &GetLinkedWhatsAppBusinessAccountPhoneNumberInput{})
+	got, err := svc.GetLinkedWhatsAppBusinessAccountPhoneNumber(context.Background(), &GetLinkedWhatsAppBusinessAccountPhoneNumberInput{
+		Id: ptr.String("__Id__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -498,7 +652,10 @@ func TestCheckResponseSnapshot_GetWhatsAppFlow(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.GetWhatsAppFlow(context.Background(), &GetWhatsAppFlowInput{})
+	got, err := svc.GetWhatsAppFlow(context.Background(), &GetWhatsAppFlowInput{
+		Id:     ptr.String("__Id__"),
+		FlowId: ptr.String("__FlowId__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -523,7 +680,11 @@ func TestCheckResponseSnapshot_GetWhatsAppFlowPreview(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.GetWhatsAppFlowPreview(context.Background(), &GetWhatsAppFlowPreviewInput{})
+	got, err := svc.GetWhatsAppFlowPreview(context.Background(), &GetWhatsAppFlowPreviewInput{
+		Id:         ptr.String("__Id__"),
+		FlowId:     ptr.String("__FlowId__"),
+		Invalidate: ptr.Bool(true),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -545,7 +706,21 @@ func TestCheckResponseSnapshot_GetWhatsAppMessageMedia(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.GetWhatsAppMessageMedia(context.Background(), &GetWhatsAppMessageMediaInput{})
+	got, err := svc.GetWhatsAppMessageMedia(context.Background(), &GetWhatsAppMessageMediaInput{
+		MediaId:                  ptr.String("__MediaId__"),
+		OriginationPhoneNumberId: ptr.String("__OriginationPhoneNumberId__"),
+		MetadataOnly:             ptr.Bool(true),
+		DestinationS3PresignedUrl: &types.S3PresignedUrl{
+			Url: ptr.String("__Url__"),
+			Headers: map[string]string{
+				"key0": "__Value__",
+			},
+		},
+		DestinationS3File: &types.S3File{
+			BucketName: ptr.String("__BucketName__"),
+			Key:        ptr.String("__Key__"),
+		},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -566,7 +741,12 @@ func TestCheckResponseSnapshot_GetWhatsAppMessageTemplate(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.GetWhatsAppMessageTemplate(context.Background(), &GetWhatsAppMessageTemplateInput{})
+	got, err := svc.GetWhatsAppMessageTemplate(context.Background(), &GetWhatsAppMessageTemplateInput{
+		MetaTemplateId:       ptr.String("__MetaTemplateId__"),
+		Id:                   ptr.String("__Id__"),
+		TemplateName:         ptr.String("__TemplateName__"),
+		TemplateLanguageCode: ptr.String("__TemplateLanguageCode__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -627,7 +807,10 @@ func TestCheckResponseSnapshot_ListLinkedWhatsAppBusinessAccounts(t *testing.T) 
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListLinkedWhatsAppBusinessAccounts(context.Background(), &ListLinkedWhatsAppBusinessAccountsInput{})
+	got, err := svc.ListLinkedWhatsAppBusinessAccounts(context.Background(), &ListLinkedWhatsAppBusinessAccountsInput{
+		NextToken:  ptr.String("__NextToken__"),
+		MaxResults: ptr.Int32(1),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -658,7 +841,9 @@ func TestCheckResponseSnapshot_ListTagsForResource(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListTagsForResource(context.Background(), &ListTagsForResourceInput{})
+	got, err := svc.ListTagsForResource(context.Background(), &ListTagsForResourceInput{
+		ResourceArn: ptr.String("__ResourceArn__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -691,7 +876,12 @@ func TestCheckResponseSnapshot_ListWhatsAppFlowAssets(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListWhatsAppFlowAssets(context.Background(), &ListWhatsAppFlowAssetsInput{})
+	got, err := svc.ListWhatsAppFlowAssets(context.Background(), &ListWhatsAppFlowAssetsInput{
+		Id:         ptr.String("__Id__"),
+		FlowId:     ptr.String("__FlowId__"),
+		NextToken:  ptr.String("__NextToken__"),
+		MaxResults: ptr.Int32(1),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -740,7 +930,11 @@ func TestCheckResponseSnapshot_ListWhatsAppFlows(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListWhatsAppFlows(context.Background(), &ListWhatsAppFlowsInput{})
+	got, err := svc.ListWhatsAppFlows(context.Background(), &ListWhatsAppFlowsInput{
+		Id:         ptr.String("__Id__"),
+		NextToken:  ptr.String("__NextToken__"),
+		MaxResults: ptr.Int32(1),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -779,7 +973,11 @@ func TestCheckResponseSnapshot_ListWhatsAppMessageTemplates(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListWhatsAppMessageTemplates(context.Background(), &ListWhatsAppMessageTemplatesInput{})
+	got, err := svc.ListWhatsAppMessageTemplates(context.Background(), &ListWhatsAppMessageTemplatesInput{
+		Id:         ptr.String("__Id__"),
+		NextToken:  ptr.String("__NextToken__"),
+		MaxResults: ptr.Int32(1),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -906,7 +1104,14 @@ func TestCheckResponseSnapshot_ListWhatsAppTemplateLibrary(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListWhatsAppTemplateLibrary(context.Background(), &ListWhatsAppTemplateLibraryInput{})
+	got, err := svc.ListWhatsAppTemplateLibrary(context.Background(), &ListWhatsAppTemplateLibraryInput{
+		NextToken:  ptr.String("__NextToken__"),
+		MaxResults: ptr.Int32(1),
+		Id:         ptr.String("__Id__"),
+		Filters: map[string]string{
+			"key0": "__Value__",
+		},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -927,7 +1132,19 @@ func TestCheckResponseSnapshot_PostWhatsAppMessageMedia(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.PostWhatsAppMessageMedia(context.Background(), &PostWhatsAppMessageMediaInput{})
+	got, err := svc.PostWhatsAppMessageMedia(context.Background(), &PostWhatsAppMessageMediaInput{
+		OriginationPhoneNumberId: ptr.String("__OriginationPhoneNumberId__"),
+		SourceS3PresignedUrl: &types.S3PresignedUrl{
+			Url: ptr.String("__Url__"),
+			Headers: map[string]string{
+				"key0": "__Value__",
+			},
+		},
+		SourceS3File: &types.S3File{
+			BucketName: ptr.String("__BucketName__"),
+			Key:        ptr.String("__Key__"),
+		},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -946,7 +1163,10 @@ func TestCheckResponseSnapshot_PublishWhatsAppFlow(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.PublishWhatsAppFlow(context.Background(), &PublishWhatsAppFlowInput{})
+	got, err := svc.PublishWhatsAppFlow(context.Background(), &PublishWhatsAppFlowInput{
+		Id:     ptr.String("__Id__"),
+		FlowId: ptr.String("__FlowId__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -965,7 +1185,19 @@ func TestCheckResponseSnapshot_PutWhatsAppBusinessAccountEventDestinations(t *te
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.PutWhatsAppBusinessAccountEventDestinations(context.Background(), &PutWhatsAppBusinessAccountEventDestinationsInput{})
+	got, err := svc.PutWhatsAppBusinessAccountEventDestinations(context.Background(), &PutWhatsAppBusinessAccountEventDestinationsInput{
+		Id: ptr.String("__Id__"),
+		EventDestinations: []types.WhatsAppBusinessAccountEventDestination{
+			{
+				EventDestinationArn: ptr.String("__EventDestinationArn__"),
+				RoleArn:             ptr.String("__RoleArn__"),
+			},
+			{
+				EventDestinationArn: ptr.String("__EventDestinationArn__"),
+				RoleArn:             ptr.String("__RoleArn__"),
+			},
+		},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -986,7 +1218,11 @@ func TestCheckResponseSnapshot_SendWhatsAppMessage(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.SendWhatsAppMessage(context.Background(), &SendWhatsAppMessageInput{})
+	got, err := svc.SendWhatsAppMessage(context.Background(), &SendWhatsAppMessageInput{
+		OriginationPhoneNumberId: ptr.String("__OriginationPhoneNumberId__"),
+		Message:                  []byte("blob"),
+		MetaApiVersion:           ptr.String("__MetaApiVersion__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1007,7 +1243,19 @@ func TestCheckResponseSnapshot_TagResource(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.TagResource(context.Background(), &TagResourceInput{})
+	got, err := svc.TagResource(context.Background(), &TagResourceInput{
+		ResourceArn: ptr.String("__ResourceArn__"),
+		Tags: []types.Tag{
+			{
+				Key:   ptr.String("__Key__"),
+				Value: ptr.String("__Value__"),
+			},
+			{
+				Key:   ptr.String("__Key__"),
+				Value: ptr.String("__Value__"),
+			},
+		},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1028,7 +1276,13 @@ func TestCheckResponseSnapshot_UntagResource(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.UntagResource(context.Background(), &UntagResourceInput{})
+	got, err := svc.UntagResource(context.Background(), &UntagResourceInput{
+		ResourceArn: ptr.String("__ResourceArn__"),
+		TagKeys: []string{
+			"__Member__",
+			"__Member__",
+		},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1047,7 +1301,15 @@ func TestCheckResponseSnapshot_UpdateWhatsAppFlow(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.UpdateWhatsAppFlow(context.Background(), &UpdateWhatsAppFlowInput{})
+	got, err := svc.UpdateWhatsAppFlow(context.Background(), &UpdateWhatsAppFlowInput{
+		Id:       ptr.String("__Id__"),
+		FlowId:   ptr.String("__FlowId__"),
+		FlowName: ptr.String("__FlowName__"),
+		Categories: []types.MetaFlowCategory{
+			types.MetaFlowCategory("SIGN_UP"),
+			types.MetaFlowCategory("SIGN_UP"),
+		},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1071,7 +1333,11 @@ func TestCheckResponseSnapshot_UpdateWhatsAppFlowAssets(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.UpdateWhatsAppFlowAssets(context.Background(), &UpdateWhatsAppFlowAssetsInput{})
+	got, err := svc.UpdateWhatsAppFlowAssets(context.Background(), &UpdateWhatsAppFlowAssetsInput{
+		Id:       ptr.String("__Id__"),
+		FlowId:   ptr.String("__FlowId__"),
+		FlowJson: []byte("blob"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1090,7 +1356,16 @@ func TestCheckResponseSnapshot_UpdateWhatsAppMessageTemplate(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.UpdateWhatsAppMessageTemplate(context.Background(), &UpdateWhatsAppMessageTemplateInput{})
+	got, err := svc.UpdateWhatsAppMessageTemplate(context.Background(), &UpdateWhatsAppMessageTemplateInput{
+		Id:                         ptr.String("__Id__"),
+		MetaTemplateId:             ptr.String("__MetaTemplateId__"),
+		TemplateName:               ptr.String("__TemplateName__"),
+		TemplateLanguageCode:       ptr.String("__TemplateLanguageCode__"),
+		ParameterFormat:            ptr.String("__ParameterFormat__"),
+		TemplateCategory:           ptr.String("__TemplateCategory__"),
+		TemplateComponents:         []byte("blob"),
+		CtaUrlLinkTrackingOptedOut: ptr.Bool(true),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1111,7 +1386,17 @@ func TestCheckResponseSnapshot_Error_AccessDeniedByMetaException(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	_, opErr := svc.CreateWhatsAppFlow(context.Background(), &CreateWhatsAppFlowInput{})
+	_, opErr := svc.CreateWhatsAppFlow(context.Background(), &CreateWhatsAppFlowInput{
+		Id:       ptr.String("__Id__"),
+		FlowName: ptr.String("__FlowName__"),
+		Categories: []types.MetaFlowCategory{
+			types.MetaFlowCategory("SIGN_UP"),
+			types.MetaFlowCategory("SIGN_UP"),
+		},
+		FlowJson:    []byte("blob"),
+		Publish:     ptr.Bool(true),
+		CloneFlowId: ptr.String("__CloneFlowId__"),
+	})
 	if opErr == nil {
 		t.Fatal("expected error, got nil")
 	}
@@ -1136,7 +1421,71 @@ func TestCheckResponseSnapshot_Error_AccessDeniedException(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	_, opErr := svc.AssociateWhatsAppBusinessAccount(context.Background(), &AssociateWhatsAppBusinessAccountInput{})
+	_, opErr := svc.AssociateWhatsAppBusinessAccount(context.Background(), &AssociateWhatsAppBusinessAccountInput{
+		SignupCallback: &types.WhatsAppSignupCallback{
+			AccessToken: ptr.String("__AccessToken__"),
+			CallbackUrl: ptr.String("__CallbackUrl__"),
+		},
+		SetupFinalization: &types.WhatsAppSetupFinalization{
+			AssociateInProgressToken: ptr.String("__AssociateInProgressToken__"),
+			PhoneNumbers: []types.WabaPhoneNumberSetupFinalization{
+				{
+					Id:                     ptr.String("__Id__"),
+					TwoFactorPin:           ptr.String("__TwoFactorPin__"),
+					DataLocalizationRegion: ptr.String("__DataLocalizationRegion__"),
+					Tags: []types.Tag{
+						{
+							Key:   ptr.String("__Key__"),
+							Value: ptr.String("__Value__"),
+						},
+						{
+							Key:   ptr.String("__Key__"),
+							Value: ptr.String("__Value__"),
+						},
+					},
+				},
+				{
+					Id:                     ptr.String("__Id__"),
+					TwoFactorPin:           ptr.String("__TwoFactorPin__"),
+					DataLocalizationRegion: ptr.String("__DataLocalizationRegion__"),
+					Tags: []types.Tag{
+						{
+							Key:   ptr.String("__Key__"),
+							Value: ptr.String("__Value__"),
+						},
+						{
+							Key:   ptr.String("__Key__"),
+							Value: ptr.String("__Value__"),
+						},
+					},
+				},
+			},
+			PhoneNumberParent: ptr.String("__PhoneNumberParent__"),
+			Waba: &types.WabaSetupFinalization{
+				Id: ptr.String("__Id__"),
+				EventDestinations: []types.WhatsAppBusinessAccountEventDestination{
+					{
+						EventDestinationArn: ptr.String("__EventDestinationArn__"),
+						RoleArn:             ptr.String("__RoleArn__"),
+					},
+					{
+						EventDestinationArn: ptr.String("__EventDestinationArn__"),
+						RoleArn:             ptr.String("__RoleArn__"),
+					},
+				},
+				Tags: []types.Tag{
+					{
+						Key:   ptr.String("__Key__"),
+						Value: ptr.String("__Value__"),
+					},
+					{
+						Key:   ptr.String("__Key__"),
+						Value: ptr.String("__Value__"),
+					},
+				},
+			},
+		},
+	})
 	if opErr == nil {
 		t.Fatal("expected error, got nil")
 	}
@@ -1161,7 +1510,71 @@ func TestCheckResponseSnapshot_Error_DependencyException(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	_, opErr := svc.AssociateWhatsAppBusinessAccount(context.Background(), &AssociateWhatsAppBusinessAccountInput{})
+	_, opErr := svc.AssociateWhatsAppBusinessAccount(context.Background(), &AssociateWhatsAppBusinessAccountInput{
+		SignupCallback: &types.WhatsAppSignupCallback{
+			AccessToken: ptr.String("__AccessToken__"),
+			CallbackUrl: ptr.String("__CallbackUrl__"),
+		},
+		SetupFinalization: &types.WhatsAppSetupFinalization{
+			AssociateInProgressToken: ptr.String("__AssociateInProgressToken__"),
+			PhoneNumbers: []types.WabaPhoneNumberSetupFinalization{
+				{
+					Id:                     ptr.String("__Id__"),
+					TwoFactorPin:           ptr.String("__TwoFactorPin__"),
+					DataLocalizationRegion: ptr.String("__DataLocalizationRegion__"),
+					Tags: []types.Tag{
+						{
+							Key:   ptr.String("__Key__"),
+							Value: ptr.String("__Value__"),
+						},
+						{
+							Key:   ptr.String("__Key__"),
+							Value: ptr.String("__Value__"),
+						},
+					},
+				},
+				{
+					Id:                     ptr.String("__Id__"),
+					TwoFactorPin:           ptr.String("__TwoFactorPin__"),
+					DataLocalizationRegion: ptr.String("__DataLocalizationRegion__"),
+					Tags: []types.Tag{
+						{
+							Key:   ptr.String("__Key__"),
+							Value: ptr.String("__Value__"),
+						},
+						{
+							Key:   ptr.String("__Key__"),
+							Value: ptr.String("__Value__"),
+						},
+					},
+				},
+			},
+			PhoneNumberParent: ptr.String("__PhoneNumberParent__"),
+			Waba: &types.WabaSetupFinalization{
+				Id: ptr.String("__Id__"),
+				EventDestinations: []types.WhatsAppBusinessAccountEventDestination{
+					{
+						EventDestinationArn: ptr.String("__EventDestinationArn__"),
+						RoleArn:             ptr.String("__RoleArn__"),
+					},
+					{
+						EventDestinationArn: ptr.String("__EventDestinationArn__"),
+						RoleArn:             ptr.String("__RoleArn__"),
+					},
+				},
+				Tags: []types.Tag{
+					{
+						Key:   ptr.String("__Key__"),
+						Value: ptr.String("__Value__"),
+					},
+					{
+						Key:   ptr.String("__Key__"),
+						Value: ptr.String("__Value__"),
+					},
+				},
+			},
+		},
+	})
 	if opErr == nil {
 		t.Fatal("expected error, got nil")
 	}
@@ -1186,7 +1599,17 @@ func TestCheckResponseSnapshot_Error_InternalServiceException(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	_, opErr := svc.CreateWhatsAppFlow(context.Background(), &CreateWhatsAppFlowInput{})
+	_, opErr := svc.CreateWhatsAppFlow(context.Background(), &CreateWhatsAppFlowInput{
+		Id:       ptr.String("__Id__"),
+		FlowName: ptr.String("__FlowName__"),
+		Categories: []types.MetaFlowCategory{
+			types.MetaFlowCategory("SIGN_UP"),
+			types.MetaFlowCategory("SIGN_UP"),
+		},
+		FlowJson:    []byte("blob"),
+		Publish:     ptr.Bool(true),
+		CloneFlowId: ptr.String("__CloneFlowId__"),
+	})
 	if opErr == nil {
 		t.Fatal("expected error, got nil")
 	}
@@ -1211,7 +1634,71 @@ func TestCheckResponseSnapshot_Error_InvalidParametersException(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	_, opErr := svc.AssociateWhatsAppBusinessAccount(context.Background(), &AssociateWhatsAppBusinessAccountInput{})
+	_, opErr := svc.AssociateWhatsAppBusinessAccount(context.Background(), &AssociateWhatsAppBusinessAccountInput{
+		SignupCallback: &types.WhatsAppSignupCallback{
+			AccessToken: ptr.String("__AccessToken__"),
+			CallbackUrl: ptr.String("__CallbackUrl__"),
+		},
+		SetupFinalization: &types.WhatsAppSetupFinalization{
+			AssociateInProgressToken: ptr.String("__AssociateInProgressToken__"),
+			PhoneNumbers: []types.WabaPhoneNumberSetupFinalization{
+				{
+					Id:                     ptr.String("__Id__"),
+					TwoFactorPin:           ptr.String("__TwoFactorPin__"),
+					DataLocalizationRegion: ptr.String("__DataLocalizationRegion__"),
+					Tags: []types.Tag{
+						{
+							Key:   ptr.String("__Key__"),
+							Value: ptr.String("__Value__"),
+						},
+						{
+							Key:   ptr.String("__Key__"),
+							Value: ptr.String("__Value__"),
+						},
+					},
+				},
+				{
+					Id:                     ptr.String("__Id__"),
+					TwoFactorPin:           ptr.String("__TwoFactorPin__"),
+					DataLocalizationRegion: ptr.String("__DataLocalizationRegion__"),
+					Tags: []types.Tag{
+						{
+							Key:   ptr.String("__Key__"),
+							Value: ptr.String("__Value__"),
+						},
+						{
+							Key:   ptr.String("__Key__"),
+							Value: ptr.String("__Value__"),
+						},
+					},
+				},
+			},
+			PhoneNumberParent: ptr.String("__PhoneNumberParent__"),
+			Waba: &types.WabaSetupFinalization{
+				Id: ptr.String("__Id__"),
+				EventDestinations: []types.WhatsAppBusinessAccountEventDestination{
+					{
+						EventDestinationArn: ptr.String("__EventDestinationArn__"),
+						RoleArn:             ptr.String("__RoleArn__"),
+					},
+					{
+						EventDestinationArn: ptr.String("__EventDestinationArn__"),
+						RoleArn:             ptr.String("__RoleArn__"),
+					},
+				},
+				Tags: []types.Tag{
+					{
+						Key:   ptr.String("__Key__"),
+						Value: ptr.String("__Value__"),
+					},
+					{
+						Key:   ptr.String("__Key__"),
+						Value: ptr.String("__Value__"),
+					},
+				},
+			},
+		},
+	})
 	if opErr == nil {
 		t.Fatal("expected error, got nil")
 	}
@@ -1236,7 +1723,71 @@ func TestCheckResponseSnapshot_Error_LimitExceededException(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	_, opErr := svc.AssociateWhatsAppBusinessAccount(context.Background(), &AssociateWhatsAppBusinessAccountInput{})
+	_, opErr := svc.AssociateWhatsAppBusinessAccount(context.Background(), &AssociateWhatsAppBusinessAccountInput{
+		SignupCallback: &types.WhatsAppSignupCallback{
+			AccessToken: ptr.String("__AccessToken__"),
+			CallbackUrl: ptr.String("__CallbackUrl__"),
+		},
+		SetupFinalization: &types.WhatsAppSetupFinalization{
+			AssociateInProgressToken: ptr.String("__AssociateInProgressToken__"),
+			PhoneNumbers: []types.WabaPhoneNumberSetupFinalization{
+				{
+					Id:                     ptr.String("__Id__"),
+					TwoFactorPin:           ptr.String("__TwoFactorPin__"),
+					DataLocalizationRegion: ptr.String("__DataLocalizationRegion__"),
+					Tags: []types.Tag{
+						{
+							Key:   ptr.String("__Key__"),
+							Value: ptr.String("__Value__"),
+						},
+						{
+							Key:   ptr.String("__Key__"),
+							Value: ptr.String("__Value__"),
+						},
+					},
+				},
+				{
+					Id:                     ptr.String("__Id__"),
+					TwoFactorPin:           ptr.String("__TwoFactorPin__"),
+					DataLocalizationRegion: ptr.String("__DataLocalizationRegion__"),
+					Tags: []types.Tag{
+						{
+							Key:   ptr.String("__Key__"),
+							Value: ptr.String("__Value__"),
+						},
+						{
+							Key:   ptr.String("__Key__"),
+							Value: ptr.String("__Value__"),
+						},
+					},
+				},
+			},
+			PhoneNumberParent: ptr.String("__PhoneNumberParent__"),
+			Waba: &types.WabaSetupFinalization{
+				Id: ptr.String("__Id__"),
+				EventDestinations: []types.WhatsAppBusinessAccountEventDestination{
+					{
+						EventDestinationArn: ptr.String("__EventDestinationArn__"),
+						RoleArn:             ptr.String("__RoleArn__"),
+					},
+					{
+						EventDestinationArn: ptr.String("__EventDestinationArn__"),
+						RoleArn:             ptr.String("__RoleArn__"),
+					},
+				},
+				Tags: []types.Tag{
+					{
+						Key:   ptr.String("__Key__"),
+						Value: ptr.String("__Value__"),
+					},
+					{
+						Key:   ptr.String("__Key__"),
+						Value: ptr.String("__Value__"),
+					},
+				},
+			},
+		},
+	})
 	if opErr == nil {
 		t.Fatal("expected error, got nil")
 	}
@@ -1261,7 +1812,17 @@ func TestCheckResponseSnapshot_Error_ResourceNotFoundException(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	_, opErr := svc.CreateWhatsAppFlow(context.Background(), &CreateWhatsAppFlowInput{})
+	_, opErr := svc.CreateWhatsAppFlow(context.Background(), &CreateWhatsAppFlowInput{
+		Id:       ptr.String("__Id__"),
+		FlowName: ptr.String("__FlowName__"),
+		Categories: []types.MetaFlowCategory{
+			types.MetaFlowCategory("SIGN_UP"),
+			types.MetaFlowCategory("SIGN_UP"),
+		},
+		FlowJson:    []byte("blob"),
+		Publish:     ptr.Bool(true),
+		CloneFlowId: ptr.String("__CloneFlowId__"),
+	})
 	if opErr == nil {
 		t.Fatal("expected error, got nil")
 	}
@@ -1286,7 +1847,71 @@ func TestCheckResponseSnapshot_Error_ThrottledRequestException(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	_, opErr := svc.AssociateWhatsAppBusinessAccount(context.Background(), &AssociateWhatsAppBusinessAccountInput{})
+	_, opErr := svc.AssociateWhatsAppBusinessAccount(context.Background(), &AssociateWhatsAppBusinessAccountInput{
+		SignupCallback: &types.WhatsAppSignupCallback{
+			AccessToken: ptr.String("__AccessToken__"),
+			CallbackUrl: ptr.String("__CallbackUrl__"),
+		},
+		SetupFinalization: &types.WhatsAppSetupFinalization{
+			AssociateInProgressToken: ptr.String("__AssociateInProgressToken__"),
+			PhoneNumbers: []types.WabaPhoneNumberSetupFinalization{
+				{
+					Id:                     ptr.String("__Id__"),
+					TwoFactorPin:           ptr.String("__TwoFactorPin__"),
+					DataLocalizationRegion: ptr.String("__DataLocalizationRegion__"),
+					Tags: []types.Tag{
+						{
+							Key:   ptr.String("__Key__"),
+							Value: ptr.String("__Value__"),
+						},
+						{
+							Key:   ptr.String("__Key__"),
+							Value: ptr.String("__Value__"),
+						},
+					},
+				},
+				{
+					Id:                     ptr.String("__Id__"),
+					TwoFactorPin:           ptr.String("__TwoFactorPin__"),
+					DataLocalizationRegion: ptr.String("__DataLocalizationRegion__"),
+					Tags: []types.Tag{
+						{
+							Key:   ptr.String("__Key__"),
+							Value: ptr.String("__Value__"),
+						},
+						{
+							Key:   ptr.String("__Key__"),
+							Value: ptr.String("__Value__"),
+						},
+					},
+				},
+			},
+			PhoneNumberParent: ptr.String("__PhoneNumberParent__"),
+			Waba: &types.WabaSetupFinalization{
+				Id: ptr.String("__Id__"),
+				EventDestinations: []types.WhatsAppBusinessAccountEventDestination{
+					{
+						EventDestinationArn: ptr.String("__EventDestinationArn__"),
+						RoleArn:             ptr.String("__RoleArn__"),
+					},
+					{
+						EventDestinationArn: ptr.String("__EventDestinationArn__"),
+						RoleArn:             ptr.String("__RoleArn__"),
+					},
+				},
+				Tags: []types.Tag{
+					{
+						Key:   ptr.String("__Key__"),
+						Value: ptr.String("__Value__"),
+					},
+					{
+						Key:   ptr.String("__Key__"),
+						Value: ptr.String("__Value__"),
+					},
+				},
+			},
+		},
+	})
 	if opErr == nil {
 		t.Fatal("expected error, got nil")
 	}
@@ -1311,7 +1936,71 @@ func TestCheckResponseSnapshot_Error_ValidationException(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	_, opErr := svc.AssociateWhatsAppBusinessAccount(context.Background(), &AssociateWhatsAppBusinessAccountInput{})
+	_, opErr := svc.AssociateWhatsAppBusinessAccount(context.Background(), &AssociateWhatsAppBusinessAccountInput{
+		SignupCallback: &types.WhatsAppSignupCallback{
+			AccessToken: ptr.String("__AccessToken__"),
+			CallbackUrl: ptr.String("__CallbackUrl__"),
+		},
+		SetupFinalization: &types.WhatsAppSetupFinalization{
+			AssociateInProgressToken: ptr.String("__AssociateInProgressToken__"),
+			PhoneNumbers: []types.WabaPhoneNumberSetupFinalization{
+				{
+					Id:                     ptr.String("__Id__"),
+					TwoFactorPin:           ptr.String("__TwoFactorPin__"),
+					DataLocalizationRegion: ptr.String("__DataLocalizationRegion__"),
+					Tags: []types.Tag{
+						{
+							Key:   ptr.String("__Key__"),
+							Value: ptr.String("__Value__"),
+						},
+						{
+							Key:   ptr.String("__Key__"),
+							Value: ptr.String("__Value__"),
+						},
+					},
+				},
+				{
+					Id:                     ptr.String("__Id__"),
+					TwoFactorPin:           ptr.String("__TwoFactorPin__"),
+					DataLocalizationRegion: ptr.String("__DataLocalizationRegion__"),
+					Tags: []types.Tag{
+						{
+							Key:   ptr.String("__Key__"),
+							Value: ptr.String("__Value__"),
+						},
+						{
+							Key:   ptr.String("__Key__"),
+							Value: ptr.String("__Value__"),
+						},
+					},
+				},
+			},
+			PhoneNumberParent: ptr.String("__PhoneNumberParent__"),
+			Waba: &types.WabaSetupFinalization{
+				Id: ptr.String("__Id__"),
+				EventDestinations: []types.WhatsAppBusinessAccountEventDestination{
+					{
+						EventDestinationArn: ptr.String("__EventDestinationArn__"),
+						RoleArn:             ptr.String("__RoleArn__"),
+					},
+					{
+						EventDestinationArn: ptr.String("__EventDestinationArn__"),
+						RoleArn:             ptr.String("__RoleArn__"),
+					},
+				},
+				Tags: []types.Tag{
+					{
+						Key:   ptr.String("__Key__"),
+						Value: ptr.String("__Value__"),
+					},
+					{
+						Key:   ptr.String("__Key__"),
+						Value: ptr.String("__Value__"),
+					},
+				},
+			},
+		},
+	})
 	if opErr == nil {
 		t.Fatal("expected error, got nil")
 	}

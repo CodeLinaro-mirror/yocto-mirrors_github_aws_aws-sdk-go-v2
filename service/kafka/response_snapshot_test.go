@@ -131,7 +131,13 @@ func TestCheckResponseSnapshot_BatchAssociateScramSecret(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.BatchAssociateScramSecret(context.Background(), &BatchAssociateScramSecretInput{})
+	got, err := svc.BatchAssociateScramSecret(context.Background(), &BatchAssociateScramSecretInput{
+		ClusterArn: ptr.String("__ClusterArn__"),
+		SecretArnList: []string{
+			"__Member__",
+			"__Member__",
+		},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -164,7 +170,13 @@ func TestCheckResponseSnapshot_BatchDisassociateScramSecret(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.BatchDisassociateScramSecret(context.Background(), &BatchDisassociateScramSecretInput{})
+	got, err := svc.BatchDisassociateScramSecret(context.Background(), &BatchDisassociateScramSecretInput{
+		ClusterArn: ptr.String("__ClusterArn__"),
+		SecretArnList: []string{
+			"__Member__",
+			"__Member__",
+		},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -186,7 +198,121 @@ func TestCheckResponseSnapshot_CreateChannel(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.CreateChannel(context.Background(), &CreateChannelInput{})
+	got, err := svc.CreateChannel(context.Background(), &CreateChannelInput{
+		ChannelName: ptr.String("__ChannelName__"),
+		ClusterArn:  ptr.String("__ClusterArn__"),
+		EncryptionConfiguration: &types.EncryptionConfiguration{
+			KmsKeyArn: ptr.String("__KmsKeyArn__"),
+		},
+		IcebergDestinationConfiguration: &types.IcebergDestinationConfiguration{
+			AppendOnly: ptr.Bool(true),
+			Catalog: &types.Catalog{
+				CatalogArn:        ptr.String("__CatalogArn__"),
+				WarehouseLocation: ptr.String("__WarehouseLocation__"),
+			},
+			DataFreshnessInSeconds: ptr.Int32(1),
+			DeadLetterQueueS3: &types.DeadLetterQueueS3{
+				BucketArn:           ptr.String("__BucketArn__"),
+				ErrorOutputPrefix:   ptr.String("__ErrorOutputPrefix__"),
+				ExpectedBucketOwner: ptr.String("__ExpectedBucketOwner__"),
+			},
+			DestinationTableList: []types.DestinationTable{
+				{
+					DestinationDatabaseName: ptr.String("__DestinationDatabaseName__"),
+					DestinationTableName:    ptr.String("__DestinationTableName__"),
+					PartitionSpec: &types.PartitionSpec{
+						PartitionStrategy: types.PartitionStrategy("TIME_HOUR"),
+						SourceList: []types.PartitionSource{
+							{
+								SourceName: ptr.String("__SourceName__"),
+							},
+							{
+								SourceName: ptr.String("__SourceName__"),
+							},
+						},
+					},
+				},
+				{
+					DestinationDatabaseName: ptr.String("__DestinationDatabaseName__"),
+					DestinationTableName:    ptr.String("__DestinationTableName__"),
+					PartitionSpec: &types.PartitionSpec{
+						PartitionStrategy: types.PartitionStrategy("TIME_HOUR"),
+						SourceList: []types.PartitionSource{
+							{
+								SourceName: ptr.String("__SourceName__"),
+							},
+							{
+								SourceName: ptr.String("__SourceName__"),
+							},
+						},
+					},
+				},
+			},
+			SchemaEvolution: &types.SchemaEvolution{
+				EnableSchemaEvolution: ptr.Bool(true),
+			},
+			ServiceExecutionRoleArn: ptr.String("__ServiceExecutionRoleArn__"),
+			TableCreation: &types.TableCreation{
+				EnableTableCreation: ptr.Bool(true),
+			},
+			CompressionType: types.IcebergCompressionType("ZSTD"),
+		},
+		S3DestinationConfiguration: &types.S3DestinationConfiguration{
+			DataFreshnessInSeconds: ptr.Int32(1),
+			DeadLetterQueueS3: &types.DeadLetterQueueS3{
+				BucketArn:           ptr.String("__BucketArn__"),
+				ErrorOutputPrefix:   ptr.String("__ErrorOutputPrefix__"),
+				ExpectedBucketOwner: ptr.String("__ExpectedBucketOwner__"),
+			},
+			ServiceExecutionRoleArn: ptr.String("__ServiceExecutionRoleArn__"),
+			Storage: &types.S3Storage{
+				BucketArn:           ptr.String("__BucketArn__"),
+				CompressionType:     types.S3CompressionType("NONE"),
+				OutputPrefix:        ptr.String("__OutputPrefix__"),
+				OutputKeyTemplate:   ptr.String("__OutputKeyTemplate__"),
+				StorageClass:        types.S3StorageClass("STANDARD"),
+				ExpectedBucketOwner: ptr.String("__ExpectedBucketOwner__"),
+			},
+		},
+		Tags: map[string]string{
+			"key0": "__Value__",
+		},
+		TopicConfigurationList: []types.TopicConfiguration{
+			{
+				RecordConverter: &types.RecordConverter{
+					ValueConverter: types.ValueConverter("BYTE_ARRAY"),
+				},
+				RecordSchema: &types.RecordSchema{
+					GsrArn: ptr.String("__GsrArn__"),
+				},
+				TopicArn: ptr.String("__TopicArn__"),
+			},
+			{
+				RecordConverter: &types.RecordConverter{
+					ValueConverter: types.ValueConverter("BYTE_ARRAY"),
+				},
+				RecordSchema: &types.RecordSchema{
+					GsrArn: ptr.String("__GsrArn__"),
+				},
+				TopicArn: ptr.String("__TopicArn__"),
+			},
+		},
+		LoggingInfo: &types.ChannelLoggingInfo{
+			CloudWatchLogs: &types.CloudWatchLogs{
+				Enabled:  ptr.Bool(true),
+				LogGroup: ptr.String("__LogGroup__"),
+			},
+			Firehose: &types.Firehose{
+				DeliveryStream: ptr.String("__DeliveryStream__"),
+				Enabled:        ptr.Bool(true),
+			},
+			S3: &types.S3{
+				Bucket:  ptr.String("__Bucket__"),
+				Enabled: ptr.Bool(true),
+				Prefix:  ptr.String("__Prefix__"),
+			},
+		},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -209,7 +335,125 @@ func TestCheckResponseSnapshot_CreateCluster(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.CreateCluster(context.Background(), &CreateClusterInput{})
+	got, err := svc.CreateCluster(context.Background(), &CreateClusterInput{
+		BrokerNodeGroupInfo: &types.BrokerNodeGroupInfo{
+			BrokerAZDistribution: types.BrokerAZDistribution("DEFAULT"),
+			ClientSubnets: []string{
+				"__Member__",
+				"__Member__",
+			},
+			InstanceType: ptr.String("__InstanceType__"),
+			SecurityGroups: []string{
+				"__Member__",
+				"__Member__",
+			},
+			StorageInfo: &types.StorageInfo{
+				EbsStorageInfo: &types.EBSStorageInfo{
+					ProvisionedThroughput: &types.ProvisionedThroughput{
+						Enabled:          ptr.Bool(true),
+						VolumeThroughput: ptr.Int32(1),
+					},
+					VolumeSize: ptr.Int32(1),
+				},
+			},
+			ConnectivityInfo: &types.ConnectivityInfo{
+				PublicAccess: &types.PublicAccess{
+					Type: ptr.String("__Type__"),
+				},
+				VpcConnectivity: &types.VpcConnectivity{
+					ClientAuthentication: &types.VpcConnectivityClientAuthentication{
+						Sasl: &types.VpcConnectivitySasl{
+							Scram: &types.VpcConnectivityScram{
+								Enabled: ptr.Bool(true),
+							},
+							Iam: &types.VpcConnectivityIam{
+								Enabled: ptr.Bool(true),
+							},
+						},
+						Tls: &types.VpcConnectivityTls{
+							Enabled: ptr.Bool(true),
+						},
+					},
+				},
+				NetworkType: types.NetworkType("IPV4"),
+			},
+			ZoneIds: []string{
+				"__Member__",
+				"__Member__",
+			},
+		},
+		Rebalancing: &types.Rebalancing{
+			Status: types.RebalancingStatus("PAUSED"),
+		},
+		ClientAuthentication: &types.ClientAuthentication{
+			Sasl: &types.Sasl{
+				Scram: &types.Scram{
+					Enabled: ptr.Bool(true),
+				},
+				Iam: &types.Iam{
+					Enabled: ptr.Bool(true),
+				},
+			},
+			Tls: &types.Tls{
+				CertificateAuthorityArnList: []string{
+					"__Member__",
+					"__Member__",
+				},
+				Enabled: ptr.Bool(true),
+			},
+			Unauthenticated: &types.Unauthenticated{
+				Enabled: ptr.Bool(true),
+			},
+		},
+		ClusterName: ptr.String("__ClusterName__"),
+		ConfigurationInfo: &types.ConfigurationInfo{
+			Arn:      ptr.String("__Arn__"),
+			Revision: ptr.Int64(1),
+		},
+		EncryptionInfo: &types.EncryptionInfo{
+			EncryptionAtRest: &types.EncryptionAtRest{
+				DataVolumeKMSKeyId: ptr.String("__DataVolumeKMSKeyId__"),
+			},
+			EncryptionInTransit: &types.EncryptionInTransit{
+				ClientBroker: types.ClientBroker("TLS"),
+				InCluster:    ptr.Bool(true),
+			},
+		},
+		EnhancedMonitoring: types.EnhancedMonitoring("DEFAULT"),
+		OpenMonitoring: &types.OpenMonitoringInfo{
+			Prometheus: &types.PrometheusInfo{
+				JmxExporter: &types.JmxExporterInfo{
+					EnabledInBroker: ptr.Bool(true),
+				},
+				NodeExporter: &types.NodeExporterInfo{
+					EnabledInBroker: ptr.Bool(true),
+				},
+			},
+		},
+		KafkaVersion: ptr.String("__KafkaVersion__"),
+		LoggingInfo: &types.LoggingInfo{
+			BrokerLogs: &types.BrokerLogs{
+				CloudWatchLogs: &types.CloudWatchLogs{
+					Enabled:  ptr.Bool(true),
+					LogGroup: ptr.String("__LogGroup__"),
+				},
+				Firehose: &types.Firehose{
+					DeliveryStream: ptr.String("__DeliveryStream__"),
+					Enabled:        ptr.Bool(true),
+				},
+				S3: &types.S3{
+					Bucket:  ptr.String("__Bucket__"),
+					Enabled: ptr.Bool(true),
+					Prefix:  ptr.String("__Prefix__"),
+				},
+			},
+		},
+		NumberOfBrokerNodes: ptr.Int32(1),
+		Tags: map[string]string{
+			"key0": "__Value__",
+		},
+		StorageMode: types.StorageMode("LOCAL"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -233,7 +477,158 @@ func TestCheckResponseSnapshot_CreateClusterV2(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.CreateClusterV2(context.Background(), &CreateClusterV2Input{})
+	got, err := svc.CreateClusterV2(context.Background(), &CreateClusterV2Input{
+		ClusterName: ptr.String("__ClusterName__"),
+		Tags: map[string]string{
+			"key0": "__Value__",
+		},
+		Provisioned: &types.ProvisionedRequest{
+			BrokerNodeGroupInfo: &types.BrokerNodeGroupInfo{
+				BrokerAZDistribution: types.BrokerAZDistribution("DEFAULT"),
+				ClientSubnets: []string{
+					"__Member__",
+					"__Member__",
+				},
+				InstanceType: ptr.String("__InstanceType__"),
+				SecurityGroups: []string{
+					"__Member__",
+					"__Member__",
+				},
+				StorageInfo: &types.StorageInfo{
+					EbsStorageInfo: &types.EBSStorageInfo{
+						ProvisionedThroughput: &types.ProvisionedThroughput{
+							Enabled:          ptr.Bool(true),
+							VolumeThroughput: ptr.Int32(1),
+						},
+						VolumeSize: ptr.Int32(1),
+					},
+				},
+				ConnectivityInfo: &types.ConnectivityInfo{
+					PublicAccess: &types.PublicAccess{
+						Type: ptr.String("__Type__"),
+					},
+					VpcConnectivity: &types.VpcConnectivity{
+						ClientAuthentication: &types.VpcConnectivityClientAuthentication{
+							Sasl: &types.VpcConnectivitySasl{
+								Scram: &types.VpcConnectivityScram{
+									Enabled: ptr.Bool(true),
+								},
+								Iam: &types.VpcConnectivityIam{
+									Enabled: ptr.Bool(true),
+								},
+							},
+							Tls: &types.VpcConnectivityTls{
+								Enabled: ptr.Bool(true),
+							},
+						},
+					},
+					NetworkType: types.NetworkType("IPV4"),
+				},
+				ZoneIds: []string{
+					"__Member__",
+					"__Member__",
+				},
+			},
+			Rebalancing: &types.Rebalancing{
+				Status: types.RebalancingStatus("PAUSED"),
+			},
+			ClientAuthentication: &types.ClientAuthentication{
+				Sasl: &types.Sasl{
+					Scram: &types.Scram{
+						Enabled: ptr.Bool(true),
+					},
+					Iam: &types.Iam{
+						Enabled: ptr.Bool(true),
+					},
+				},
+				Tls: &types.Tls{
+					CertificateAuthorityArnList: []string{
+						"__Member__",
+						"__Member__",
+					},
+					Enabled: ptr.Bool(true),
+				},
+				Unauthenticated: &types.Unauthenticated{
+					Enabled: ptr.Bool(true),
+				},
+			},
+			ConfigurationInfo: &types.ConfigurationInfo{
+				Arn:      ptr.String("__Arn__"),
+				Revision: ptr.Int64(1),
+			},
+			EncryptionInfo: &types.EncryptionInfo{
+				EncryptionAtRest: &types.EncryptionAtRest{
+					DataVolumeKMSKeyId: ptr.String("__DataVolumeKMSKeyId__"),
+				},
+				EncryptionInTransit: &types.EncryptionInTransit{
+					ClientBroker: types.ClientBroker("TLS"),
+					InCluster:    ptr.Bool(true),
+				},
+			},
+			EnhancedMonitoring: types.EnhancedMonitoring("DEFAULT"),
+			OpenMonitoring: &types.OpenMonitoringInfo{
+				Prometheus: &types.PrometheusInfo{
+					JmxExporter: &types.JmxExporterInfo{
+						EnabledInBroker: ptr.Bool(true),
+					},
+					NodeExporter: &types.NodeExporterInfo{
+						EnabledInBroker: ptr.Bool(true),
+					},
+				},
+			},
+			KafkaVersion: ptr.String("__KafkaVersion__"),
+			LoggingInfo: &types.LoggingInfo{
+				BrokerLogs: &types.BrokerLogs{
+					CloudWatchLogs: &types.CloudWatchLogs{
+						Enabled:  ptr.Bool(true),
+						LogGroup: ptr.String("__LogGroup__"),
+					},
+					Firehose: &types.Firehose{
+						DeliveryStream: ptr.String("__DeliveryStream__"),
+						Enabled:        ptr.Bool(true),
+					},
+					S3: &types.S3{
+						Bucket:  ptr.String("__Bucket__"),
+						Enabled: ptr.Bool(true),
+						Prefix:  ptr.String("__Prefix__"),
+					},
+				},
+			},
+			NumberOfBrokerNodes: ptr.Int32(1),
+			StorageMode:         types.StorageMode("LOCAL"),
+		},
+		Serverless: &types.ServerlessRequest{
+			VpcConfigs: []types.VpcConfig{
+				{
+					SubnetIds: []string{
+						"__Member__",
+						"__Member__",
+					},
+					SecurityGroupIds: []string{
+						"__Member__",
+						"__Member__",
+					},
+				},
+				{
+					SubnetIds: []string{
+						"__Member__",
+						"__Member__",
+					},
+					SecurityGroupIds: []string{
+						"__Member__",
+						"__Member__",
+					},
+				},
+			},
+			ClientAuthentication: &types.ServerlessClientAuthentication{
+				Sasl: &types.ServerlessSasl{
+					Iam: &types.Iam{
+						Enabled: ptr.Bool(true),
+					},
+				},
+			},
+		},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -262,7 +657,15 @@ func TestCheckResponseSnapshot_CreateConfiguration(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.CreateConfiguration(context.Background(), &CreateConfigurationInput{})
+	got, err := svc.CreateConfiguration(context.Background(), &CreateConfigurationInput{
+		Description: ptr.String("__Description__"),
+		KafkaVersions: []string{
+			"__Member__",
+			"__Member__",
+		},
+		Name:             ptr.String("__Name__"),
+		ServerProperties: []byte("blob"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -285,7 +688,177 @@ func TestCheckResponseSnapshot_CreateReplicator(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.CreateReplicator(context.Background(), &CreateReplicatorInput{})
+	got, err := svc.CreateReplicator(context.Background(), &CreateReplicatorInput{
+		Description: ptr.String("__Description__"),
+		KafkaClusters: []types.KafkaCluster{
+			{
+				AmazonMskCluster: &types.AmazonMskCluster{
+					MskClusterArn: ptr.String("__MskClusterArn__"),
+				},
+				ApacheKafkaCluster: &types.ApacheKafkaCluster{
+					ApacheKafkaClusterId:  ptr.String("__ApacheKafkaClusterId__"),
+					BootstrapBrokerString: ptr.String("__BootstrapBrokerString__"),
+				},
+				VpcConfig: &types.KafkaClusterClientVpcConfig{
+					SecurityGroupIds: []string{
+						"__Member__",
+						"__Member__",
+					},
+					SubnetIds: []string{
+						"__Member__",
+						"__Member__",
+					},
+				},
+				ClientAuthentication: &types.KafkaClusterClientAuthentication{
+					SaslScram: &types.KafkaClusterSaslScramAuthentication{
+						Mechanism: types.KafkaClusterSaslScramMechanism("SHA256"),
+						SecretArn: ptr.String("__SecretArn__"),
+					},
+					MTLS: &types.KafkaClusterMTLSAuthentication{
+						SecretArn: ptr.String("__SecretArn__"),
+					},
+				},
+				EncryptionInTransit: &types.KafkaClusterEncryptionInTransit{
+					EncryptionType:    types.KafkaClusterEncryptionInTransitType("TLS"),
+					RootCaCertificate: ptr.String("__RootCaCertificate__"),
+				},
+			},
+			{
+				AmazonMskCluster: &types.AmazonMskCluster{
+					MskClusterArn: ptr.String("__MskClusterArn__"),
+				},
+				ApacheKafkaCluster: &types.ApacheKafkaCluster{
+					ApacheKafkaClusterId:  ptr.String("__ApacheKafkaClusterId__"),
+					BootstrapBrokerString: ptr.String("__BootstrapBrokerString__"),
+				},
+				VpcConfig: &types.KafkaClusterClientVpcConfig{
+					SecurityGroupIds: []string{
+						"__Member__",
+						"__Member__",
+					},
+					SubnetIds: []string{
+						"__Member__",
+						"__Member__",
+					},
+				},
+				ClientAuthentication: &types.KafkaClusterClientAuthentication{
+					SaslScram: &types.KafkaClusterSaslScramAuthentication{
+						Mechanism: types.KafkaClusterSaslScramMechanism("SHA256"),
+						SecretArn: ptr.String("__SecretArn__"),
+					},
+					MTLS: &types.KafkaClusterMTLSAuthentication{
+						SecretArn: ptr.String("__SecretArn__"),
+					},
+				},
+				EncryptionInTransit: &types.KafkaClusterEncryptionInTransit{
+					EncryptionType:    types.KafkaClusterEncryptionInTransitType("TLS"),
+					RootCaCertificate: ptr.String("__RootCaCertificate__"),
+				},
+			},
+		},
+		ReplicationInfoList: []types.ReplicationInfo{
+			{
+				ConsumerGroupReplication: &types.ConsumerGroupReplication{
+					ConsumerGroupsToExclude: []string{
+						"__Member__",
+						"__Member__",
+					},
+					ConsumerGroupsToReplicate: []string{
+						"__Member__",
+						"__Member__",
+					},
+					DetectAndCopyNewConsumerGroups:  ptr.Bool(true),
+					SynchroniseConsumerGroupOffsets: ptr.Bool(true),
+					ConsumerGroupOffsetSyncMode:     types.ConsumerGroupOffsetSyncMode("LEGACY"),
+				},
+				SourceKafkaClusterArn: ptr.String("__SourceKafkaClusterArn__"),
+				SourceKafkaClusterId:  ptr.String("__SourceKafkaClusterId__"),
+				TargetCompressionType: types.TargetCompressionType("NONE"),
+				TargetKafkaClusterArn: ptr.String("__TargetKafkaClusterArn__"),
+				TargetKafkaClusterId:  ptr.String("__TargetKafkaClusterId__"),
+				TopicReplication: &types.TopicReplication{
+					CopyAccessControlListsForTopics: ptr.Bool(true),
+					CopyTopicConfigurations:         ptr.Bool(true),
+					DetectAndCopyNewTopics:          ptr.Bool(true),
+					StartingPosition: &types.ReplicationStartingPosition{
+						Type: types.ReplicationStartingPositionType("LATEST"),
+					},
+					TopicNameConfiguration: &types.ReplicationTopicNameConfiguration{
+						Type: types.ReplicationTopicNameConfigurationType("PREFIXED_WITH_SOURCE_CLUSTER_ALIAS"),
+					},
+					TopicsToExclude: []string{
+						"__Member__",
+						"__Member__",
+					},
+					TopicsToReplicate: []string{
+						"__Member__",
+						"__Member__",
+					},
+				},
+			},
+			{
+				ConsumerGroupReplication: &types.ConsumerGroupReplication{
+					ConsumerGroupsToExclude: []string{
+						"__Member__",
+						"__Member__",
+					},
+					ConsumerGroupsToReplicate: []string{
+						"__Member__",
+						"__Member__",
+					},
+					DetectAndCopyNewConsumerGroups:  ptr.Bool(true),
+					SynchroniseConsumerGroupOffsets: ptr.Bool(true),
+					ConsumerGroupOffsetSyncMode:     types.ConsumerGroupOffsetSyncMode("LEGACY"),
+				},
+				SourceKafkaClusterArn: ptr.String("__SourceKafkaClusterArn__"),
+				SourceKafkaClusterId:  ptr.String("__SourceKafkaClusterId__"),
+				TargetCompressionType: types.TargetCompressionType("NONE"),
+				TargetKafkaClusterArn: ptr.String("__TargetKafkaClusterArn__"),
+				TargetKafkaClusterId:  ptr.String("__TargetKafkaClusterId__"),
+				TopicReplication: &types.TopicReplication{
+					CopyAccessControlListsForTopics: ptr.Bool(true),
+					CopyTopicConfigurations:         ptr.Bool(true),
+					DetectAndCopyNewTopics:          ptr.Bool(true),
+					StartingPosition: &types.ReplicationStartingPosition{
+						Type: types.ReplicationStartingPositionType("LATEST"),
+					},
+					TopicNameConfiguration: &types.ReplicationTopicNameConfiguration{
+						Type: types.ReplicationTopicNameConfigurationType("PREFIXED_WITH_SOURCE_CLUSTER_ALIAS"),
+					},
+					TopicsToExclude: []string{
+						"__Member__",
+						"__Member__",
+					},
+					TopicsToReplicate: []string{
+						"__Member__",
+						"__Member__",
+					},
+				},
+			},
+		},
+		ReplicatorName:          ptr.String("__ReplicatorName__"),
+		ServiceExecutionRoleArn: ptr.String("__ServiceExecutionRoleArn__"),
+		Tags: map[string]string{
+			"key0": "__Value__",
+		},
+		LogDelivery: &types.LogDelivery{
+			ReplicatorLogDelivery: &types.ReplicatorLogDelivery{
+				CloudWatchLogs: &types.ReplicatorCloudWatchLogs{
+					Enabled:  ptr.Bool(true),
+					LogGroup: ptr.String("__LogGroup__"),
+				},
+				Firehose: &types.ReplicatorFirehose{
+					Enabled:        ptr.Bool(true),
+					DeliveryStream: ptr.String("__DeliveryStream__"),
+				},
+				S3: &types.ReplicatorS3{
+					Enabled: ptr.Bool(true),
+					Bucket:  ptr.String("__Bucket__"),
+					Prefix:  ptr.String("__Prefix__"),
+				},
+			},
+		},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -308,7 +881,13 @@ func TestCheckResponseSnapshot_CreateTopic(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.CreateTopic(context.Background(), &CreateTopicInput{})
+	got, err := svc.CreateTopic(context.Background(), &CreateTopicInput{
+		ClusterArn:        ptr.String("__ClusterArn__"),
+		TopicName:         ptr.String("__TopicName__"),
+		PartitionCount:    ptr.Int32(1),
+		ReplicationFactor: ptr.Int32(1),
+		Configs:           ptr.String("__Configs__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -344,7 +923,22 @@ func TestCheckResponseSnapshot_CreateVpcConnection(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.CreateVpcConnection(context.Background(), &CreateVpcConnectionInput{})
+	got, err := svc.CreateVpcConnection(context.Background(), &CreateVpcConnectionInput{
+		TargetClusterArn: ptr.String("__TargetClusterArn__"),
+		Authentication:   ptr.String("__Authentication__"),
+		VpcId:            ptr.String("__VpcId__"),
+		ClientSubnets: []string{
+			"__Member__",
+			"__Member__",
+		},
+		SecurityGroups: []string{
+			"__Member__",
+			"__Member__",
+		},
+		Tags: map[string]string{
+			"key0": "__Value__",
+		},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -366,7 +960,10 @@ func TestCheckResponseSnapshot_DeleteChannel(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DeleteChannel(context.Background(), &DeleteChannelInput{})
+	got, err := svc.DeleteChannel(context.Background(), &DeleteChannelInput{
+		ChannelArn: ptr.String("__ChannelArn__"),
+		ClusterArn: ptr.String("__ClusterArn__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -388,7 +985,10 @@ func TestCheckResponseSnapshot_DeleteCluster(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DeleteCluster(context.Background(), &DeleteClusterInput{})
+	got, err := svc.DeleteCluster(context.Background(), &DeleteClusterInput{
+		ClusterArn:     ptr.String("__ClusterArn__"),
+		CurrentVersion: ptr.String("__CurrentVersion__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -407,7 +1007,9 @@ func TestCheckResponseSnapshot_DeleteClusterPolicy(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DeleteClusterPolicy(context.Background(), &DeleteClusterPolicyInput{})
+	got, err := svc.DeleteClusterPolicy(context.Background(), &DeleteClusterPolicyInput{
+		ClusterArn: ptr.String("__ClusterArn__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -429,7 +1031,9 @@ func TestCheckResponseSnapshot_DeleteConfiguration(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DeleteConfiguration(context.Background(), &DeleteConfigurationInput{})
+	got, err := svc.DeleteConfiguration(context.Background(), &DeleteConfigurationInput{
+		Arn: ptr.String("__Arn__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -451,7 +1055,10 @@ func TestCheckResponseSnapshot_DeleteReplicator(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DeleteReplicator(context.Background(), &DeleteReplicatorInput{})
+	got, err := svc.DeleteReplicator(context.Background(), &DeleteReplicatorInput{
+		CurrentVersion: ptr.String("__CurrentVersion__"),
+		ReplicatorArn:  ptr.String("__ReplicatorArn__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -474,7 +1081,10 @@ func TestCheckResponseSnapshot_DeleteTopic(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DeleteTopic(context.Background(), &DeleteTopicInput{})
+	got, err := svc.DeleteTopic(context.Background(), &DeleteTopicInput{
+		ClusterArn: ptr.String("__ClusterArn__"),
+		TopicName:  ptr.String("__TopicName__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -496,7 +1106,9 @@ func TestCheckResponseSnapshot_DeleteVpcConnection(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DeleteVpcConnection(context.Background(), &DeleteVpcConnectionInput{})
+	got, err := svc.DeleteVpcConnection(context.Background(), &DeleteVpcConnectionInput{
+		Arn: ptr.String("__Arn__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -637,7 +1249,10 @@ func TestCheckResponseSnapshot_DescribeChannel(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DescribeChannel(context.Background(), &DescribeChannelInput{})
+	got, err := svc.DescribeChannel(context.Background(), &DescribeChannelInput{
+		ChannelArn: ptr.String("__ChannelArn__"),
+		ClusterArn: ptr.String("__ClusterArn__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -788,7 +1403,9 @@ func TestCheckResponseSnapshot_DescribeCluster(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DescribeCluster(context.Background(), &DescribeClusterInput{})
+	got, err := svc.DescribeCluster(context.Background(), &DescribeClusterInput{
+		ClusterArn: ptr.String("__ClusterArn__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1088,7 +1705,9 @@ func TestCheckResponseSnapshot_DescribeClusterOperation(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DescribeClusterOperation(context.Background(), &DescribeClusterOperationInput{})
+	got, err := svc.DescribeClusterOperation(context.Background(), &DescribeClusterOperationInput{
+		ClusterOperationArn: ptr.String("__ClusterOperationArn__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1407,7 +2026,9 @@ func TestCheckResponseSnapshot_DescribeClusterOperationV2(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DescribeClusterOperationV2(context.Background(), &DescribeClusterOperationV2Input{})
+	got, err := svc.DescribeClusterOperationV2(context.Background(), &DescribeClusterOperationV2Input{
+		ClusterOperationArn: ptr.String("__ClusterOperationArn__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1595,7 +2216,9 @@ func TestCheckResponseSnapshot_DescribeClusterV2(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DescribeClusterV2(context.Background(), &DescribeClusterV2Input{})
+	got, err := svc.DescribeClusterV2(context.Background(), &DescribeClusterV2Input{
+		ClusterArn: ptr.String("__ClusterArn__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1629,7 +2252,9 @@ func TestCheckResponseSnapshot_DescribeConfiguration(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DescribeConfiguration(context.Background(), &DescribeConfigurationInput{})
+	got, err := svc.DescribeConfiguration(context.Background(), &DescribeConfigurationInput{
+		Arn: ptr.String("__Arn__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1654,7 +2279,10 @@ func TestCheckResponseSnapshot_DescribeConfigurationRevision(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DescribeConfigurationRevision(context.Background(), &DescribeConfigurationRevisionInput{})
+	got, err := svc.DescribeConfigurationRevision(context.Background(), &DescribeConfigurationRevisionInput{
+		Arn:      ptr.String("__Arn__"),
+		Revision: ptr.Int64(1),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1851,7 +2479,9 @@ func TestCheckResponseSnapshot_DescribeReplicator(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DescribeReplicator(context.Background(), &DescribeReplicatorInput{})
+	got, err := svc.DescribeReplicator(context.Background(), &DescribeReplicatorInput{
+		ReplicatorArn: ptr.String("__ReplicatorArn__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1877,7 +2507,10 @@ func TestCheckResponseSnapshot_DescribeTopic(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DescribeTopic(context.Background(), &DescribeTopicInput{})
+	got, err := svc.DescribeTopic(context.Background(), &DescribeTopicInput{
+		ClusterArn: ptr.String("__ClusterArn__"),
+		TopicName:  ptr.String("__TopicName__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1924,7 +2557,12 @@ func TestCheckResponseSnapshot_DescribeTopicPartitions(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DescribeTopicPartitions(context.Background(), &DescribeTopicPartitionsInput{})
+	got, err := svc.DescribeTopicPartitions(context.Background(), &DescribeTopicPartitionsInput{
+		ClusterArn: ptr.String("__ClusterArn__"),
+		TopicName:  ptr.String("__TopicName__"),
+		MaxResults: ptr.Int32(1),
+		NextToken:  ptr.String("__NextToken__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1961,7 +2599,9 @@ func TestCheckResponseSnapshot_DescribeVpcConnection(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DescribeVpcConnection(context.Background(), &DescribeVpcConnectionInput{})
+	got, err := svc.DescribeVpcConnection(context.Background(), &DescribeVpcConnectionInput{
+		Arn: ptr.String("__Arn__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1995,7 +2635,9 @@ func TestCheckResponseSnapshot_GetBootstrapBrokers(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.GetBootstrapBrokers(context.Background(), &GetBootstrapBrokersInput{})
+	got, err := svc.GetBootstrapBrokers(context.Background(), &GetBootstrapBrokersInput{
+		ClusterArn: ptr.String("__ClusterArn__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -2017,7 +2659,9 @@ func TestCheckResponseSnapshot_GetClusterPolicy(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.GetClusterPolicy(context.Background(), &GetClusterPolicyInput{})
+	got, err := svc.GetClusterPolicy(context.Background(), &GetClusterPolicyInput{
+		ClusterArn: ptr.String("__ClusterArn__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -2053,7 +2697,9 @@ func TestCheckResponseSnapshot_GetCompatibleKafkaVersions(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.GetCompatibleKafkaVersions(context.Background(), &GetCompatibleKafkaVersionsInput{})
+	got, err := svc.GetCompatibleKafkaVersions(context.Background(), &GetCompatibleKafkaVersionsInput{
+		ClusterArn: ptr.String("__ClusterArn__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -2092,7 +2738,12 @@ func TestCheckResponseSnapshot_ListChannels(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListChannels(context.Background(), &ListChannelsInput{})
+	got, err := svc.ListChannels(context.Background(), &ListChannelsInput{
+		ClusterArn:      ptr.String("__ClusterArn__"),
+		MaxResults:      ptr.Int32(1),
+		NextToken:       ptr.String("__NextToken__"),
+		TopicNameFilter: ptr.String("__TopicNameFilter__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -2129,7 +2780,11 @@ func TestCheckResponseSnapshot_ListClientVpcConnections(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListClientVpcConnections(context.Background(), &ListClientVpcConnectionsInput{})
+	got, err := svc.ListClientVpcConnections(context.Background(), &ListClientVpcConnectionsInput{
+		ClusterArn: ptr.String("__ClusterArn__"),
+		MaxResults: ptr.Int32(1),
+		NextToken:  ptr.String("__NextToken__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -2712,7 +3367,11 @@ func TestCheckResponseSnapshot_ListClusterOperations(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListClusterOperations(context.Background(), &ListClusterOperationsInput{})
+	got, err := svc.ListClusterOperations(context.Background(), &ListClusterOperationsInput{
+		ClusterArn: ptr.String("__ClusterArn__"),
+		MaxResults: ptr.Int32(1),
+		NextToken:  ptr.String("__NextToken__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -2753,7 +3412,11 @@ func TestCheckResponseSnapshot_ListClusterOperationsV2(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListClusterOperationsV2(context.Background(), &ListClusterOperationsV2Input{})
+	got, err := svc.ListClusterOperationsV2(context.Background(), &ListClusterOperationsV2Input{
+		ClusterArn: ptr.String("__ClusterArn__"),
+		MaxResults: ptr.Int32(1),
+		NextToken:  ptr.String("__NextToken__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -3038,7 +3701,11 @@ func TestCheckResponseSnapshot_ListClusters(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListClusters(context.Background(), &ListClustersInput{})
+	got, err := svc.ListClusters(context.Background(), &ListClustersInput{
+		ClusterNameFilter: ptr.String("__ClusterNameFilter__"),
+		MaxResults:        ptr.Int32(1),
+		NextToken:         ptr.String("__NextToken__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -3397,7 +4064,12 @@ func TestCheckResponseSnapshot_ListClustersV2(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListClustersV2(context.Background(), &ListClustersV2Input{})
+	got, err := svc.ListClustersV2(context.Background(), &ListClustersV2Input{
+		ClusterNameFilter: ptr.String("__ClusterNameFilter__"),
+		ClusterTypeFilter: ptr.String("__ClusterTypeFilter__"),
+		MaxResults:        ptr.Int32(1),
+		NextToken:         ptr.String("__NextToken__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -3430,7 +4102,11 @@ func TestCheckResponseSnapshot_ListConfigurationRevisions(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListConfigurationRevisions(context.Background(), &ListConfigurationRevisionsInput{})
+	got, err := svc.ListConfigurationRevisions(context.Background(), &ListConfigurationRevisionsInput{
+		Arn:        ptr.String("__Arn__"),
+		MaxResults: ptr.Int32(1),
+		NextToken:  ptr.String("__NextToken__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -3485,7 +4161,10 @@ func TestCheckResponseSnapshot_ListConfigurations(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListConfigurations(context.Background(), &ListConfigurationsInput{})
+	got, err := svc.ListConfigurations(context.Background(), &ListConfigurationsInput{
+		MaxResults: ptr.Int32(1),
+		NextToken:  ptr.String("__NextToken__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -3516,7 +4195,10 @@ func TestCheckResponseSnapshot_ListKafkaVersions(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListKafkaVersions(context.Background(), &ListKafkaVersionsInput{})
+	got, err := svc.ListKafkaVersions(context.Background(), &ListKafkaVersionsInput{
+		MaxResults: ptr.Int32(1),
+		NextToken:  ptr.String("__NextToken__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -3613,7 +4295,11 @@ func TestCheckResponseSnapshot_ListNodes(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListNodes(context.Background(), &ListNodesInput{})
+	got, err := svc.ListNodes(context.Background(), &ListNodesInput{
+		ClusterArn: ptr.String("__ClusterArn__"),
+		MaxResults: ptr.Int32(1),
+		NextToken:  ptr.String("__NextToken__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -3718,7 +4404,11 @@ func TestCheckResponseSnapshot_ListReplicators(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListReplicators(context.Background(), &ListReplicatorsInput{})
+	got, err := svc.ListReplicators(context.Background(), &ListReplicatorsInput{
+		MaxResults:           ptr.Int32(1),
+		NextToken:            ptr.String("__NextToken__"),
+		ReplicatorNameFilter: ptr.String("__ReplicatorNameFilter__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -3743,7 +4433,11 @@ func TestCheckResponseSnapshot_ListScramSecrets(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListScramSecrets(context.Background(), &ListScramSecretsInput{})
+	got, err := svc.ListScramSecrets(context.Background(), &ListScramSecretsInput{
+		ClusterArn: ptr.String("__ClusterArn__"),
+		MaxResults: ptr.Int32(1),
+		NextToken:  ptr.String("__NextToken__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -3766,7 +4460,9 @@ func TestCheckResponseSnapshot_ListTagsForResource(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListTagsForResource(context.Background(), &ListTagsForResourceInput{})
+	got, err := svc.ListTagsForResource(context.Background(), &ListTagsForResourceInput{
+		ResourceArn: ptr.String("__ResourceArn__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -3803,7 +4499,12 @@ func TestCheckResponseSnapshot_ListTopics(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListTopics(context.Background(), &ListTopicsInput{})
+	got, err := svc.ListTopics(context.Background(), &ListTopicsInput{
+		ClusterArn:      ptr.String("__ClusterArn__"),
+		MaxResults:      ptr.Int32(1),
+		NextToken:       ptr.String("__NextToken__"),
+		TopicNameFilter: ptr.String("__TopicNameFilter__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -3842,7 +4543,10 @@ func TestCheckResponseSnapshot_ListVpcConnections(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListVpcConnections(context.Background(), &ListVpcConnectionsInput{})
+	got, err := svc.ListVpcConnections(context.Background(), &ListVpcConnectionsInput{
+		MaxResults: ptr.Int32(1),
+		NextToken:  ptr.String("__NextToken__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -3863,7 +4567,11 @@ func TestCheckResponseSnapshot_PutClusterPolicy(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.PutClusterPolicy(context.Background(), &PutClusterPolicyInput{})
+	got, err := svc.PutClusterPolicy(context.Background(), &PutClusterPolicyInput{
+		ClusterArn:     ptr.String("__ClusterArn__"),
+		CurrentVersion: ptr.String("__CurrentVersion__"),
+		Policy:         ptr.String("__Policy__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -3885,7 +4593,13 @@ func TestCheckResponseSnapshot_RebootBroker(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.RebootBroker(context.Background(), &RebootBrokerInput{})
+	got, err := svc.RebootBroker(context.Background(), &RebootBrokerInput{
+		BrokerIds: []string{
+			"__Member__",
+			"__Member__",
+		},
+		ClusterArn: ptr.String("__ClusterArn__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -3904,7 +4618,10 @@ func TestCheckResponseSnapshot_RejectClientVpcConnection(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.RejectClientVpcConnection(context.Background(), &RejectClientVpcConnectionInput{})
+	got, err := svc.RejectClientVpcConnection(context.Background(), &RejectClientVpcConnectionInput{
+		ClusterArn:       ptr.String("__ClusterArn__"),
+		VpcConnectionArn: ptr.String("__VpcConnectionArn__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -3923,7 +4640,12 @@ func TestCheckResponseSnapshot_TagResource(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.TagResource(context.Background(), &TagResourceInput{})
+	got, err := svc.TagResource(context.Background(), &TagResourceInput{
+		ResourceArn: ptr.String("__ResourceArn__"),
+		Tags: map[string]string{
+			"key0": "__Value__",
+		},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -3942,7 +4664,13 @@ func TestCheckResponseSnapshot_UntagResource(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.UntagResource(context.Background(), &UntagResourceInput{})
+	got, err := svc.UntagResource(context.Background(), &UntagResourceInput{
+		ResourceArn: ptr.String("__ResourceArn__"),
+		TagKeys: []string{
+			"__Member__",
+			"__Member__",
+		},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -3964,7 +4692,11 @@ func TestCheckResponseSnapshot_UpdateBrokerCount(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.UpdateBrokerCount(context.Background(), &UpdateBrokerCountInput{})
+	got, err := svc.UpdateBrokerCount(context.Background(), &UpdateBrokerCountInput{
+		ClusterArn:                ptr.String("__ClusterArn__"),
+		CurrentVersion:            ptr.String("__CurrentVersion__"),
+		TargetNumberOfBrokerNodes: ptr.Int32(1),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -3986,7 +4718,28 @@ func TestCheckResponseSnapshot_UpdateBrokerStorage(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.UpdateBrokerStorage(context.Background(), &UpdateBrokerStorageInput{})
+	got, err := svc.UpdateBrokerStorage(context.Background(), &UpdateBrokerStorageInput{
+		ClusterArn:     ptr.String("__ClusterArn__"),
+		CurrentVersion: ptr.String("__CurrentVersion__"),
+		TargetBrokerEBSVolumeInfo: []types.BrokerEBSVolumeInfo{
+			{
+				KafkaBrokerNodeId: ptr.String("__KafkaBrokerNodeId__"),
+				ProvisionedThroughput: &types.ProvisionedThroughput{
+					Enabled:          ptr.Bool(true),
+					VolumeThroughput: ptr.Int32(1),
+				},
+				VolumeSizeGB: ptr.Int32(1),
+			},
+			{
+				KafkaBrokerNodeId: ptr.String("__KafkaBrokerNodeId__"),
+				ProvisionedThroughput: &types.ProvisionedThroughput{
+					Enabled:          ptr.Bool(true),
+					VolumeThroughput: ptr.Int32(1),
+				},
+				VolumeSizeGB: ptr.Int32(1),
+			},
+		},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -4008,7 +4761,11 @@ func TestCheckResponseSnapshot_UpdateBrokerType(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.UpdateBrokerType(context.Background(), &UpdateBrokerTypeInput{})
+	got, err := svc.UpdateBrokerType(context.Background(), &UpdateBrokerTypeInput{
+		ClusterArn:         ptr.String("__ClusterArn__"),
+		CurrentVersion:     ptr.String("__CurrentVersion__"),
+		TargetInstanceType: ptr.String("__TargetInstanceType__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -4030,7 +4787,16 @@ func TestCheckResponseSnapshot_UpdateChannel(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.UpdateChannel(context.Background(), &UpdateChannelInput{})
+	got, err := svc.UpdateChannel(context.Background(), &UpdateChannelInput{
+		ChannelArn: ptr.String("__ChannelArn__"),
+		ClusterArn: ptr.String("__ClusterArn__"),
+		IcebergDestinationUpdate: &types.IcebergDestinationUpdate{
+			DataFreshnessInSeconds: ptr.Int32(1),
+		},
+		S3DestinationUpdate: &types.S3DestinationUpdate{
+			DataFreshnessInSeconds: ptr.Int32(1),
+		},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -4052,7 +4818,14 @@ func TestCheckResponseSnapshot_UpdateClusterConfiguration(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.UpdateClusterConfiguration(context.Background(), &UpdateClusterConfigurationInput{})
+	got, err := svc.UpdateClusterConfiguration(context.Background(), &UpdateClusterConfigurationInput{
+		ClusterArn: ptr.String("__ClusterArn__"),
+		ConfigurationInfo: &types.ConfigurationInfo{
+			Arn:      ptr.String("__Arn__"),
+			Revision: ptr.Int64(1),
+		},
+		CurrentVersion: ptr.String("__CurrentVersion__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -4074,7 +4847,15 @@ func TestCheckResponseSnapshot_UpdateClusterKafkaVersion(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.UpdateClusterKafkaVersion(context.Background(), &UpdateClusterKafkaVersionInput{})
+	got, err := svc.UpdateClusterKafkaVersion(context.Background(), &UpdateClusterKafkaVersionInput{
+		ClusterArn: ptr.String("__ClusterArn__"),
+		ConfigurationInfo: &types.ConfigurationInfo{
+			Arn:      ptr.String("__Arn__"),
+			Revision: ptr.Int64(1),
+		},
+		CurrentVersion:     ptr.String("__CurrentVersion__"),
+		TargetKafkaVersion: ptr.String("__TargetKafkaVersion__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -4100,7 +4881,11 @@ func TestCheckResponseSnapshot_UpdateConfiguration(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.UpdateConfiguration(context.Background(), &UpdateConfigurationInput{})
+	got, err := svc.UpdateConfiguration(context.Background(), &UpdateConfigurationInput{
+		Arn:              ptr.String("__Arn__"),
+		Description:      ptr.String("__Description__"),
+		ServerProperties: []byte("blob"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -4122,7 +4907,34 @@ func TestCheckResponseSnapshot_UpdateConnectivity(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.UpdateConnectivity(context.Background(), &UpdateConnectivityInput{})
+	got, err := svc.UpdateConnectivity(context.Background(), &UpdateConnectivityInput{
+		ClusterArn: ptr.String("__ClusterArn__"),
+		ConnectivityInfo: &types.ConnectivityInfo{
+			PublicAccess: &types.PublicAccess{
+				Type: ptr.String("__Type__"),
+			},
+			VpcConnectivity: &types.VpcConnectivity{
+				ClientAuthentication: &types.VpcConnectivityClientAuthentication{
+					Sasl: &types.VpcConnectivitySasl{
+						Scram: &types.VpcConnectivityScram{
+							Enabled: ptr.Bool(true),
+						},
+						Iam: &types.VpcConnectivityIam{
+							Enabled: ptr.Bool(true),
+						},
+					},
+					Tls: &types.VpcConnectivityTls{
+						Enabled: ptr.Bool(true),
+					},
+				},
+			},
+			NetworkType: types.NetworkType("IPV4"),
+		},
+		CurrentVersion: ptr.String("__CurrentVersion__"),
+		ZookeeperAccess: &types.ZookeeperAccess{
+			Enabled: ptr.Bool(true),
+		},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -4144,7 +4956,38 @@ func TestCheckResponseSnapshot_UpdateMonitoring(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.UpdateMonitoring(context.Background(), &UpdateMonitoringInput{})
+	got, err := svc.UpdateMonitoring(context.Background(), &UpdateMonitoringInput{
+		ClusterArn:         ptr.String("__ClusterArn__"),
+		CurrentVersion:     ptr.String("__CurrentVersion__"),
+		EnhancedMonitoring: types.EnhancedMonitoring("DEFAULT"),
+		OpenMonitoring: &types.OpenMonitoringInfo{
+			Prometheus: &types.PrometheusInfo{
+				JmxExporter: &types.JmxExporterInfo{
+					EnabledInBroker: ptr.Bool(true),
+				},
+				NodeExporter: &types.NodeExporterInfo{
+					EnabledInBroker: ptr.Bool(true),
+				},
+			},
+		},
+		LoggingInfo: &types.LoggingInfo{
+			BrokerLogs: &types.BrokerLogs{
+				CloudWatchLogs: &types.CloudWatchLogs{
+					Enabled:  ptr.Bool(true),
+					LogGroup: ptr.String("__LogGroup__"),
+				},
+				Firehose: &types.Firehose{
+					DeliveryStream: ptr.String("__DeliveryStream__"),
+					Enabled:        ptr.Bool(true),
+				},
+				S3: &types.S3{
+					Bucket:  ptr.String("__Bucket__"),
+					Enabled: ptr.Bool(true),
+					Prefix:  ptr.String("__Prefix__"),
+				},
+			},
+		},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -4166,7 +5009,13 @@ func TestCheckResponseSnapshot_UpdateRebalancing(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.UpdateRebalancing(context.Background(), &UpdateRebalancingInput{})
+	got, err := svc.UpdateRebalancing(context.Background(), &UpdateRebalancingInput{
+		ClusterArn:     ptr.String("__ClusterArn__"),
+		CurrentVersion: ptr.String("__CurrentVersion__"),
+		Rebalancing: &types.Rebalancing{
+			Status: types.RebalancingStatus("PAUSED"),
+		},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -4188,7 +5037,56 @@ func TestCheckResponseSnapshot_UpdateReplicationInfo(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.UpdateReplicationInfo(context.Background(), &UpdateReplicationInfoInput{})
+	got, err := svc.UpdateReplicationInfo(context.Background(), &UpdateReplicationInfoInput{
+		ConsumerGroupReplication: &types.ConsumerGroupReplicationUpdate{
+			ConsumerGroupsToExclude: []string{
+				"__Member__",
+				"__Member__",
+			},
+			ConsumerGroupsToReplicate: []string{
+				"__Member__",
+				"__Member__",
+			},
+			DetectAndCopyNewConsumerGroups:  ptr.Bool(true),
+			SynchroniseConsumerGroupOffsets: ptr.Bool(true),
+		},
+		CurrentVersion:        ptr.String("__CurrentVersion__"),
+		ReplicatorArn:         ptr.String("__ReplicatorArn__"),
+		SourceKafkaClusterArn: ptr.String("__SourceKafkaClusterArn__"),
+		SourceKafkaClusterId:  ptr.String("__SourceKafkaClusterId__"),
+		TargetKafkaClusterArn: ptr.String("__TargetKafkaClusterArn__"),
+		TargetKafkaClusterId:  ptr.String("__TargetKafkaClusterId__"),
+		TopicReplication: &types.TopicReplicationUpdate{
+			CopyAccessControlListsForTopics: ptr.Bool(true),
+			CopyTopicConfigurations:         ptr.Bool(true),
+			DetectAndCopyNewTopics:          ptr.Bool(true),
+			TopicsToExclude: []string{
+				"__Member__",
+				"__Member__",
+			},
+			TopicsToReplicate: []string{
+				"__Member__",
+				"__Member__",
+			},
+		},
+		LogDelivery: &types.LogDelivery{
+			ReplicatorLogDelivery: &types.ReplicatorLogDelivery{
+				CloudWatchLogs: &types.ReplicatorCloudWatchLogs{
+					Enabled:  ptr.Bool(true),
+					LogGroup: ptr.String("__LogGroup__"),
+				},
+				Firehose: &types.ReplicatorFirehose{
+					Enabled:        ptr.Bool(true),
+					DeliveryStream: ptr.String("__DeliveryStream__"),
+				},
+				S3: &types.ReplicatorS3{
+					Enabled: ptr.Bool(true),
+					Bucket:  ptr.String("__Bucket__"),
+					Prefix:  ptr.String("__Prefix__"),
+				},
+			},
+		},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -4210,7 +5108,39 @@ func TestCheckResponseSnapshot_UpdateSecurity(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.UpdateSecurity(context.Background(), &UpdateSecurityInput{})
+	got, err := svc.UpdateSecurity(context.Background(), &UpdateSecurityInput{
+		ClientAuthentication: &types.ClientAuthentication{
+			Sasl: &types.Sasl{
+				Scram: &types.Scram{
+					Enabled: ptr.Bool(true),
+				},
+				Iam: &types.Iam{
+					Enabled: ptr.Bool(true),
+				},
+			},
+			Tls: &types.Tls{
+				CertificateAuthorityArnList: []string{
+					"__Member__",
+					"__Member__",
+				},
+				Enabled: ptr.Bool(true),
+			},
+			Unauthenticated: &types.Unauthenticated{
+				Enabled: ptr.Bool(true),
+			},
+		},
+		ClusterArn:     ptr.String("__ClusterArn__"),
+		CurrentVersion: ptr.String("__CurrentVersion__"),
+		EncryptionInfo: &types.EncryptionInfo{
+			EncryptionAtRest: &types.EncryptionAtRest{
+				DataVolumeKMSKeyId: ptr.String("__DataVolumeKMSKeyId__"),
+			},
+			EncryptionInTransit: &types.EncryptionInTransit{
+				ClientBroker: types.ClientBroker("TLS"),
+				InCluster:    ptr.Bool(true),
+			},
+		},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -4232,7 +5162,16 @@ func TestCheckResponseSnapshot_UpdateStorage(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.UpdateStorage(context.Background(), &UpdateStorageInput{})
+	got, err := svc.UpdateStorage(context.Background(), &UpdateStorageInput{
+		ClusterArn:     ptr.String("__ClusterArn__"),
+		CurrentVersion: ptr.String("__CurrentVersion__"),
+		ProvisionedThroughput: &types.ProvisionedThroughput{
+			Enabled:          ptr.Bool(true),
+			VolumeThroughput: ptr.Int32(1),
+		},
+		StorageMode:  types.StorageMode("LOCAL"),
+		VolumeSizeGB: ptr.Int32(1),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -4255,7 +5194,12 @@ func TestCheckResponseSnapshot_UpdateTopic(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.UpdateTopic(context.Background(), &UpdateTopicInput{})
+	got, err := svc.UpdateTopic(context.Background(), &UpdateTopicInput{
+		ClusterArn:     ptr.String("__ClusterArn__"),
+		TopicName:      ptr.String("__TopicName__"),
+		Configs:        ptr.String("__Configs__"),
+		PartitionCount: ptr.Int32(1),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -4277,7 +5221,13 @@ func TestCheckResponseSnapshot_Error_BadRequestException(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	_, opErr := svc.BatchAssociateScramSecret(context.Background(), &BatchAssociateScramSecretInput{})
+	_, opErr := svc.BatchAssociateScramSecret(context.Background(), &BatchAssociateScramSecretInput{
+		ClusterArn: ptr.String("__ClusterArn__"),
+		SecretArnList: []string{
+			"__Member__",
+			"__Member__",
+		},
+	})
 	if opErr == nil {
 		t.Fatal("expected error, got nil")
 	}
@@ -4303,7 +5253,13 @@ func TestCheckResponseSnapshot_Error_ClusterConnectivityException(t *testing.T) 
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	_, opErr := svc.CreateTopic(context.Background(), &CreateTopicInput{})
+	_, opErr := svc.CreateTopic(context.Background(), &CreateTopicInput{
+		ClusterArn:        ptr.String("__ClusterArn__"),
+		TopicName:         ptr.String("__TopicName__"),
+		PartitionCount:    ptr.Int32(1),
+		ReplicationFactor: ptr.Int32(1),
+		Configs:           ptr.String("__Configs__"),
+	})
 	if opErr == nil {
 		t.Fatal("expected error, got nil")
 	}
@@ -4329,7 +5285,121 @@ func TestCheckResponseSnapshot_Error_ConflictException(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	_, opErr := svc.CreateChannel(context.Background(), &CreateChannelInput{})
+	_, opErr := svc.CreateChannel(context.Background(), &CreateChannelInput{
+		ChannelName: ptr.String("__ChannelName__"),
+		ClusterArn:  ptr.String("__ClusterArn__"),
+		EncryptionConfiguration: &types.EncryptionConfiguration{
+			KmsKeyArn: ptr.String("__KmsKeyArn__"),
+		},
+		IcebergDestinationConfiguration: &types.IcebergDestinationConfiguration{
+			AppendOnly: ptr.Bool(true),
+			Catalog: &types.Catalog{
+				CatalogArn:        ptr.String("__CatalogArn__"),
+				WarehouseLocation: ptr.String("__WarehouseLocation__"),
+			},
+			DataFreshnessInSeconds: ptr.Int32(1),
+			DeadLetterQueueS3: &types.DeadLetterQueueS3{
+				BucketArn:           ptr.String("__BucketArn__"),
+				ErrorOutputPrefix:   ptr.String("__ErrorOutputPrefix__"),
+				ExpectedBucketOwner: ptr.String("__ExpectedBucketOwner__"),
+			},
+			DestinationTableList: []types.DestinationTable{
+				{
+					DestinationDatabaseName: ptr.String("__DestinationDatabaseName__"),
+					DestinationTableName:    ptr.String("__DestinationTableName__"),
+					PartitionSpec: &types.PartitionSpec{
+						PartitionStrategy: types.PartitionStrategy("TIME_HOUR"),
+						SourceList: []types.PartitionSource{
+							{
+								SourceName: ptr.String("__SourceName__"),
+							},
+							{
+								SourceName: ptr.String("__SourceName__"),
+							},
+						},
+					},
+				},
+				{
+					DestinationDatabaseName: ptr.String("__DestinationDatabaseName__"),
+					DestinationTableName:    ptr.String("__DestinationTableName__"),
+					PartitionSpec: &types.PartitionSpec{
+						PartitionStrategy: types.PartitionStrategy("TIME_HOUR"),
+						SourceList: []types.PartitionSource{
+							{
+								SourceName: ptr.String("__SourceName__"),
+							},
+							{
+								SourceName: ptr.String("__SourceName__"),
+							},
+						},
+					},
+				},
+			},
+			SchemaEvolution: &types.SchemaEvolution{
+				EnableSchemaEvolution: ptr.Bool(true),
+			},
+			ServiceExecutionRoleArn: ptr.String("__ServiceExecutionRoleArn__"),
+			TableCreation: &types.TableCreation{
+				EnableTableCreation: ptr.Bool(true),
+			},
+			CompressionType: types.IcebergCompressionType("ZSTD"),
+		},
+		S3DestinationConfiguration: &types.S3DestinationConfiguration{
+			DataFreshnessInSeconds: ptr.Int32(1),
+			DeadLetterQueueS3: &types.DeadLetterQueueS3{
+				BucketArn:           ptr.String("__BucketArn__"),
+				ErrorOutputPrefix:   ptr.String("__ErrorOutputPrefix__"),
+				ExpectedBucketOwner: ptr.String("__ExpectedBucketOwner__"),
+			},
+			ServiceExecutionRoleArn: ptr.String("__ServiceExecutionRoleArn__"),
+			Storage: &types.S3Storage{
+				BucketArn:           ptr.String("__BucketArn__"),
+				CompressionType:     types.S3CompressionType("NONE"),
+				OutputPrefix:        ptr.String("__OutputPrefix__"),
+				OutputKeyTemplate:   ptr.String("__OutputKeyTemplate__"),
+				StorageClass:        types.S3StorageClass("STANDARD"),
+				ExpectedBucketOwner: ptr.String("__ExpectedBucketOwner__"),
+			},
+		},
+		Tags: map[string]string{
+			"key0": "__Value__",
+		},
+		TopicConfigurationList: []types.TopicConfiguration{
+			{
+				RecordConverter: &types.RecordConverter{
+					ValueConverter: types.ValueConverter("BYTE_ARRAY"),
+				},
+				RecordSchema: &types.RecordSchema{
+					GsrArn: ptr.String("__GsrArn__"),
+				},
+				TopicArn: ptr.String("__TopicArn__"),
+			},
+			{
+				RecordConverter: &types.RecordConverter{
+					ValueConverter: types.ValueConverter("BYTE_ARRAY"),
+				},
+				RecordSchema: &types.RecordSchema{
+					GsrArn: ptr.String("__GsrArn__"),
+				},
+				TopicArn: ptr.String("__TopicArn__"),
+			},
+		},
+		LoggingInfo: &types.ChannelLoggingInfo{
+			CloudWatchLogs: &types.CloudWatchLogs{
+				Enabled:  ptr.Bool(true),
+				LogGroup: ptr.String("__LogGroup__"),
+			},
+			Firehose: &types.Firehose{
+				DeliveryStream: ptr.String("__DeliveryStream__"),
+				Enabled:        ptr.Bool(true),
+			},
+			S3: &types.S3{
+				Bucket:  ptr.String("__Bucket__"),
+				Enabled: ptr.Bool(true),
+				Prefix:  ptr.String("__Prefix__"),
+			},
+		},
+	})
 	if opErr == nil {
 		t.Fatal("expected error, got nil")
 	}
@@ -4355,7 +5425,13 @@ func TestCheckResponseSnapshot_Error_ControllerMovedException(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	_, opErr := svc.CreateTopic(context.Background(), &CreateTopicInput{})
+	_, opErr := svc.CreateTopic(context.Background(), &CreateTopicInput{
+		ClusterArn:        ptr.String("__ClusterArn__"),
+		TopicName:         ptr.String("__TopicName__"),
+		PartitionCount:    ptr.Int32(1),
+		ReplicationFactor: ptr.Int32(1),
+		Configs:           ptr.String("__Configs__"),
+	})
 	if opErr == nil {
 		t.Fatal("expected error, got nil")
 	}
@@ -4381,7 +5457,13 @@ func TestCheckResponseSnapshot_Error_ForbiddenException(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	_, opErr := svc.BatchAssociateScramSecret(context.Background(), &BatchAssociateScramSecretInput{})
+	_, opErr := svc.BatchAssociateScramSecret(context.Background(), &BatchAssociateScramSecretInput{
+		ClusterArn: ptr.String("__ClusterArn__"),
+		SecretArnList: []string{
+			"__Member__",
+			"__Member__",
+		},
+	})
 	if opErr == nil {
 		t.Fatal("expected error, got nil")
 	}
@@ -4407,7 +5489,13 @@ func TestCheckResponseSnapshot_Error_GroupSubscribedToTopicException(t *testing.
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	_, opErr := svc.CreateTopic(context.Background(), &CreateTopicInput{})
+	_, opErr := svc.CreateTopic(context.Background(), &CreateTopicInput{
+		ClusterArn:        ptr.String("__ClusterArn__"),
+		TopicName:         ptr.String("__TopicName__"),
+		PartitionCount:    ptr.Int32(1),
+		ReplicationFactor: ptr.Int32(1),
+		Configs:           ptr.String("__Configs__"),
+	})
 	if opErr == nil {
 		t.Fatal("expected error, got nil")
 	}
@@ -4433,7 +5521,13 @@ func TestCheckResponseSnapshot_Error_InternalServerErrorException(t *testing.T) 
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	_, opErr := svc.BatchAssociateScramSecret(context.Background(), &BatchAssociateScramSecretInput{})
+	_, opErr := svc.BatchAssociateScramSecret(context.Background(), &BatchAssociateScramSecretInput{
+		ClusterArn: ptr.String("__ClusterArn__"),
+		SecretArnList: []string{
+			"__Member__",
+			"__Member__",
+		},
+	})
 	if opErr == nil {
 		t.Fatal("expected error, got nil")
 	}
@@ -4459,7 +5553,13 @@ func TestCheckResponseSnapshot_Error_KafkaRequestException(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	_, opErr := svc.CreateTopic(context.Background(), &CreateTopicInput{})
+	_, opErr := svc.CreateTopic(context.Background(), &CreateTopicInput{
+		ClusterArn:        ptr.String("__ClusterArn__"),
+		TopicName:         ptr.String("__TopicName__"),
+		PartitionCount:    ptr.Int32(1),
+		ReplicationFactor: ptr.Int32(1),
+		Configs:           ptr.String("__Configs__"),
+	})
 	if opErr == nil {
 		t.Fatal("expected error, got nil")
 	}
@@ -4485,7 +5585,13 @@ func TestCheckResponseSnapshot_Error_KafkaTimeoutException(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	_, opErr := svc.CreateTopic(context.Background(), &CreateTopicInput{})
+	_, opErr := svc.CreateTopic(context.Background(), &CreateTopicInput{
+		ClusterArn:        ptr.String("__ClusterArn__"),
+		TopicName:         ptr.String("__TopicName__"),
+		PartitionCount:    ptr.Int32(1),
+		ReplicationFactor: ptr.Int32(1),
+		Configs:           ptr.String("__Configs__"),
+	})
 	if opErr == nil {
 		t.Fatal("expected error, got nil")
 	}
@@ -4511,7 +5617,13 @@ func TestCheckResponseSnapshot_Error_NotControllerException(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	_, opErr := svc.CreateTopic(context.Background(), &CreateTopicInput{})
+	_, opErr := svc.CreateTopic(context.Background(), &CreateTopicInput{
+		ClusterArn:        ptr.String("__ClusterArn__"),
+		TopicName:         ptr.String("__TopicName__"),
+		PartitionCount:    ptr.Int32(1),
+		ReplicationFactor: ptr.Int32(1),
+		Configs:           ptr.String("__Configs__"),
+	})
 	if opErr == nil {
 		t.Fatal("expected error, got nil")
 	}
@@ -4537,7 +5649,13 @@ func TestCheckResponseSnapshot_Error_NotFoundException(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	_, opErr := svc.BatchAssociateScramSecret(context.Background(), &BatchAssociateScramSecretInput{})
+	_, opErr := svc.BatchAssociateScramSecret(context.Background(), &BatchAssociateScramSecretInput{
+		ClusterArn: ptr.String("__ClusterArn__"),
+		SecretArnList: []string{
+			"__Member__",
+			"__Member__",
+		},
+	})
 	if opErr == nil {
 		t.Fatal("expected error, got nil")
 	}
@@ -4563,7 +5681,13 @@ func TestCheckResponseSnapshot_Error_ReassignmentInProgressException(t *testing.
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	_, opErr := svc.CreateTopic(context.Background(), &CreateTopicInput{})
+	_, opErr := svc.CreateTopic(context.Background(), &CreateTopicInput{
+		ClusterArn:        ptr.String("__ClusterArn__"),
+		TopicName:         ptr.String("__TopicName__"),
+		PartitionCount:    ptr.Int32(1),
+		ReplicationFactor: ptr.Int32(1),
+		Configs:           ptr.String("__Configs__"),
+	})
 	if opErr == nil {
 		t.Fatal("expected error, got nil")
 	}
@@ -4589,7 +5713,13 @@ func TestCheckResponseSnapshot_Error_ServiceUnavailableException(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	_, opErr := svc.BatchAssociateScramSecret(context.Background(), &BatchAssociateScramSecretInput{})
+	_, opErr := svc.BatchAssociateScramSecret(context.Background(), &BatchAssociateScramSecretInput{
+		ClusterArn: ptr.String("__ClusterArn__"),
+		SecretArnList: []string{
+			"__Member__",
+			"__Member__",
+		},
+	})
 	if opErr == nil {
 		t.Fatal("expected error, got nil")
 	}
@@ -4615,7 +5745,13 @@ func TestCheckResponseSnapshot_Error_TooManyRequestsException(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	_, opErr := svc.BatchAssociateScramSecret(context.Background(), &BatchAssociateScramSecretInput{})
+	_, opErr := svc.BatchAssociateScramSecret(context.Background(), &BatchAssociateScramSecretInput{
+		ClusterArn: ptr.String("__ClusterArn__"),
+		SecretArnList: []string{
+			"__Member__",
+			"__Member__",
+		},
+	})
 	if opErr == nil {
 		t.Fatal("expected error, got nil")
 	}
@@ -4641,7 +5777,13 @@ func TestCheckResponseSnapshot_Error_TopicExistsException(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	_, opErr := svc.CreateTopic(context.Background(), &CreateTopicInput{})
+	_, opErr := svc.CreateTopic(context.Background(), &CreateTopicInput{
+		ClusterArn:        ptr.String("__ClusterArn__"),
+		TopicName:         ptr.String("__TopicName__"),
+		PartitionCount:    ptr.Int32(1),
+		ReplicationFactor: ptr.Int32(1),
+		Configs:           ptr.String("__Configs__"),
+	})
 	if opErr == nil {
 		t.Fatal("expected error, got nil")
 	}
@@ -4667,7 +5809,13 @@ func TestCheckResponseSnapshot_Error_UnauthorizedException(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	_, opErr := svc.BatchAssociateScramSecret(context.Background(), &BatchAssociateScramSecretInput{})
+	_, opErr := svc.BatchAssociateScramSecret(context.Background(), &BatchAssociateScramSecretInput{
+		ClusterArn: ptr.String("__ClusterArn__"),
+		SecretArnList: []string{
+			"__Member__",
+			"__Member__",
+		},
+	})
 	if opErr == nil {
 		t.Fatal("expected error, got nil")
 	}
@@ -4693,7 +5841,13 @@ func TestCheckResponseSnapshot_Error_UnknownTopicOrPartitionException(t *testing
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	_, opErr := svc.CreateTopic(context.Background(), &CreateTopicInput{})
+	_, opErr := svc.CreateTopic(context.Background(), &CreateTopicInput{
+		ClusterArn:        ptr.String("__ClusterArn__"),
+		TopicName:         ptr.String("__TopicName__"),
+		PartitionCount:    ptr.Int32(1),
+		ReplicationFactor: ptr.Int32(1),
+		Configs:           ptr.String("__Configs__"),
+	})
 	if opErr == nil {
 		t.Fatal("expected error, got nil")
 	}

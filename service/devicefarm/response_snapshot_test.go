@@ -137,7 +137,24 @@ func TestCheckResponseSnapshot_CreateDevicePool(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.CreateDevicePool(context.Background(), &CreateDevicePoolInput{})
+	got, err := svc.CreateDevicePool(context.Background(), &CreateDevicePoolInput{
+		ProjectArn:  ptr.String("__ProjectArn__"),
+		Name:        ptr.String("__Name__"),
+		Description: ptr.String("__Description__"),
+		Rules: []types.Rule{
+			{
+				Attribute: types.DeviceAttribute("ARN"),
+				Operator:  types.RuleOperator("EQUALS"),
+				Value:     ptr.String("__Value__"),
+			},
+			{
+				Attribute: types.DeviceAttribute("ARN"),
+				Operator:  types.RuleOperator("EQUALS"),
+				Value:     ptr.String("__Value__"),
+			},
+		},
+		MaxDevices: ptr.Int32(1),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -168,7 +185,16 @@ func TestCheckResponseSnapshot_CreateInstanceProfile(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.CreateInstanceProfile(context.Background(), &CreateInstanceProfileInput{})
+	got, err := svc.CreateInstanceProfile(context.Background(), &CreateInstanceProfileInput{
+		Name:           ptr.String("__Name__"),
+		Description:    ptr.String("__Description__"),
+		PackageCleanup: ptr.Bool(true),
+		ExcludeAppPackagesFromCleanup: []string{
+			"__Member__",
+			"__Member__",
+		},
+		RebootAfterUse: ptr.Bool(true),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -202,7 +228,20 @@ func TestCheckResponseSnapshot_CreateNetworkProfile(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.CreateNetworkProfile(context.Background(), &CreateNetworkProfileInput{})
+	got, err := svc.CreateNetworkProfile(context.Background(), &CreateNetworkProfileInput{
+		ProjectArn:            ptr.String("__ProjectArn__"),
+		Name:                  ptr.String("__Name__"),
+		Description:           ptr.String("__Description__"),
+		Type:                  types.NetworkProfileType("CURATED"),
+		UplinkBandwidthBits:   ptr.Int64(1),
+		DownlinkBandwidthBits: ptr.Int64(1),
+		UplinkDelayMs:         ptr.Int64(1),
+		DownlinkDelayMs:       ptr.Int64(1),
+		UplinkJitterMs:        ptr.Int64(1),
+		DownlinkJitterMs:      ptr.Int64(1),
+		UplinkLossPercent:     1,
+		DownlinkLossPercent:   1,
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -250,7 +289,32 @@ func TestCheckResponseSnapshot_CreateProject(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.CreateProject(context.Background(), &CreateProjectInput{})
+	got, err := svc.CreateProject(context.Background(), &CreateProjectInput{
+		Name:                     ptr.String("__Name__"),
+		DefaultJobTimeoutMinutes: ptr.Int32(1),
+		VpcConfig: &types.VpcConfig{
+			SecurityGroupIds: []string{
+				"__Member__",
+				"__Member__",
+			},
+			SubnetIds: []string{
+				"__Member__",
+				"__Member__",
+			},
+			VpcId: ptr.String("__VpcId__"),
+		},
+		EnvironmentVariables: []types.EnvironmentVariable{
+			{
+				Name:  ptr.String("__Name__"),
+				Value: ptr.String("__Value__"),
+			},
+			{
+				Name:  ptr.String("__Name__"),
+				Value: ptr.String("__Value__"),
+			},
+		},
+		ExecutionRoleArn: ptr.String("__ExecutionRoleArn__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -384,7 +448,30 @@ func TestCheckResponseSnapshot_CreateRemoteAccessSession(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.CreateRemoteAccessSession(context.Background(), &CreateRemoteAccessSessionInput{})
+	got, err := svc.CreateRemoteAccessSession(context.Background(), &CreateRemoteAccessSessionInput{
+		ProjectArn:  ptr.String("__ProjectArn__"),
+		DeviceArn:   ptr.String("__DeviceArn__"),
+		AppArn:      ptr.String("__AppArn__"),
+		InstanceArn: ptr.String("__InstanceArn__"),
+		Name:        ptr.String("__Name__"),
+		Configuration: &types.CreateRemoteAccessSessionConfiguration{
+			AuxiliaryApps: []string{
+				"__Member__",
+				"__Member__",
+			},
+			BillingMethod: types.BillingMethod("METERED"),
+			VpceConfigurationArns: []string{
+				"__Member__",
+				"__Member__",
+			},
+			DeviceProxy: &types.DeviceProxy{
+				Host: ptr.String("__Host__"),
+				Port: ptr.Int32(1),
+			},
+		},
+		InteractionMode: types.InteractionMode("INTERACTIVE"),
+		SkipAppResign:   ptr.Bool(true),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -421,7 +508,21 @@ func TestCheckResponseSnapshot_CreateTestGridProject(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.CreateTestGridProject(context.Background(), &CreateTestGridProjectInput{})
+	got, err := svc.CreateTestGridProject(context.Background(), &CreateTestGridProjectInput{
+		Name:        ptr.String("__Name__"),
+		Description: ptr.String("__Description__"),
+		VpcConfig: &types.TestGridVpcConfig{
+			SecurityGroupIds: []string{
+				"__Member__",
+				"__Member__",
+			},
+			SubnetIds: []string{
+				"__Member__",
+				"__Member__",
+			},
+			VpcId: ptr.String("__VpcId__"),
+		},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -443,7 +544,10 @@ func TestCheckResponseSnapshot_CreateTestGridUrl(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.CreateTestGridUrl(context.Background(), &CreateTestGridUrlInput{})
+	got, err := svc.CreateTestGridUrl(context.Background(), &CreateTestGridUrlInput{
+		ProjectArn:       ptr.String("__ProjectArn__"),
+		ExpiresInSeconds: ptr.Int32(1),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -475,7 +579,12 @@ func TestCheckResponseSnapshot_CreateUpload(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.CreateUpload(context.Background(), &CreateUploadInput{})
+	got, err := svc.CreateUpload(context.Background(), &CreateUploadInput{
+		ProjectArn:  ptr.String("__ProjectArn__"),
+		Name:        ptr.String("__Name__"),
+		Type:        types.UploadType("ANDROID_APP"),
+		ContentType: ptr.String("__ContentType__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -502,7 +611,12 @@ func TestCheckResponseSnapshot_CreateVPCEConfiguration(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.CreateVPCEConfiguration(context.Background(), &CreateVPCEConfigurationInput{})
+	got, err := svc.CreateVPCEConfiguration(context.Background(), &CreateVPCEConfigurationInput{
+		VpceConfigurationName:        ptr.String("__VpceConfigurationName__"),
+		VpceServiceName:              ptr.String("__VpceServiceName__"),
+		ServiceDnsName:               ptr.String("__ServiceDnsName__"),
+		VpceConfigurationDescription: ptr.String("__VpceConfigurationDescription__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -521,7 +635,9 @@ func TestCheckResponseSnapshot_DeleteDevicePool(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DeleteDevicePool(context.Background(), &DeleteDevicePoolInput{})
+	got, err := svc.DeleteDevicePool(context.Background(), &DeleteDevicePoolInput{
+		Arn: ptr.String("__Arn__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -540,7 +656,9 @@ func TestCheckResponseSnapshot_DeleteInstanceProfile(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DeleteInstanceProfile(context.Background(), &DeleteInstanceProfileInput{})
+	got, err := svc.DeleteInstanceProfile(context.Background(), &DeleteInstanceProfileInput{
+		Arn: ptr.String("__Arn__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -559,7 +677,9 @@ func TestCheckResponseSnapshot_DeleteNetworkProfile(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DeleteNetworkProfile(context.Background(), &DeleteNetworkProfileInput{})
+	got, err := svc.DeleteNetworkProfile(context.Background(), &DeleteNetworkProfileInput{
+		Arn: ptr.String("__Arn__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -578,7 +698,9 @@ func TestCheckResponseSnapshot_DeleteProject(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DeleteProject(context.Background(), &DeleteProjectInput{})
+	got, err := svc.DeleteProject(context.Background(), &DeleteProjectInput{
+		Arn: ptr.String("__Arn__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -597,7 +719,9 @@ func TestCheckResponseSnapshot_DeleteRemoteAccessSession(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DeleteRemoteAccessSession(context.Background(), &DeleteRemoteAccessSessionInput{})
+	got, err := svc.DeleteRemoteAccessSession(context.Background(), &DeleteRemoteAccessSessionInput{
+		Arn: ptr.String("__Arn__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -616,7 +740,9 @@ func TestCheckResponseSnapshot_DeleteRun(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DeleteRun(context.Background(), &DeleteRunInput{})
+	got, err := svc.DeleteRun(context.Background(), &DeleteRunInput{
+		Arn: ptr.String("__Arn__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -635,7 +761,9 @@ func TestCheckResponseSnapshot_DeleteTestGridProject(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DeleteTestGridProject(context.Background(), &DeleteTestGridProjectInput{})
+	got, err := svc.DeleteTestGridProject(context.Background(), &DeleteTestGridProjectInput{
+		ProjectArn: ptr.String("__ProjectArn__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -654,7 +782,9 @@ func TestCheckResponseSnapshot_DeleteUpload(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DeleteUpload(context.Background(), &DeleteUploadInput{})
+	got, err := svc.DeleteUpload(context.Background(), &DeleteUploadInput{
+		Arn: ptr.String("__Arn__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -673,7 +803,9 @@ func TestCheckResponseSnapshot_DeleteVPCEConfiguration(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DeleteVPCEConfiguration(context.Background(), &DeleteVPCEConfigurationInput{})
+	got, err := svc.DeleteVPCEConfiguration(context.Background(), &DeleteVPCEConfigurationInput{
+		Arn: ptr.String("__Arn__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -805,7 +937,9 @@ func TestCheckResponseSnapshot_GetDevice(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.GetDevice(context.Background(), &GetDeviceInput{})
+	got, err := svc.GetDevice(context.Background(), &GetDeviceInput{
+		Arn: ptr.String("__Arn__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -846,7 +980,9 @@ func TestCheckResponseSnapshot_GetDeviceInstance(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.GetDeviceInstance(context.Background(), &GetDeviceInstanceInput{})
+	got, err := svc.GetDeviceInstance(context.Background(), &GetDeviceInstanceInput{
+		Arn: ptr.String("__Arn__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -885,7 +1021,9 @@ func TestCheckResponseSnapshot_GetDevicePool(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.GetDevicePool(context.Background(), &GetDevicePoolInput{})
+	got, err := svc.GetDevicePool(context.Background(), &GetDevicePoolInput{
+		Arn: ptr.String("__Arn__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1253,7 +1391,74 @@ func TestCheckResponseSnapshot_GetDevicePoolCompatibility(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.GetDevicePoolCompatibility(context.Background(), &GetDevicePoolCompatibilityInput{})
+	got, err := svc.GetDevicePoolCompatibility(context.Background(), &GetDevicePoolCompatibilityInput{
+		DevicePoolArn: ptr.String("__DevicePoolArn__"),
+		AppArn:        ptr.String("__AppArn__"),
+		TestType:      types.TestType("BUILTIN_FUZZ"),
+		Test: &types.ScheduleRunTest{
+			Type:           types.TestType("BUILTIN_FUZZ"),
+			TestPackageArn: ptr.String("__TestPackageArn__"),
+			TestSpecArn:    ptr.String("__TestSpecArn__"),
+			Filter:         ptr.String("__Filter__"),
+			Parameters: map[string]string{
+				"key0": "__Value__",
+			},
+		},
+		Configuration: &types.ScheduleRunConfiguration{
+			ExtraDataPackageArn: ptr.String("__ExtraDataPackageArn__"),
+			NetworkProfileArn:   ptr.String("__NetworkProfileArn__"),
+			Locale:              ptr.String("__Locale__"),
+			Location: &types.Location{
+				Latitude:  ptr.Float64(1.0),
+				Longitude: ptr.Float64(1.0),
+			},
+			VpceConfigurationArns: []string{
+				"__Member__",
+				"__Member__",
+			},
+			DeviceProxy: &types.DeviceProxy{
+				Host: ptr.String("__Host__"),
+				Port: ptr.Int32(1),
+			},
+			CustomerArtifactPaths: &types.CustomerArtifactPaths{
+				IosPaths: []string{
+					"__Member__",
+					"__Member__",
+				},
+				AndroidPaths: []string{
+					"__Member__",
+					"__Member__",
+				},
+				DeviceHostPaths: []string{
+					"__Member__",
+					"__Member__",
+				},
+			},
+			Radios: &types.Radios{
+				Wifi:      ptr.Bool(true),
+				Bluetooth: ptr.Bool(true),
+				Nfc:       ptr.Bool(true),
+				Gps:       ptr.Bool(true),
+			},
+			AuxiliaryApps: []string{
+				"__Member__",
+				"__Member__",
+			},
+			BillingMethod: types.BillingMethod("METERED"),
+			EnvironmentVariables: []types.EnvironmentVariable{
+				{
+					Name:  ptr.String("__Name__"),
+					Value: ptr.String("__Value__"),
+				},
+				{
+					Name:  ptr.String("__Name__"),
+					Value: ptr.String("__Value__"),
+				},
+			},
+			ExecutionRoleArn: ptr.String("__ExecutionRoleArn__"),
+		},
+		ProjectArn: ptr.String("__ProjectArn__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1284,7 +1489,9 @@ func TestCheckResponseSnapshot_GetInstanceProfile(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.GetInstanceProfile(context.Background(), &GetInstanceProfileInput{})
+	got, err := svc.GetInstanceProfile(context.Background(), &GetInstanceProfileInput{
+		Arn: ptr.String("__Arn__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1405,7 +1612,9 @@ func TestCheckResponseSnapshot_GetJob(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.GetJob(context.Background(), &GetJobInput{})
+	got, err := svc.GetJob(context.Background(), &GetJobInput{
+		Arn: ptr.String("__Arn__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1439,7 +1648,9 @@ func TestCheckResponseSnapshot_GetNetworkProfile(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.GetNetworkProfile(context.Background(), &GetNetworkProfileInput{})
+	got, err := svc.GetNetworkProfile(context.Background(), &GetNetworkProfileInput{
+		Arn: ptr.String("__Arn__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1518,7 +1729,9 @@ func TestCheckResponseSnapshot_GetOfferingStatus(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.GetOfferingStatus(context.Background(), &GetOfferingStatusInput{})
+	got, err := svc.GetOfferingStatus(context.Background(), &GetOfferingStatusInput{
+		NextToken: ptr.String("__NextToken__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1566,7 +1779,9 @@ func TestCheckResponseSnapshot_GetProject(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.GetProject(context.Background(), &GetProjectInput{})
+	got, err := svc.GetProject(context.Background(), &GetProjectInput{
+		Arn: ptr.String("__Arn__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1700,7 +1915,9 @@ func TestCheckResponseSnapshot_GetRemoteAccessSession(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.GetRemoteAccessSession(context.Background(), &GetRemoteAccessSessionInput{})
+	got, err := svc.GetRemoteAccessSession(context.Background(), &GetRemoteAccessSessionInput{
+		Arn: ptr.String("__Arn__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1846,7 +2063,9 @@ func TestCheckResponseSnapshot_GetRun(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.GetRun(context.Background(), &GetRunInput{})
+	got, err := svc.GetRun(context.Background(), &GetRunInput{
+		Arn: ptr.String("__Arn__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1891,7 +2110,9 @@ func TestCheckResponseSnapshot_GetSuite(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.GetSuite(context.Background(), &GetSuiteInput{})
+	got, err := svc.GetSuite(context.Background(), &GetSuiteInput{
+		Arn: ptr.String("__Arn__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1936,7 +2157,9 @@ func TestCheckResponseSnapshot_GetTest(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.GetTest(context.Background(), &GetTestInput{})
+	got, err := svc.GetTest(context.Background(), &GetTestInput{
+		Arn: ptr.String("__Arn__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1973,7 +2196,9 @@ func TestCheckResponseSnapshot_GetTestGridProject(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.GetTestGridProject(context.Background(), &GetTestGridProjectInput{})
+	got, err := svc.GetTestGridProject(context.Background(), &GetTestGridProjectInput{
+		ProjectArn: ptr.String("__ProjectArn__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -2001,7 +2226,11 @@ func TestCheckResponseSnapshot_GetTestGridSession(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.GetTestGridSession(context.Background(), &GetTestGridSessionInput{})
+	got, err := svc.GetTestGridSession(context.Background(), &GetTestGridSessionInput{
+		ProjectArn: ptr.String("__ProjectArn__"),
+		SessionId:  ptr.String("__SessionId__"),
+		SessionArn: ptr.String("__SessionArn__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -2033,7 +2262,9 @@ func TestCheckResponseSnapshot_GetUpload(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.GetUpload(context.Background(), &GetUploadInput{})
+	got, err := svc.GetUpload(context.Background(), &GetUploadInput{
+		Arn: ptr.String("__Arn__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -2060,7 +2291,9 @@ func TestCheckResponseSnapshot_GetVPCEConfiguration(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.GetVPCEConfiguration(context.Background(), &GetVPCEConfigurationInput{})
+	got, err := svc.GetVPCEConfiguration(context.Background(), &GetVPCEConfigurationInput{
+		Arn: ptr.String("__Arn__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -2092,7 +2325,10 @@ func TestCheckResponseSnapshot_InstallToRemoteAccessSession(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.InstallToRemoteAccessSession(context.Background(), &InstallToRemoteAccessSessionInput{})
+	got, err := svc.InstallToRemoteAccessSession(context.Background(), &InstallToRemoteAccessSessionInput{
+		RemoteAccessSessionArn: ptr.String("__RemoteAccessSessionArn__"),
+		AppArn:                 ptr.String("__AppArn__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -2129,7 +2365,11 @@ func TestCheckResponseSnapshot_ListArtifacts(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListArtifacts(context.Background(), &ListArtifactsInput{})
+	got, err := svc.ListArtifacts(context.Background(), &ListArtifactsInput{
+		Arn:       ptr.String("__Arn__"),
+		Type:      types.ArtifactCategory("SCREENSHOT"),
+		NextToken: ptr.String("__NextToken__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -2194,7 +2434,10 @@ func TestCheckResponseSnapshot_ListDeviceInstances(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListDeviceInstances(context.Background(), &ListDeviceInstancesInput{})
+	got, err := svc.ListDeviceInstances(context.Background(), &ListDeviceInstancesInput{
+		MaxResults: ptr.Int32(1),
+		NextToken:  ptr.String("__NextToken__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -2255,7 +2498,11 @@ func TestCheckResponseSnapshot_ListDevicePools(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListDevicePools(context.Background(), &ListDevicePoolsInput{})
+	got, err := svc.ListDevicePools(context.Background(), &ListDevicePoolsInput{
+		Arn:       ptr.String("__Arn__"),
+		Type:      types.DevicePoolType("CURATED"),
+		NextToken: ptr.String("__NextToken__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -2424,7 +2671,28 @@ func TestCheckResponseSnapshot_ListDevices(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListDevices(context.Background(), &ListDevicesInput{})
+	got, err := svc.ListDevices(context.Background(), &ListDevicesInput{
+		Arn:       ptr.String("__Arn__"),
+		NextToken: ptr.String("__NextToken__"),
+		Filters: []types.DeviceFilter{
+			{
+				Attribute: types.DeviceFilterAttribute("ARN"),
+				Operator:  types.RuleOperator("EQUALS"),
+				Values: []string{
+					"__Member__",
+					"__Member__",
+				},
+			},
+			{
+				Attribute: types.DeviceFilterAttribute("ARN"),
+				Operator:  types.RuleOperator("EQUALS"),
+				Values: []string{
+					"__Member__",
+					"__Member__",
+				},
+			},
+		},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -2469,7 +2737,10 @@ func TestCheckResponseSnapshot_ListInstanceProfiles(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListInstanceProfiles(context.Background(), &ListInstanceProfilesInput{})
+	got, err := svc.ListInstanceProfiles(context.Background(), &ListInstanceProfilesInput{
+		MaxResults: ptr.Int32(1),
+		NextToken:  ptr.String("__NextToken__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -2694,7 +2965,10 @@ func TestCheckResponseSnapshot_ListJobs(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListJobs(context.Background(), &ListJobsInput{})
+	got, err := svc.ListJobs(context.Background(), &ListJobsInput{
+		Arn:       ptr.String("__Arn__"),
+		NextToken: ptr.String("__NextToken__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -2745,7 +3019,11 @@ func TestCheckResponseSnapshot_ListNetworkProfiles(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListNetworkProfiles(context.Background(), &ListNetworkProfilesInput{})
+	got, err := svc.ListNetworkProfiles(context.Background(), &ListNetworkProfilesInput{
+		Arn:       ptr.String("__Arn__"),
+		Type:      types.NetworkProfileType("CURATED"),
+		NextToken: ptr.String("__NextToken__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -2776,7 +3054,9 @@ func TestCheckResponseSnapshot_ListOfferingPromotions(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListOfferingPromotions(context.Background(), &ListOfferingPromotionsInput{})
+	got, err := svc.ListOfferingPromotions(context.Background(), &ListOfferingPromotionsInput{
+		NextToken: ptr.String("__NextToken__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -2871,7 +3151,9 @@ func TestCheckResponseSnapshot_ListOfferingTransactions(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListOfferingTransactions(context.Background(), &ListOfferingTransactionsInput{})
+	got, err := svc.ListOfferingTransactions(context.Background(), &ListOfferingTransactionsInput{
+		NextToken: ptr.String("__NextToken__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -2938,7 +3220,9 @@ func TestCheckResponseSnapshot_ListOfferings(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListOfferings(context.Background(), &ListOfferingsInput{})
+	got, err := svc.ListOfferings(context.Background(), &ListOfferingsInput{
+		NextToken: ptr.String("__NextToken__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -3017,7 +3301,10 @@ func TestCheckResponseSnapshot_ListProjects(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListProjects(context.Background(), &ListProjectsInput{})
+	got, err := svc.ListProjects(context.Background(), &ListProjectsInput{
+		Arn:       ptr.String("__Arn__"),
+		NextToken: ptr.String("__NextToken__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -3268,7 +3555,10 @@ func TestCheckResponseSnapshot_ListRemoteAccessSessions(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListRemoteAccessSessions(context.Background(), &ListRemoteAccessSessionsInput{})
+	got, err := svc.ListRemoteAccessSessions(context.Background(), &ListRemoteAccessSessionsInput{
+		Arn:       ptr.String("__Arn__"),
+		NextToken: ptr.String("__NextToken__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -3543,7 +3833,10 @@ func TestCheckResponseSnapshot_ListRuns(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListRuns(context.Background(), &ListRunsInput{})
+	got, err := svc.ListRuns(context.Background(), &ListRunsInput{
+		Arn:       ptr.String("__Arn__"),
+		NextToken: ptr.String("__NextToken__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -3576,7 +3869,10 @@ func TestCheckResponseSnapshot_ListSamples(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListSamples(context.Background(), &ListSamplesInput{})
+	got, err := svc.ListSamples(context.Background(), &ListSamplesInput{
+		Arn:       ptr.String("__Arn__"),
+		NextToken: ptr.String("__NextToken__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -3649,7 +3945,10 @@ func TestCheckResponseSnapshot_ListSuites(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListSuites(context.Background(), &ListSuitesInput{})
+	got, err := svc.ListSuites(context.Background(), &ListSuitesInput{
+		Arn:       ptr.String("__Arn__"),
+		NextToken: ptr.String("__NextToken__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -3679,7 +3978,9 @@ func TestCheckResponseSnapshot_ListTagsForResource(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListTagsForResource(context.Background(), &ListTagsForResourceInput{})
+	got, err := svc.ListTagsForResource(context.Background(), &ListTagsForResourceInput{
+		ResourceARN: ptr.String("__ResourceARN__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -3736,7 +4037,10 @@ func TestCheckResponseSnapshot_ListTestGridProjects(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListTestGridProjects(context.Background(), &ListTestGridProjectsInput{})
+	got, err := svc.ListTestGridProjects(context.Background(), &ListTestGridProjectsInput{
+		MaxResult: ptr.Int32(1),
+		NextToken: ptr.String("__NextToken__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -3773,7 +4077,11 @@ func TestCheckResponseSnapshot_ListTestGridSessionActions(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListTestGridSessionActions(context.Background(), &ListTestGridSessionActionsInput{})
+	got, err := svc.ListTestGridSessionActions(context.Background(), &ListTestGridSessionActionsInput{
+		SessionArn: ptr.String("__SessionArn__"),
+		MaxResult:  ptr.Int32(1),
+		NextToken:  ptr.String("__NextToken__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -3806,7 +4114,12 @@ func TestCheckResponseSnapshot_ListTestGridSessionArtifacts(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListTestGridSessionArtifacts(context.Background(), &ListTestGridSessionArtifactsInput{})
+	got, err := svc.ListTestGridSessionArtifacts(context.Background(), &ListTestGridSessionArtifactsInput{
+		SessionArn: ptr.String("__SessionArn__"),
+		Type:       types.TestGridSessionArtifactCategory("VIDEO"),
+		MaxResult:  ptr.Int32(1),
+		NextToken:  ptr.String("__NextToken__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -3845,7 +4158,16 @@ func TestCheckResponseSnapshot_ListTestGridSessions(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListTestGridSessions(context.Background(), &ListTestGridSessionsInput{})
+	got, err := svc.ListTestGridSessions(context.Background(), &ListTestGridSessionsInput{
+		ProjectArn:         ptr.String("__ProjectArn__"),
+		Status:             types.TestGridSessionStatus("ACTIVE"),
+		CreationTimeAfter:  ptr.Time(time.Date(2000, 1, 1, 0, 0, 0, 0, time.UTC)),
+		CreationTimeBefore: ptr.Time(time.Date(2000, 1, 1, 0, 0, 0, 0, time.UTC)),
+		EndTimeAfter:       ptr.Time(time.Date(2000, 1, 1, 0, 0, 0, 0, time.UTC)),
+		EndTimeBefore:      ptr.Time(time.Date(2000, 1, 1, 0, 0, 0, 0, time.UTC)),
+		MaxResult:          ptr.Int32(1),
+		NextToken:          ptr.String("__NextToken__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -3918,7 +4240,10 @@ func TestCheckResponseSnapshot_ListTests(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListTests(context.Background(), &ListTestsInput{})
+	got, err := svc.ListTests(context.Background(), &ListTestsInput{
+		Arn:       ptr.String("__Arn__"),
+		NextToken: ptr.String("__NextToken__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -4325,7 +4650,10 @@ func TestCheckResponseSnapshot_ListUniqueProblems(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListUniqueProblems(context.Background(), &ListUniqueProblemsInput{})
+	got, err := svc.ListUniqueProblems(context.Background(), &ListUniqueProblemsInput{
+		Arn:       ptr.String("__Arn__"),
+		NextToken: ptr.String("__NextToken__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -4372,7 +4700,11 @@ func TestCheckResponseSnapshot_ListUploads(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListUploads(context.Background(), &ListUploadsInput{})
+	got, err := svc.ListUploads(context.Background(), &ListUploadsInput{
+		Arn:       ptr.String("__Arn__"),
+		Type:      types.UploadType("ANDROID_APP"),
+		NextToken: ptr.String("__NextToken__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -4409,7 +4741,10 @@ func TestCheckResponseSnapshot_ListVPCEConfigurations(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListVPCEConfigurations(context.Background(), &ListVPCEConfigurationsInput{})
+	got, err := svc.ListVPCEConfigurations(context.Background(), &ListVPCEConfigurationsInput{
+		MaxResults: ptr.Int32(1),
+		NextToken:  ptr.String("__NextToken__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -4465,7 +4800,11 @@ func TestCheckResponseSnapshot_PurchaseOffering(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.PurchaseOffering(context.Background(), &PurchaseOfferingInput{})
+	got, err := svc.PurchaseOffering(context.Background(), &PurchaseOfferingInput{
+		OfferingId:          ptr.String("__OfferingId__"),
+		Quantity:            ptr.Int32(1),
+		OfferingPromotionId: ptr.String("__OfferingPromotionId__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -4521,7 +4860,10 @@ func TestCheckResponseSnapshot_RenewOffering(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.RenewOffering(context.Background(), &RenewOfferingInput{})
+	got, err := svc.RenewOffering(context.Background(), &RenewOfferingInput{
+		OfferingId: ptr.String("__OfferingId__"),
+		Quantity:   ptr.Int32(1),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -4667,7 +5009,102 @@ func TestCheckResponseSnapshot_ScheduleRun(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ScheduleRun(context.Background(), &ScheduleRunInput{})
+	got, err := svc.ScheduleRun(context.Background(), &ScheduleRunInput{
+		ProjectArn:    ptr.String("__ProjectArn__"),
+		AppArn:        ptr.String("__AppArn__"),
+		DevicePoolArn: ptr.String("__DevicePoolArn__"),
+		DeviceSelectionConfiguration: &types.DeviceSelectionConfiguration{
+			Filters: []types.DeviceFilter{
+				{
+					Attribute: types.DeviceFilterAttribute("ARN"),
+					Operator:  types.RuleOperator("EQUALS"),
+					Values: []string{
+						"__Member__",
+						"__Member__",
+					},
+				},
+				{
+					Attribute: types.DeviceFilterAttribute("ARN"),
+					Operator:  types.RuleOperator("EQUALS"),
+					Values: []string{
+						"__Member__",
+						"__Member__",
+					},
+				},
+			},
+			MaxDevices: ptr.Int32(1),
+		},
+		Name: ptr.String("__Name__"),
+		Test: &types.ScheduleRunTest{
+			Type:           types.TestType("BUILTIN_FUZZ"),
+			TestPackageArn: ptr.String("__TestPackageArn__"),
+			TestSpecArn:    ptr.String("__TestSpecArn__"),
+			Filter:         ptr.String("__Filter__"),
+			Parameters: map[string]string{
+				"key0": "__Value__",
+			},
+		},
+		Configuration: &types.ScheduleRunConfiguration{
+			ExtraDataPackageArn: ptr.String("__ExtraDataPackageArn__"),
+			NetworkProfileArn:   ptr.String("__NetworkProfileArn__"),
+			Locale:              ptr.String("__Locale__"),
+			Location: &types.Location{
+				Latitude:  ptr.Float64(1.0),
+				Longitude: ptr.Float64(1.0),
+			},
+			VpceConfigurationArns: []string{
+				"__Member__",
+				"__Member__",
+			},
+			DeviceProxy: &types.DeviceProxy{
+				Host: ptr.String("__Host__"),
+				Port: ptr.Int32(1),
+			},
+			CustomerArtifactPaths: &types.CustomerArtifactPaths{
+				IosPaths: []string{
+					"__Member__",
+					"__Member__",
+				},
+				AndroidPaths: []string{
+					"__Member__",
+					"__Member__",
+				},
+				DeviceHostPaths: []string{
+					"__Member__",
+					"__Member__",
+				},
+			},
+			Radios: &types.Radios{
+				Wifi:      ptr.Bool(true),
+				Bluetooth: ptr.Bool(true),
+				Nfc:       ptr.Bool(true),
+				Gps:       ptr.Bool(true),
+			},
+			AuxiliaryApps: []string{
+				"__Member__",
+				"__Member__",
+			},
+			BillingMethod: types.BillingMethod("METERED"),
+			EnvironmentVariables: []types.EnvironmentVariable{
+				{
+					Name:  ptr.String("__Name__"),
+					Value: ptr.String("__Value__"),
+				},
+				{
+					Name:  ptr.String("__Name__"),
+					Value: ptr.String("__Value__"),
+				},
+			},
+			ExecutionRoleArn: ptr.String("__ExecutionRoleArn__"),
+		},
+		ExecutionConfiguration: &types.ExecutionConfiguration{
+			JobTimeoutMinutes:  ptr.Int32(1),
+			AccountsCleanup:    ptr.Bool(true),
+			AppPackagesCleanup: ptr.Bool(true),
+			VideoCapture:       ptr.Bool(true),
+			SkipAppResign:      ptr.Bool(true),
+		},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -4788,7 +5225,9 @@ func TestCheckResponseSnapshot_StopJob(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.StopJob(context.Background(), &StopJobInput{})
+	got, err := svc.StopJob(context.Background(), &StopJobInput{
+		Arn: ptr.String("__Arn__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -4922,7 +5361,9 @@ func TestCheckResponseSnapshot_StopRemoteAccessSession(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.StopRemoteAccessSession(context.Background(), &StopRemoteAccessSessionInput{})
+	got, err := svc.StopRemoteAccessSession(context.Background(), &StopRemoteAccessSessionInput{
+		Arn: ptr.String("__Arn__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -5068,7 +5509,9 @@ func TestCheckResponseSnapshot_StopRun(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.StopRun(context.Background(), &StopRunInput{})
+	got, err := svc.StopRun(context.Background(), &StopRunInput{
+		Arn: ptr.String("__Arn__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -5087,7 +5530,19 @@ func TestCheckResponseSnapshot_TagResource(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.TagResource(context.Background(), &TagResourceInput{})
+	got, err := svc.TagResource(context.Background(), &TagResourceInput{
+		ResourceARN: ptr.String("__ResourceARN__"),
+		Tags: []types.Tag{
+			{
+				Key:   ptr.String("__Key__"),
+				Value: ptr.String("__Value__"),
+			},
+			{
+				Key:   ptr.String("__Key__"),
+				Value: ptr.String("__Value__"),
+			},
+		},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -5106,7 +5561,13 @@ func TestCheckResponseSnapshot_UntagResource(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.UntagResource(context.Background(), &UntagResourceInput{})
+	got, err := svc.UntagResource(context.Background(), &UntagResourceInput{
+		ResourceARN: ptr.String("__ResourceARN__"),
+		TagKeys: []string{
+			"__Member__",
+			"__Member__",
+		},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -5147,7 +5608,14 @@ func TestCheckResponseSnapshot_UpdateDeviceInstance(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.UpdateDeviceInstance(context.Background(), &UpdateDeviceInstanceInput{})
+	got, err := svc.UpdateDeviceInstance(context.Background(), &UpdateDeviceInstanceInput{
+		Arn:        ptr.String("__Arn__"),
+		ProfileArn: ptr.String("__ProfileArn__"),
+		Labels: []string{
+			"__Member__",
+			"__Member__",
+		},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -5186,7 +5654,25 @@ func TestCheckResponseSnapshot_UpdateDevicePool(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.UpdateDevicePool(context.Background(), &UpdateDevicePoolInput{})
+	got, err := svc.UpdateDevicePool(context.Background(), &UpdateDevicePoolInput{
+		Arn:         ptr.String("__Arn__"),
+		Name:        ptr.String("__Name__"),
+		Description: ptr.String("__Description__"),
+		Rules: []types.Rule{
+			{
+				Attribute: types.DeviceAttribute("ARN"),
+				Operator:  types.RuleOperator("EQUALS"),
+				Value:     ptr.String("__Value__"),
+			},
+			{
+				Attribute: types.DeviceAttribute("ARN"),
+				Operator:  types.RuleOperator("EQUALS"),
+				Value:     ptr.String("__Value__"),
+			},
+		},
+		MaxDevices:      ptr.Int32(1),
+		ClearMaxDevices: ptr.Bool(true),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -5217,7 +5703,17 @@ func TestCheckResponseSnapshot_UpdateInstanceProfile(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.UpdateInstanceProfile(context.Background(), &UpdateInstanceProfileInput{})
+	got, err := svc.UpdateInstanceProfile(context.Background(), &UpdateInstanceProfileInput{
+		Arn:            ptr.String("__Arn__"),
+		Name:           ptr.String("__Name__"),
+		Description:    ptr.String("__Description__"),
+		PackageCleanup: ptr.Bool(true),
+		ExcludeAppPackagesFromCleanup: []string{
+			"__Member__",
+			"__Member__",
+		},
+		RebootAfterUse: ptr.Bool(true),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -5251,7 +5747,20 @@ func TestCheckResponseSnapshot_UpdateNetworkProfile(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.UpdateNetworkProfile(context.Background(), &UpdateNetworkProfileInput{})
+	got, err := svc.UpdateNetworkProfile(context.Background(), &UpdateNetworkProfileInput{
+		Arn:                   ptr.String("__Arn__"),
+		Name:                  ptr.String("__Name__"),
+		Description:           ptr.String("__Description__"),
+		Type:                  types.NetworkProfileType("CURATED"),
+		UplinkBandwidthBits:   ptr.Int64(1),
+		DownlinkBandwidthBits: ptr.Int64(1),
+		UplinkDelayMs:         ptr.Int64(1),
+		DownlinkDelayMs:       ptr.Int64(1),
+		UplinkJitterMs:        ptr.Int64(1),
+		DownlinkJitterMs:      ptr.Int64(1),
+		UplinkLossPercent:     1,
+		DownlinkLossPercent:   1,
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -5299,7 +5808,33 @@ func TestCheckResponseSnapshot_UpdateProject(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.UpdateProject(context.Background(), &UpdateProjectInput{})
+	got, err := svc.UpdateProject(context.Background(), &UpdateProjectInput{
+		Arn:                      ptr.String("__Arn__"),
+		Name:                     ptr.String("__Name__"),
+		DefaultJobTimeoutMinutes: ptr.Int32(1),
+		VpcConfig: &types.VpcConfig{
+			SecurityGroupIds: []string{
+				"__Member__",
+				"__Member__",
+			},
+			SubnetIds: []string{
+				"__Member__",
+				"__Member__",
+			},
+			VpcId: ptr.String("__VpcId__"),
+		},
+		EnvironmentVariables: []types.EnvironmentVariable{
+			{
+				Name:  ptr.String("__Name__"),
+				Value: ptr.String("__Value__"),
+			},
+			{
+				Name:  ptr.String("__Name__"),
+				Value: ptr.String("__Value__"),
+			},
+		},
+		ExecutionRoleArn: ptr.String("__ExecutionRoleArn__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -5336,7 +5871,22 @@ func TestCheckResponseSnapshot_UpdateTestGridProject(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.UpdateTestGridProject(context.Background(), &UpdateTestGridProjectInput{})
+	got, err := svc.UpdateTestGridProject(context.Background(), &UpdateTestGridProjectInput{
+		ProjectArn:  ptr.String("__ProjectArn__"),
+		Name:        ptr.String("__Name__"),
+		Description: ptr.String("__Description__"),
+		VpcConfig: &types.TestGridVpcConfig{
+			SecurityGroupIds: []string{
+				"__Member__",
+				"__Member__",
+			},
+			SubnetIds: []string{
+				"__Member__",
+				"__Member__",
+			},
+			VpcId: ptr.String("__VpcId__"),
+		},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -5368,7 +5918,12 @@ func TestCheckResponseSnapshot_UpdateUpload(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.UpdateUpload(context.Background(), &UpdateUploadInput{})
+	got, err := svc.UpdateUpload(context.Background(), &UpdateUploadInput{
+		Arn:         ptr.String("__Arn__"),
+		Name:        ptr.String("__Name__"),
+		ContentType: ptr.String("__ContentType__"),
+		EditContent: ptr.Bool(true),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -5395,7 +5950,13 @@ func TestCheckResponseSnapshot_UpdateVPCEConfiguration(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.UpdateVPCEConfiguration(context.Background(), &UpdateVPCEConfigurationInput{})
+	got, err := svc.UpdateVPCEConfiguration(context.Background(), &UpdateVPCEConfigurationInput{
+		Arn:                          ptr.String("__Arn__"),
+		VpceConfigurationName:        ptr.String("__VpceConfigurationName__"),
+		VpceServiceName:              ptr.String("__VpceServiceName__"),
+		ServiceDnsName:               ptr.String("__ServiceDnsName__"),
+		VpceConfigurationDescription: ptr.String("__VpceConfigurationDescription__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -5416,7 +5977,24 @@ func TestCheckResponseSnapshot_Error_ArgumentException(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	_, opErr := svc.CreateDevicePool(context.Background(), &CreateDevicePoolInput{})
+	_, opErr := svc.CreateDevicePool(context.Background(), &CreateDevicePoolInput{
+		ProjectArn:  ptr.String("__ProjectArn__"),
+		Name:        ptr.String("__Name__"),
+		Description: ptr.String("__Description__"),
+		Rules: []types.Rule{
+			{
+				Attribute: types.DeviceAttribute("ARN"),
+				Operator:  types.RuleOperator("EQUALS"),
+				Value:     ptr.String("__Value__"),
+			},
+			{
+				Attribute: types.DeviceAttribute("ARN"),
+				Operator:  types.RuleOperator("EQUALS"),
+				Value:     ptr.String("__Value__"),
+			},
+		},
+		MaxDevices: ptr.Int32(1),
+	})
 	if opErr == nil {
 		t.Fatal("expected error, got nil")
 	}
@@ -5441,7 +6019,9 @@ func TestCheckResponseSnapshot_Error_CannotDeleteException(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	_, opErr := svc.DeleteTestGridProject(context.Background(), &DeleteTestGridProjectInput{})
+	_, opErr := svc.DeleteTestGridProject(context.Background(), &DeleteTestGridProjectInput{
+		ProjectArn: ptr.String("__ProjectArn__"),
+	})
 	if opErr == nil {
 		t.Fatal("expected error, got nil")
 	}
@@ -5466,7 +6046,102 @@ func TestCheckResponseSnapshot_Error_IdempotencyException(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	_, opErr := svc.ScheduleRun(context.Background(), &ScheduleRunInput{})
+	_, opErr := svc.ScheduleRun(context.Background(), &ScheduleRunInput{
+		ProjectArn:    ptr.String("__ProjectArn__"),
+		AppArn:        ptr.String("__AppArn__"),
+		DevicePoolArn: ptr.String("__DevicePoolArn__"),
+		DeviceSelectionConfiguration: &types.DeviceSelectionConfiguration{
+			Filters: []types.DeviceFilter{
+				{
+					Attribute: types.DeviceFilterAttribute("ARN"),
+					Operator:  types.RuleOperator("EQUALS"),
+					Values: []string{
+						"__Member__",
+						"__Member__",
+					},
+				},
+				{
+					Attribute: types.DeviceFilterAttribute("ARN"),
+					Operator:  types.RuleOperator("EQUALS"),
+					Values: []string{
+						"__Member__",
+						"__Member__",
+					},
+				},
+			},
+			MaxDevices: ptr.Int32(1),
+		},
+		Name: ptr.String("__Name__"),
+		Test: &types.ScheduleRunTest{
+			Type:           types.TestType("BUILTIN_FUZZ"),
+			TestPackageArn: ptr.String("__TestPackageArn__"),
+			TestSpecArn:    ptr.String("__TestSpecArn__"),
+			Filter:         ptr.String("__Filter__"),
+			Parameters: map[string]string{
+				"key0": "__Value__",
+			},
+		},
+		Configuration: &types.ScheduleRunConfiguration{
+			ExtraDataPackageArn: ptr.String("__ExtraDataPackageArn__"),
+			NetworkProfileArn:   ptr.String("__NetworkProfileArn__"),
+			Locale:              ptr.String("__Locale__"),
+			Location: &types.Location{
+				Latitude:  ptr.Float64(1.0),
+				Longitude: ptr.Float64(1.0),
+			},
+			VpceConfigurationArns: []string{
+				"__Member__",
+				"__Member__",
+			},
+			DeviceProxy: &types.DeviceProxy{
+				Host: ptr.String("__Host__"),
+				Port: ptr.Int32(1),
+			},
+			CustomerArtifactPaths: &types.CustomerArtifactPaths{
+				IosPaths: []string{
+					"__Member__",
+					"__Member__",
+				},
+				AndroidPaths: []string{
+					"__Member__",
+					"__Member__",
+				},
+				DeviceHostPaths: []string{
+					"__Member__",
+					"__Member__",
+				},
+			},
+			Radios: &types.Radios{
+				Wifi:      ptr.Bool(true),
+				Bluetooth: ptr.Bool(true),
+				Nfc:       ptr.Bool(true),
+				Gps:       ptr.Bool(true),
+			},
+			AuxiliaryApps: []string{
+				"__Member__",
+				"__Member__",
+			},
+			BillingMethod: types.BillingMethod("METERED"),
+			EnvironmentVariables: []types.EnvironmentVariable{
+				{
+					Name:  ptr.String("__Name__"),
+					Value: ptr.String("__Value__"),
+				},
+				{
+					Name:  ptr.String("__Name__"),
+					Value: ptr.String("__Value__"),
+				},
+			},
+			ExecutionRoleArn: ptr.String("__ExecutionRoleArn__"),
+		},
+		ExecutionConfiguration: &types.ExecutionConfiguration{
+			JobTimeoutMinutes:  ptr.Int32(1),
+			AccountsCleanup:    ptr.Bool(true),
+			AppPackagesCleanup: ptr.Bool(true),
+			VideoCapture:       ptr.Bool(true),
+			SkipAppResign:      ptr.Bool(true),
+		},
+	})
 	if opErr == nil {
 		t.Fatal("expected error, got nil")
 	}
@@ -5491,7 +6166,21 @@ func TestCheckResponseSnapshot_Error_InternalServiceException(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	_, opErr := svc.CreateTestGridProject(context.Background(), &CreateTestGridProjectInput{})
+	_, opErr := svc.CreateTestGridProject(context.Background(), &CreateTestGridProjectInput{
+		Name:        ptr.String("__Name__"),
+		Description: ptr.String("__Description__"),
+		VpcConfig: &types.TestGridVpcConfig{
+			SecurityGroupIds: []string{
+				"__Member__",
+				"__Member__",
+			},
+			SubnetIds: []string{
+				"__Member__",
+				"__Member__",
+			},
+			VpcId: ptr.String("__VpcId__"),
+		},
+	})
 	if opErr == nil {
 		t.Fatal("expected error, got nil")
 	}
@@ -5516,7 +6205,9 @@ func TestCheckResponseSnapshot_Error_InvalidOperationException(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	_, opErr := svc.DeleteVPCEConfiguration(context.Background(), &DeleteVPCEConfigurationInput{})
+	_, opErr := svc.DeleteVPCEConfiguration(context.Background(), &DeleteVPCEConfigurationInput{
+		Arn: ptr.String("__Arn__"),
+	})
 	if opErr == nil {
 		t.Fatal("expected error, got nil")
 	}
@@ -5541,7 +6232,24 @@ func TestCheckResponseSnapshot_Error_LimitExceededException(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	_, opErr := svc.CreateDevicePool(context.Background(), &CreateDevicePoolInput{})
+	_, opErr := svc.CreateDevicePool(context.Background(), &CreateDevicePoolInput{
+		ProjectArn:  ptr.String("__ProjectArn__"),
+		Name:        ptr.String("__Name__"),
+		Description: ptr.String("__Description__"),
+		Rules: []types.Rule{
+			{
+				Attribute: types.DeviceAttribute("ARN"),
+				Operator:  types.RuleOperator("EQUALS"),
+				Value:     ptr.String("__Value__"),
+			},
+			{
+				Attribute: types.DeviceAttribute("ARN"),
+				Operator:  types.RuleOperator("EQUALS"),
+				Value:     ptr.String("__Value__"),
+			},
+		},
+		MaxDevices: ptr.Int32(1),
+	})
 	if opErr == nil {
 		t.Fatal("expected error, got nil")
 	}
@@ -5566,7 +6274,9 @@ func TestCheckResponseSnapshot_Error_NotEligibleException(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	_, opErr := svc.GetOfferingStatus(context.Background(), &GetOfferingStatusInput{})
+	_, opErr := svc.GetOfferingStatus(context.Background(), &GetOfferingStatusInput{
+		NextToken: ptr.String("__NextToken__"),
+	})
 	if opErr == nil {
 		t.Fatal("expected error, got nil")
 	}
@@ -5591,7 +6301,24 @@ func TestCheckResponseSnapshot_Error_NotFoundException(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	_, opErr := svc.CreateDevicePool(context.Background(), &CreateDevicePoolInput{})
+	_, opErr := svc.CreateDevicePool(context.Background(), &CreateDevicePoolInput{
+		ProjectArn:  ptr.String("__ProjectArn__"),
+		Name:        ptr.String("__Name__"),
+		Description: ptr.String("__Description__"),
+		Rules: []types.Rule{
+			{
+				Attribute: types.DeviceAttribute("ARN"),
+				Operator:  types.RuleOperator("EQUALS"),
+				Value:     ptr.String("__Value__"),
+			},
+			{
+				Attribute: types.DeviceAttribute("ARN"),
+				Operator:  types.RuleOperator("EQUALS"),
+				Value:     ptr.String("__Value__"),
+			},
+		},
+		MaxDevices: ptr.Int32(1),
+	})
 	if opErr == nil {
 		t.Fatal("expected error, got nil")
 	}
@@ -5616,7 +6343,24 @@ func TestCheckResponseSnapshot_Error_ServiceAccountException(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	_, opErr := svc.CreateDevicePool(context.Background(), &CreateDevicePoolInput{})
+	_, opErr := svc.CreateDevicePool(context.Background(), &CreateDevicePoolInput{
+		ProjectArn:  ptr.String("__ProjectArn__"),
+		Name:        ptr.String("__Name__"),
+		Description: ptr.String("__Description__"),
+		Rules: []types.Rule{
+			{
+				Attribute: types.DeviceAttribute("ARN"),
+				Operator:  types.RuleOperator("EQUALS"),
+				Value:     ptr.String("__Value__"),
+			},
+			{
+				Attribute: types.DeviceAttribute("ARN"),
+				Operator:  types.RuleOperator("EQUALS"),
+				Value:     ptr.String("__Value__"),
+			},
+		},
+		MaxDevices: ptr.Int32(1),
+	})
 	if opErr == nil {
 		t.Fatal("expected error, got nil")
 	}
@@ -5642,7 +6386,32 @@ func TestCheckResponseSnapshot_Error_TagOperationException(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	_, opErr := svc.CreateProject(context.Background(), &CreateProjectInput{})
+	_, opErr := svc.CreateProject(context.Background(), &CreateProjectInput{
+		Name:                     ptr.String("__Name__"),
+		DefaultJobTimeoutMinutes: ptr.Int32(1),
+		VpcConfig: &types.VpcConfig{
+			SecurityGroupIds: []string{
+				"__Member__",
+				"__Member__",
+			},
+			SubnetIds: []string{
+				"__Member__",
+				"__Member__",
+			},
+			VpcId: ptr.String("__VpcId__"),
+		},
+		EnvironmentVariables: []types.EnvironmentVariable{
+			{
+				Name:  ptr.String("__Name__"),
+				Value: ptr.String("__Value__"),
+			},
+			{
+				Name:  ptr.String("__Name__"),
+				Value: ptr.String("__Value__"),
+			},
+		},
+		ExecutionRoleArn: ptr.String("__ExecutionRoleArn__"),
+	})
 	if opErr == nil {
 		t.Fatal("expected error, got nil")
 	}
@@ -5668,7 +6437,19 @@ func TestCheckResponseSnapshot_Error_TagPolicyException(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	_, opErr := svc.TagResource(context.Background(), &TagResourceInput{})
+	_, opErr := svc.TagResource(context.Background(), &TagResourceInput{
+		ResourceARN: ptr.String("__ResourceARN__"),
+		Tags: []types.Tag{
+			{
+				Key:   ptr.String("__Key__"),
+				Value: ptr.String("__Value__"),
+			},
+			{
+				Key:   ptr.String("__Key__"),
+				Value: ptr.String("__Value__"),
+			},
+		},
+	})
 	if opErr == nil {
 		t.Fatal("expected error, got nil")
 	}
@@ -5694,7 +6475,19 @@ func TestCheckResponseSnapshot_Error_TooManyTagsException(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	_, opErr := svc.TagResource(context.Background(), &TagResourceInput{})
+	_, opErr := svc.TagResource(context.Background(), &TagResourceInput{
+		ResourceARN: ptr.String("__ResourceARN__"),
+		Tags: []types.Tag{
+			{
+				Key:   ptr.String("__Key__"),
+				Value: ptr.String("__Value__"),
+			},
+			{
+				Key:   ptr.String("__Key__"),
+				Value: ptr.String("__Value__"),
+			},
+		},
+	})
 	if opErr == nil {
 		t.Fatal("expected error, got nil")
 	}

@@ -128,7 +128,18 @@ func TestCheckResponseSnapshot_AddDatasetExamples(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.AddDatasetExamples(context.Background(), &AddDatasetExamplesInput{})
+	got, err := svc.AddDatasetExamples(context.Background(), &AddDatasetExamplesInput{
+		DatasetId:   ptr.String("__DatasetId__"),
+		ClientToken: ptr.String("__ClientToken__"),
+		Source: &types.DataSourceTypeMemberInlineExamples{
+			Value: types.InlineExamplesSource{
+				Examples: []document.Interface{
+					document.NewLazyDocument("__Document__"),
+					document.NewLazyDocument("__Document__"),
+				},
+			},
+		},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -156,7 +167,141 @@ func TestCheckResponseSnapshot_CreateAgentRuntime(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.CreateAgentRuntime(context.Background(), &CreateAgentRuntimeInput{})
+	got, err := svc.CreateAgentRuntime(context.Background(), &CreateAgentRuntimeInput{
+		AgentRuntimeName: ptr.String("__AgentRuntimeName__"),
+		AgentRuntimeArtifact: &types.AgentRuntimeArtifactMemberContainerConfiguration{
+			Value: types.ContainerConfiguration{
+				ContainerUri: ptr.String("__ContainerUri__"),
+			},
+		},
+		RoleArn: ptr.String("__RoleArn__"),
+		NetworkConfiguration: &types.NetworkConfiguration{
+			NetworkMode: types.NetworkMode("PUBLIC"),
+			NetworkModeConfig: &types.VpcConfig{
+				SecurityGroups: []string{
+					"__Member__",
+					"__Member__",
+				},
+				Subnets: []string{
+					"__Member__",
+					"__Member__",
+				},
+				RequireServiceS3Endpoint: ptr.Bool(true),
+			},
+		},
+		ClientToken: ptr.String("__ClientToken__"),
+		Description: ptr.String("__Description__"),
+		AuthorizerConfiguration: &types.AuthorizerConfigurationMemberCustomJWTAuthorizer{
+			Value: types.CustomJWTAuthorizerConfiguration{
+				DiscoveryUrl: ptr.String("__DiscoveryUrl__"),
+				AllowedAudience: []string{
+					"__Member__",
+					"__Member__",
+				},
+				AllowedClients: []string{
+					"__Member__",
+					"__Member__",
+				},
+				AllowedScopes: []string{
+					"__Member__",
+					"__Member__",
+				},
+				AdvertisedScopeMapping: map[string]string{
+					"key0": "__Value__",
+				},
+				CustomClaims: []types.CustomClaimValidationType{
+					{
+						InboundTokenClaimName:      ptr.String("__InboundTokenClaimName__"),
+						InboundTokenClaimValueType: types.InboundTokenClaimValueType("STRING"),
+						AuthorizingClaimMatchValue: &types.AuthorizingClaimMatchValueType{
+							ClaimMatchValue: &types.ClaimMatchValueTypeMemberMatchValueString{
+								Value: "__ClaimMatchValueTypeMemberMatchValueString__",
+							},
+							ClaimMatchOperator: types.ClaimMatchOperatorType("EQUALS"),
+						},
+					},
+					{
+						InboundTokenClaimName:      ptr.String("__InboundTokenClaimName__"),
+						InboundTokenClaimValueType: types.InboundTokenClaimValueType("STRING"),
+						AuthorizingClaimMatchValue: &types.AuthorizingClaimMatchValueType{
+							ClaimMatchValue: &types.ClaimMatchValueTypeMemberMatchValueString{
+								Value: "__ClaimMatchValueTypeMemberMatchValueString__",
+							},
+							ClaimMatchOperator: types.ClaimMatchOperatorType("EQUALS"),
+						},
+					},
+				},
+				PrivateEndpoint: &types.PrivateEndpointMemberSelfManagedLatticeResource{
+					Value: &types.SelfManagedLatticeResourceMemberResourceConfigurationIdentifier{
+						Value: "__SelfManagedLatticeResourceMemberResourceConfigurationIdentifier__",
+					},
+				},
+				PrivateEndpointOverrides: []types.PrivateEndpointOverride{
+					{
+						Domain: ptr.String("__Domain__"),
+						PrivateEndpoint: &types.PrivateEndpointMemberSelfManagedLatticeResource{
+							Value: &types.SelfManagedLatticeResourceMemberResourceConfigurationIdentifier{
+								Value: "__SelfManagedLatticeResourceMemberResourceConfigurationIdentifier__",
+							},
+						},
+					},
+					{
+						Domain: ptr.String("__Domain__"),
+						PrivateEndpoint: &types.PrivateEndpointMemberSelfManagedLatticeResource{
+							Value: &types.SelfManagedLatticeResourceMemberResourceConfigurationIdentifier{
+								Value: "__SelfManagedLatticeResourceMemberResourceConfigurationIdentifier__",
+							},
+						},
+					},
+				},
+				AllowedWorkloadConfiguration: &types.AllowedWorkloadConfiguration{
+					HostingEnvironments: []types.HostingEnvironment{
+						{
+							Arn: ptr.String("__Arn__"),
+						},
+						{
+							Arn: ptr.String("__Arn__"),
+						},
+					},
+					WorkloadIdentities: []string{
+						"__Member__",
+						"__Member__",
+					},
+				},
+			},
+		},
+		RequestHeaderConfiguration: &types.RequestHeaderConfigurationMemberRequestHeaderAllowlist{
+			Value: []string{
+				"__Member__",
+				"__Member__",
+			},
+		},
+		ProtocolConfiguration: &types.ProtocolConfiguration{
+			ServerProtocol: types.ServerProtocol("MCP"),
+		},
+		LifecycleConfiguration: &types.LifecycleConfiguration{
+			IdleRuntimeSessionTimeout: ptr.Int32(1),
+			MaxLifetime:               ptr.Int32(1),
+		},
+		EnvironmentVariables: map[string]string{
+			"key0": "__Value__",
+		},
+		FilesystemConfigurations: []types.FilesystemConfiguration{
+			&types.FilesystemConfigurationMemberSessionStorage{
+				Value: types.SessionStorageConfiguration{
+					MountPath: ptr.String("__MountPath__"),
+				},
+			},
+			&types.FilesystemConfigurationMemberSessionStorage{
+				Value: types.SessionStorageConfiguration{
+					MountPath: ptr.String("__MountPath__"),
+				},
+			},
+		},
+		Tags: map[string]string{
+			"key0": "__Value__",
+		},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -183,7 +328,16 @@ func TestCheckResponseSnapshot_CreateAgentRuntimeEndpoint(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.CreateAgentRuntimeEndpoint(context.Background(), &CreateAgentRuntimeEndpointInput{})
+	got, err := svc.CreateAgentRuntimeEndpoint(context.Background(), &CreateAgentRuntimeEndpointInput{
+		AgentRuntimeId:      ptr.String("__AgentRuntimeId__"),
+		Name:                ptr.String("__Name__"),
+		AgentRuntimeVersion: ptr.String("__AgentRuntimeVersion__"),
+		Description:         ptr.String("__Description__"),
+		ClientToken:         ptr.String("__ClientToken__"),
+		Tags: map[string]string{
+			"key0": "__Value__",
+		},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -210,7 +364,18 @@ func TestCheckResponseSnapshot_CreateApiKeyCredentialProvider(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.CreateApiKeyCredentialProvider(context.Background(), &CreateApiKeyCredentialProviderInput{})
+	got, err := svc.CreateApiKeyCredentialProvider(context.Background(), &CreateApiKeyCredentialProviderInput{
+		Name:   ptr.String("__Name__"),
+		ApiKey: ptr.String("__ApiKey__"),
+		ApiKeySecretConfig: &types.SecretReference{
+			SecretId: ptr.String("__SecretId__"),
+			JsonKey:  ptr.String("__JsonKey__"),
+		},
+		ApiKeySecretSource: types.SecretSourceType("MANAGED"),
+		Tags: map[string]string{
+			"key0": "__Value__",
+		},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -234,7 +399,94 @@ func TestCheckResponseSnapshot_CreateBrowser(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.CreateBrowser(context.Background(), &CreateBrowserInput{})
+	got, err := svc.CreateBrowser(context.Background(), &CreateBrowserInput{
+		Name:             ptr.String("__Name__"),
+		Description:      ptr.String("__Description__"),
+		ExecutionRoleArn: ptr.String("__ExecutionRoleArn__"),
+		NetworkConfiguration: &types.BrowserNetworkConfiguration{
+			NetworkMode: types.BrowserNetworkMode("PUBLIC"),
+			VpcConfig: &types.VpcConfig{
+				SecurityGroups: []string{
+					"__Member__",
+					"__Member__",
+				},
+				Subnets: []string{
+					"__Member__",
+					"__Member__",
+				},
+				RequireServiceS3Endpoint: ptr.Bool(true),
+			},
+		},
+		Recording: &types.RecordingConfig{
+			Enabled: true,
+			S3Location: &types.S3Location{
+				Bucket:    ptr.String("__Bucket__"),
+				Prefix:    ptr.String("__Prefix__"),
+				VersionId: ptr.String("__VersionId__"),
+			},
+		},
+		BrowserSigning: &types.BrowserSigningConfigInput{
+			Enabled: true,
+		},
+		EnterprisePolicies: []types.BrowserEnterprisePolicy{
+			{
+				Location: &types.ResourceLocationMemberS3{
+					Value: types.S3Location{
+						Bucket:    ptr.String("__Bucket__"),
+						Prefix:    ptr.String("__Prefix__"),
+						VersionId: ptr.String("__VersionId__"),
+					},
+				},
+				Type: types.BrowserEnterprisePolicyType("MANAGED"),
+			},
+			{
+				Location: &types.ResourceLocationMemberS3{
+					Value: types.S3Location{
+						Bucket:    ptr.String("__Bucket__"),
+						Prefix:    ptr.String("__Prefix__"),
+						VersionId: ptr.String("__VersionId__"),
+					},
+				},
+				Type: types.BrowserEnterprisePolicyType("MANAGED"),
+			},
+		},
+		Certificates: []types.Certificate{
+			{
+				Location: &types.CertificateLocationMemberSecretsManager{
+					Value: types.SecretsManagerLocation{
+						SecretArn: ptr.String("__SecretArn__"),
+					},
+				},
+			},
+			{
+				Location: &types.CertificateLocationMemberSecretsManager{
+					Value: types.SecretsManagerLocation{
+						SecretArn: ptr.String("__SecretArn__"),
+					},
+				},
+			},
+		},
+		FilesystemConfigurations: []types.ToolsFileSystemConfiguration{
+			&types.ToolsFileSystemConfigurationMemberS3FilesConfiguration{
+				Value: types.S3FilesConfiguration{
+					AccessPointArn: ptr.String("__AccessPointArn__"),
+					MountPath:      ptr.String("__MountPath__"),
+					FileSystemArn:  ptr.String("__FileSystemArn__"),
+				},
+			},
+			&types.ToolsFileSystemConfigurationMemberS3FilesConfiguration{
+				Value: types.S3FilesConfiguration{
+					AccessPointArn: ptr.String("__AccessPointArn__"),
+					MountPath:      ptr.String("__MountPath__"),
+					FileSystemArn:  ptr.String("__FileSystemArn__"),
+				},
+			},
+		},
+		ClientToken: ptr.String("__ClientToken__"),
+		Tags: map[string]string{
+			"key0": "__Value__",
+		},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -258,7 +510,14 @@ func TestCheckResponseSnapshot_CreateBrowserProfile(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.CreateBrowserProfile(context.Background(), &CreateBrowserProfileInput{})
+	got, err := svc.CreateBrowserProfile(context.Background(), &CreateBrowserProfileInput{
+		Name:        ptr.String("__Name__"),
+		Description: ptr.String("__Description__"),
+		ClientToken: ptr.String("__ClientToken__"),
+		Tags: map[string]string{
+			"key0": "__Value__",
+		},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -282,7 +541,61 @@ func TestCheckResponseSnapshot_CreateCodeInterpreter(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.CreateCodeInterpreter(context.Background(), &CreateCodeInterpreterInput{})
+	got, err := svc.CreateCodeInterpreter(context.Background(), &CreateCodeInterpreterInput{
+		Name:             ptr.String("__Name__"),
+		Description:      ptr.String("__Description__"),
+		ExecutionRoleArn: ptr.String("__ExecutionRoleArn__"),
+		NetworkConfiguration: &types.CodeInterpreterNetworkConfiguration{
+			NetworkMode: types.CodeInterpreterNetworkMode("PUBLIC"),
+			VpcConfig: &types.VpcConfig{
+				SecurityGroups: []string{
+					"__Member__",
+					"__Member__",
+				},
+				Subnets: []string{
+					"__Member__",
+					"__Member__",
+				},
+				RequireServiceS3Endpoint: ptr.Bool(true),
+			},
+		},
+		Certificates: []types.Certificate{
+			{
+				Location: &types.CertificateLocationMemberSecretsManager{
+					Value: types.SecretsManagerLocation{
+						SecretArn: ptr.String("__SecretArn__"),
+					},
+				},
+			},
+			{
+				Location: &types.CertificateLocationMemberSecretsManager{
+					Value: types.SecretsManagerLocation{
+						SecretArn: ptr.String("__SecretArn__"),
+					},
+				},
+			},
+		},
+		FilesystemConfigurations: []types.ToolsFileSystemConfiguration{
+			&types.ToolsFileSystemConfigurationMemberS3FilesConfiguration{
+				Value: types.S3FilesConfiguration{
+					AccessPointArn: ptr.String("__AccessPointArn__"),
+					MountPath:      ptr.String("__MountPath__"),
+					FileSystemArn:  ptr.String("__FileSystemArn__"),
+				},
+			},
+			&types.ToolsFileSystemConfigurationMemberS3FilesConfiguration{
+				Value: types.S3FilesConfiguration{
+					AccessPointArn: ptr.String("__AccessPointArn__"),
+					MountPath:      ptr.String("__MountPath__"),
+					FileSystemArn:  ptr.String("__FileSystemArn__"),
+				},
+			},
+		},
+		ClientToken: ptr.String("__ClientToken__"),
+		Tags: map[string]string{
+			"key0": "__Value__",
+		},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -306,7 +619,26 @@ func TestCheckResponseSnapshot_CreateConfigurationBundle(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.CreateConfigurationBundle(context.Background(), &CreateConfigurationBundleInput{})
+	got, err := svc.CreateConfigurationBundle(context.Background(), &CreateConfigurationBundleInput{
+		ClientToken: ptr.String("__ClientToken__"),
+		BundleName:  ptr.String("__BundleName__"),
+		Description: ptr.String("__Description__"),
+		Components: map[string]types.ComponentConfiguration{
+			"key0": {
+				Configuration: document.NewLazyDocument("__Document__"),
+			},
+		},
+		BranchName:    ptr.String("__BranchName__"),
+		CommitMessage: ptr.String("__CommitMessage__"),
+		CreatedBy: &types.VersionCreatedBySource{
+			Name: ptr.String("__Name__"),
+			Arn:  ptr.String("__Arn__"),
+		},
+		KmsKeyArn: ptr.String("__KmsKeyArn__"),
+		Tags: map[string]string{
+			"key0": "__Value__",
+		},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -330,7 +662,24 @@ func TestCheckResponseSnapshot_CreateDataset(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.CreateDataset(context.Background(), &CreateDatasetInput{})
+	got, err := svc.CreateDataset(context.Background(), &CreateDatasetInput{
+		ClientToken: ptr.String("__ClientToken__"),
+		DatasetName: ptr.String("__DatasetName__"),
+		Description: ptr.String("__Description__"),
+		Source: &types.DataSourceTypeMemberInlineExamples{
+			Value: types.InlineExamplesSource{
+				Examples: []document.Interface{
+					document.NewLazyDocument("__Document__"),
+					document.NewLazyDocument("__Document__"),
+				},
+			},
+		},
+		SchemaType: types.DatasetSchemaType("AGENTCORE_EVALUATION_PREDEFINED_V1"),
+		KmsKeyArn:  ptr.String("__KmsKeyArn__"),
+		Tags: map[string]string{
+			"key0": "__Value__",
+		},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -355,7 +704,10 @@ func TestCheckResponseSnapshot_CreateDatasetVersion(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.CreateDatasetVersion(context.Background(), &CreateDatasetVersionInput{})
+	got, err := svc.CreateDatasetVersion(context.Background(), &CreateDatasetVersionInput{
+		DatasetId:   ptr.String("__DatasetId__"),
+		ClientToken: ptr.String("__ClientToken__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -379,7 +731,50 @@ func TestCheckResponseSnapshot_CreateEvaluator(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.CreateEvaluator(context.Background(), &CreateEvaluatorInput{})
+	got, err := svc.CreateEvaluator(context.Background(), &CreateEvaluatorInput{
+		ClientToken:   ptr.String("__ClientToken__"),
+		EvaluatorName: ptr.String("__EvaluatorName__"),
+		Description:   ptr.String("__Description__"),
+		EvaluatorConfig: &types.EvaluatorConfigMemberLlmAsAJudge{
+			Value: types.LlmAsAJudgeEvaluatorConfig{
+				Instructions: ptr.String("__Instructions__"),
+				RatingScale: &types.RatingScaleMemberNumerical{
+					Value: []types.NumericalScaleDefinition{
+						{
+							Definition: ptr.String("__Definition__"),
+							Value:      ptr.Float64(1.0),
+							Label:      ptr.String("__Label__"),
+						},
+						{
+							Definition: ptr.String("__Definition__"),
+							Value:      ptr.Float64(1.0),
+							Label:      ptr.String("__Label__"),
+						},
+					},
+				},
+				ModelConfig: &types.EvaluatorModelConfigMemberBedrockEvaluatorModelConfig{
+					Value: types.BedrockEvaluatorModelConfig{
+						ModelId: ptr.String("__ModelId__"),
+						InferenceConfig: &types.InferenceConfiguration{
+							MaxTokens:   ptr.Int32(1),
+							Temperature: ptr.Float32(1.0),
+							TopP:        ptr.Float32(1.0),
+							StopSequences: []string{
+								"__Member__",
+								"__Member__",
+							},
+						},
+						AdditionalModelRequestFields: document.NewLazyDocument("__Document__"),
+					},
+				},
+			},
+		},
+		Level:     types.EvaluatorLevel("TOOL_CALL"),
+		KmsKeyArn: ptr.String("__KmsKeyArn__"),
+		Tags: map[string]string{
+			"key0": "__Value__",
+		},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -577,7 +972,168 @@ func TestCheckResponseSnapshot_CreateGateway(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.CreateGateway(context.Background(), &CreateGatewayInput{})
+	got, err := svc.CreateGateway(context.Background(), &CreateGatewayInput{
+		Name:         ptr.String("__Name__"),
+		Description:  ptr.String("__Description__"),
+		ClientToken:  ptr.String("__ClientToken__"),
+		RoleArn:      ptr.String("__RoleArn__"),
+		ProtocolType: types.GatewayProtocolType("MCP"),
+		ProtocolConfiguration: &types.GatewayProtocolConfigurationMemberMcp{
+			Value: types.MCPGatewayConfiguration{
+				SupportedVersions: []string{
+					"__Member__",
+					"__Member__",
+				},
+				Instructions: ptr.String("__Instructions__"),
+				SearchType:   types.SearchType("SEMANTIC"),
+				SessionConfiguration: &types.SessionConfiguration{
+					SessionTimeoutInSeconds: ptr.Int32(1),
+				},
+				StreamingConfiguration: &types.StreamingConfiguration{
+					EnableResponseStreaming: ptr.Bool(true),
+				},
+			},
+		},
+		AuthorizerType: types.AuthorizerType("CUSTOM_JWT"),
+		AuthorizerConfiguration: &types.AuthorizerConfigurationMemberCustomJWTAuthorizer{
+			Value: types.CustomJWTAuthorizerConfiguration{
+				DiscoveryUrl: ptr.String("__DiscoveryUrl__"),
+				AllowedAudience: []string{
+					"__Member__",
+					"__Member__",
+				},
+				AllowedClients: []string{
+					"__Member__",
+					"__Member__",
+				},
+				AllowedScopes: []string{
+					"__Member__",
+					"__Member__",
+				},
+				AdvertisedScopeMapping: map[string]string{
+					"key0": "__Value__",
+				},
+				CustomClaims: []types.CustomClaimValidationType{
+					{
+						InboundTokenClaimName:      ptr.String("__InboundTokenClaimName__"),
+						InboundTokenClaimValueType: types.InboundTokenClaimValueType("STRING"),
+						AuthorizingClaimMatchValue: &types.AuthorizingClaimMatchValueType{
+							ClaimMatchValue: &types.ClaimMatchValueTypeMemberMatchValueString{
+								Value: "__ClaimMatchValueTypeMemberMatchValueString__",
+							},
+							ClaimMatchOperator: types.ClaimMatchOperatorType("EQUALS"),
+						},
+					},
+					{
+						InboundTokenClaimName:      ptr.String("__InboundTokenClaimName__"),
+						InboundTokenClaimValueType: types.InboundTokenClaimValueType("STRING"),
+						AuthorizingClaimMatchValue: &types.AuthorizingClaimMatchValueType{
+							ClaimMatchValue: &types.ClaimMatchValueTypeMemberMatchValueString{
+								Value: "__ClaimMatchValueTypeMemberMatchValueString__",
+							},
+							ClaimMatchOperator: types.ClaimMatchOperatorType("EQUALS"),
+						},
+					},
+				},
+				PrivateEndpoint: &types.PrivateEndpointMemberSelfManagedLatticeResource{
+					Value: &types.SelfManagedLatticeResourceMemberResourceConfigurationIdentifier{
+						Value: "__SelfManagedLatticeResourceMemberResourceConfigurationIdentifier__",
+					},
+				},
+				PrivateEndpointOverrides: []types.PrivateEndpointOverride{
+					{
+						Domain: ptr.String("__Domain__"),
+						PrivateEndpoint: &types.PrivateEndpointMemberSelfManagedLatticeResource{
+							Value: &types.SelfManagedLatticeResourceMemberResourceConfigurationIdentifier{
+								Value: "__SelfManagedLatticeResourceMemberResourceConfigurationIdentifier__",
+							},
+						},
+					},
+					{
+						Domain: ptr.String("__Domain__"),
+						PrivateEndpoint: &types.PrivateEndpointMemberSelfManagedLatticeResource{
+							Value: &types.SelfManagedLatticeResourceMemberResourceConfigurationIdentifier{
+								Value: "__SelfManagedLatticeResourceMemberResourceConfigurationIdentifier__",
+							},
+						},
+					},
+				},
+				AllowedWorkloadConfiguration: &types.AllowedWorkloadConfiguration{
+					HostingEnvironments: []types.HostingEnvironment{
+						{
+							Arn: ptr.String("__Arn__"),
+						},
+						{
+							Arn: ptr.String("__Arn__"),
+						},
+					},
+					WorkloadIdentities: []string{
+						"__Member__",
+						"__Member__",
+					},
+				},
+			},
+		},
+		KmsKeyArn: ptr.String("__KmsKeyArn__"),
+		InterceptorConfigurations: []types.GatewayInterceptorConfiguration{
+			{
+				Interceptor: &types.InterceptorConfigurationMemberLambda{
+					Value: types.LambdaInterceptorConfiguration{
+						Arn: ptr.String("__Arn__"),
+					},
+				},
+				InterceptionPoints: []types.GatewayInterceptionPoint{
+					types.GatewayInterceptionPoint("REQUEST"),
+					types.GatewayInterceptionPoint("REQUEST"),
+				},
+				InputConfiguration: &types.InterceptorInputConfiguration{
+					PassRequestHeaders: ptr.Bool(true),
+					PayloadFilter: &types.InterceptorPayloadFilter{
+						Exclude: []types.InterceptorPayloadExclusionSelector{
+							&types.InterceptorPayloadExclusionSelectorMemberField{
+								Value: types.InterceptorPayloadExclusion("RESPONSE_BODY"),
+							},
+							&types.InterceptorPayloadExclusionSelectorMemberField{
+								Value: types.InterceptorPayloadExclusion("RESPONSE_BODY"),
+							},
+						},
+					},
+				},
+			},
+			{
+				Interceptor: &types.InterceptorConfigurationMemberLambda{
+					Value: types.LambdaInterceptorConfiguration{
+						Arn: ptr.String("__Arn__"),
+					},
+				},
+				InterceptionPoints: []types.GatewayInterceptionPoint{
+					types.GatewayInterceptionPoint("REQUEST"),
+					types.GatewayInterceptionPoint("REQUEST"),
+				},
+				InputConfiguration: &types.InterceptorInputConfiguration{
+					PassRequestHeaders: ptr.Bool(true),
+					PayloadFilter: &types.InterceptorPayloadFilter{
+						Exclude: []types.InterceptorPayloadExclusionSelector{
+							&types.InterceptorPayloadExclusionSelectorMemberField{
+								Value: types.InterceptorPayloadExclusion("RESPONSE_BODY"),
+							},
+							&types.InterceptorPayloadExclusionSelectorMemberField{
+								Value: types.InterceptorPayloadExclusion("RESPONSE_BODY"),
+							},
+						},
+					},
+				},
+			},
+		},
+		PolicyEngineConfiguration: &types.GatewayPolicyEngineConfiguration{
+			Arn:  ptr.String("__Arn__"),
+			Mode: types.GatewayPolicyEngineMode("LOG_ONLY"),
+		},
+		ExceptionLevel: types.ExceptionLevel("DEBUG"),
+		Tags: map[string]string{
+			"key0": "__Value__",
+		},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -662,7 +1218,68 @@ func TestCheckResponseSnapshot_CreateGatewayRule(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.CreateGatewayRule(context.Background(), &CreateGatewayRuleInput{})
+	got, err := svc.CreateGatewayRule(context.Background(), &CreateGatewayRuleInput{
+		GatewayIdentifier: ptr.String("__GatewayIdentifier__"),
+		ClientToken:       ptr.String("__ClientToken__"),
+		Priority:          ptr.Int32(1),
+		Conditions: []types.Condition{
+			&types.ConditionMemberMatchPrincipals{
+				Value: types.MatchPrincipals{
+					AnyOf: []types.MatchPrincipalEntry{
+						&types.MatchPrincipalEntryMemberIamPrincipal{
+							Value: types.IamPrincipal{
+								Arn:      ptr.String("__Arn__"),
+								Operator: types.PrincipalMatchOperator("StringEquals"),
+							},
+						},
+						&types.MatchPrincipalEntryMemberIamPrincipal{
+							Value: types.IamPrincipal{
+								Arn:      ptr.String("__Arn__"),
+								Operator: types.PrincipalMatchOperator("StringEquals"),
+							},
+						},
+					},
+				},
+			},
+			&types.ConditionMemberMatchPrincipals{
+				Value: types.MatchPrincipals{
+					AnyOf: []types.MatchPrincipalEntry{
+						&types.MatchPrincipalEntryMemberIamPrincipal{
+							Value: types.IamPrincipal{
+								Arn:      ptr.String("__Arn__"),
+								Operator: types.PrincipalMatchOperator("StringEquals"),
+							},
+						},
+						&types.MatchPrincipalEntryMemberIamPrincipal{
+							Value: types.IamPrincipal{
+								Arn:      ptr.String("__Arn__"),
+								Operator: types.PrincipalMatchOperator("StringEquals"),
+							},
+						},
+					},
+				},
+			},
+		},
+		Actions: []types.Action{
+			&types.ActionMemberConfigurationBundle{
+				Value: &types.ConfigurationBundleActionMemberStaticOverride{
+					Value: types.StaticOverride{
+						BundleArn:     ptr.String("__BundleArn__"),
+						BundleVersion: ptr.String("__BundleVersion__"),
+					},
+				},
+			},
+			&types.ActionMemberConfigurationBundle{
+				Value: &types.ConfigurationBundleActionMemberStaticOverride{
+					Value: types.StaticOverride{
+						BundleArn:     ptr.String("__BundleArn__"),
+						BundleVersion: ptr.String("__BundleVersion__"),
+					},
+				},
+			},
+		},
+		Description: ptr.String("__Description__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -778,7 +1395,77 @@ func TestCheckResponseSnapshot_CreateGatewayTarget(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.CreateGatewayTarget(context.Background(), &CreateGatewayTargetInput{})
+	got, err := svc.CreateGatewayTarget(context.Background(), &CreateGatewayTargetInput{
+		GatewayIdentifier: ptr.String("__GatewayIdentifier__"),
+		Name:              ptr.String("__Name__"),
+		Description:       ptr.String("__Description__"),
+		ClientToken:       ptr.String("__ClientToken__"),
+		TargetConfiguration: &types.TargetConfigurationMemberMcp{
+			Value: &types.McpTargetConfigurationMemberOpenApiSchema{
+				Value: &types.ApiSchemaConfigurationMemberS3{
+					Value: types.S3Configuration{
+						Uri:                  ptr.String("__Uri__"),
+						BucketOwnerAccountId: ptr.String("__BucketOwnerAccountId__"),
+					},
+				},
+			},
+		},
+		CredentialProviderConfigurations: []types.CredentialProviderConfiguration{
+			{
+				CredentialProviderType: types.CredentialProviderType("GATEWAY_IAM_ROLE"),
+				CredentialProvider: &types.CredentialProviderMemberOauthCredentialProvider{
+					Value: types.OAuthCredentialProvider{
+						ProviderArn: ptr.String("__ProviderArn__"),
+						Scopes: []string{
+							"__Member__",
+							"__Member__",
+						},
+						CustomParameters: map[string]string{
+							"key0": "__Value__",
+						},
+						GrantType:        types.OAuthGrantType("CLIENT_CREDENTIALS"),
+						DefaultReturnUrl: ptr.String("__DefaultReturnUrl__"),
+					},
+				},
+			},
+			{
+				CredentialProviderType: types.CredentialProviderType("GATEWAY_IAM_ROLE"),
+				CredentialProvider: &types.CredentialProviderMemberOauthCredentialProvider{
+					Value: types.OAuthCredentialProvider{
+						ProviderArn: ptr.String("__ProviderArn__"),
+						Scopes: []string{
+							"__Member__",
+							"__Member__",
+						},
+						CustomParameters: map[string]string{
+							"key0": "__Value__",
+						},
+						GrantType:        types.OAuthGrantType("CLIENT_CREDENTIALS"),
+						DefaultReturnUrl: ptr.String("__DefaultReturnUrl__"),
+					},
+				},
+			},
+		},
+		MetadataConfiguration: &types.MetadataConfiguration{
+			AllowedRequestHeaders: []string{
+				"__Member__",
+				"__Member__",
+			},
+			AllowedQueryParameters: []string{
+				"__Member__",
+				"__Member__",
+			},
+			AllowedResponseHeaders: []string{
+				"__Member__",
+				"__Member__",
+			},
+		},
+		PrivateEndpoint: &types.PrivateEndpointMemberSelfManagedLatticeResource{
+			Value: &types.SelfManagedLatticeResourceMemberResourceConfigurationIdentifier{
+				Value: "__SelfManagedLatticeResourceMemberResourceConfigurationIdentifier__",
+			},
+		},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -805,7 +1492,7 @@ func TestCheckResponseSnapshot_CreateHarness(t *testing.T) {
 					Temperature:      ptr.Float32(1.0),
 					TopP:             ptr.Float32(1.0),
 					ApiFormat:        types.HarnessBedrockApiFormat("converse_stream"),
-					AdditionalParams: nil,
+					AdditionalParams: document.NewLazyDocument("__Document__"),
 				},
 			},
 			SystemPrompt: []types.HarnessSystemContentBlock{
@@ -1014,7 +1701,216 @@ func TestCheckResponseSnapshot_CreateHarness(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.CreateHarness(context.Background(), &CreateHarnessInput{})
+	got, err := svc.CreateHarness(context.Background(), &CreateHarnessInput{
+		HarnessName:      ptr.String("__HarnessName__"),
+		ClientToken:      ptr.String("__ClientToken__"),
+		ExecutionRoleArn: ptr.String("__ExecutionRoleArn__"),
+		Environment: &types.HarnessEnvironmentProviderRequestMemberAgentCoreRuntimeEnvironment{
+			Value: types.HarnessAgentCoreRuntimeEnvironmentRequest{
+				LifecycleConfiguration: &types.LifecycleConfiguration{
+					IdleRuntimeSessionTimeout: ptr.Int32(1),
+					MaxLifetime:               ptr.Int32(1),
+				},
+				NetworkConfiguration: &types.NetworkConfiguration{
+					NetworkMode: types.NetworkMode("PUBLIC"),
+					NetworkModeConfig: &types.VpcConfig{
+						SecurityGroups: []string{
+							"__Member__",
+							"__Member__",
+						},
+						Subnets: []string{
+							"__Member__",
+							"__Member__",
+						},
+						RequireServiceS3Endpoint: ptr.Bool(true),
+					},
+				},
+				FilesystemConfigurations: []types.FilesystemConfiguration{
+					&types.FilesystemConfigurationMemberSessionStorage{
+						Value: types.SessionStorageConfiguration{
+							MountPath: ptr.String("__MountPath__"),
+						},
+					},
+					&types.FilesystemConfigurationMemberSessionStorage{
+						Value: types.SessionStorageConfiguration{
+							MountPath: ptr.String("__MountPath__"),
+						},
+					},
+				},
+			},
+		},
+		EnvironmentArtifact: &types.HarnessEnvironmentArtifactMemberContainerConfiguration{
+			Value: types.ContainerConfiguration{
+				ContainerUri: ptr.String("__ContainerUri__"),
+			},
+		},
+		EnvironmentVariables: map[string]string{
+			"key0": "__Value__",
+		},
+		AuthorizerConfiguration: &types.AuthorizerConfigurationMemberCustomJWTAuthorizer{
+			Value: types.CustomJWTAuthorizerConfiguration{
+				DiscoveryUrl: ptr.String("__DiscoveryUrl__"),
+				AllowedAudience: []string{
+					"__Member__",
+					"__Member__",
+				},
+				AllowedClients: []string{
+					"__Member__",
+					"__Member__",
+				},
+				AllowedScopes: []string{
+					"__Member__",
+					"__Member__",
+				},
+				AdvertisedScopeMapping: map[string]string{
+					"key0": "__Value__",
+				},
+				CustomClaims: []types.CustomClaimValidationType{
+					{
+						InboundTokenClaimName:      ptr.String("__InboundTokenClaimName__"),
+						InboundTokenClaimValueType: types.InboundTokenClaimValueType("STRING"),
+						AuthorizingClaimMatchValue: &types.AuthorizingClaimMatchValueType{
+							ClaimMatchValue: &types.ClaimMatchValueTypeMemberMatchValueString{
+								Value: "__ClaimMatchValueTypeMemberMatchValueString__",
+							},
+							ClaimMatchOperator: types.ClaimMatchOperatorType("EQUALS"),
+						},
+					},
+					{
+						InboundTokenClaimName:      ptr.String("__InboundTokenClaimName__"),
+						InboundTokenClaimValueType: types.InboundTokenClaimValueType("STRING"),
+						AuthorizingClaimMatchValue: &types.AuthorizingClaimMatchValueType{
+							ClaimMatchValue: &types.ClaimMatchValueTypeMemberMatchValueString{
+								Value: "__ClaimMatchValueTypeMemberMatchValueString__",
+							},
+							ClaimMatchOperator: types.ClaimMatchOperatorType("EQUALS"),
+						},
+					},
+				},
+				PrivateEndpoint: &types.PrivateEndpointMemberSelfManagedLatticeResource{
+					Value: &types.SelfManagedLatticeResourceMemberResourceConfigurationIdentifier{
+						Value: "__SelfManagedLatticeResourceMemberResourceConfigurationIdentifier__",
+					},
+				},
+				PrivateEndpointOverrides: []types.PrivateEndpointOverride{
+					{
+						Domain: ptr.String("__Domain__"),
+						PrivateEndpoint: &types.PrivateEndpointMemberSelfManagedLatticeResource{
+							Value: &types.SelfManagedLatticeResourceMemberResourceConfigurationIdentifier{
+								Value: "__SelfManagedLatticeResourceMemberResourceConfigurationIdentifier__",
+							},
+						},
+					},
+					{
+						Domain: ptr.String("__Domain__"),
+						PrivateEndpoint: &types.PrivateEndpointMemberSelfManagedLatticeResource{
+							Value: &types.SelfManagedLatticeResourceMemberResourceConfigurationIdentifier{
+								Value: "__SelfManagedLatticeResourceMemberResourceConfigurationIdentifier__",
+							},
+						},
+					},
+				},
+				AllowedWorkloadConfiguration: &types.AllowedWorkloadConfiguration{
+					HostingEnvironments: []types.HostingEnvironment{
+						{
+							Arn: ptr.String("__Arn__"),
+						},
+						{
+							Arn: ptr.String("__Arn__"),
+						},
+					},
+					WorkloadIdentities: []string{
+						"__Member__",
+						"__Member__",
+					},
+				},
+			},
+		},
+		Model: &types.HarnessModelConfigurationMemberBedrockModelConfig{
+			Value: types.HarnessBedrockModelConfig{
+				ModelId:          ptr.String("__ModelId__"),
+				MaxTokens:        ptr.Int32(1),
+				Temperature:      ptr.Float32(1.0),
+				TopP:             ptr.Float32(1.0),
+				ApiFormat:        types.HarnessBedrockApiFormat("converse_stream"),
+				AdditionalParams: document.NewLazyDocument("__Document__"),
+			},
+		},
+		SystemPrompt: []types.HarnessSystemContentBlock{
+			&types.HarnessSystemContentBlockMemberText{
+				Value: "__HarnessSystemContentBlockMemberText__",
+			},
+			&types.HarnessSystemContentBlockMemberText{
+				Value: "__HarnessSystemContentBlockMemberText__",
+			},
+		},
+		Tools: []types.HarnessTool{
+			{
+				Type: types.HarnessToolType("remote_mcp"),
+				Name: ptr.String("__Name__"),
+				Config: &types.HarnessToolConfigurationMemberRemoteMcp{
+					Value: types.HarnessRemoteMcpConfig{
+						Url: ptr.String("__Url__"),
+						Headers: map[string]string{
+							"key0": "__Value__",
+						},
+					},
+				},
+			},
+			{
+				Type: types.HarnessToolType("remote_mcp"),
+				Name: ptr.String("__Name__"),
+				Config: &types.HarnessToolConfigurationMemberRemoteMcp{
+					Value: types.HarnessRemoteMcpConfig{
+						Url: ptr.String("__Url__"),
+						Headers: map[string]string{
+							"key0": "__Value__",
+						},
+					},
+				},
+			},
+		},
+		Skills: []types.HarnessSkill{
+			&types.HarnessSkillMemberPath{
+				Value: "__HarnessSkillMemberPath__",
+			},
+			&types.HarnessSkillMemberPath{
+				Value: "__HarnessSkillMemberPath__",
+			},
+		},
+		AllowedTools: []string{
+			"__Member__",
+			"__Member__",
+		},
+		Memory: &types.HarnessMemoryConfigurationMemberAgentCoreMemoryConfiguration{
+			Value: types.HarnessAgentCoreMemoryConfiguration{
+				Arn:           ptr.String("__Arn__"),
+				ActorId:       ptr.String("__ActorId__"),
+				MessagesCount: ptr.Int32(1),
+				RetrievalConfig: map[string]types.HarnessAgentCoreMemoryRetrievalConfig{
+					"key0": {
+						TopK:           ptr.Int32(1),
+						RelevanceScore: ptr.Float32(1.0),
+						StrategyId:     ptr.String("__StrategyId__"),
+					},
+				},
+			},
+		},
+		Truncation: &types.HarnessTruncationConfiguration{
+			Strategy: types.HarnessTruncationStrategy("sliding_window"),
+			Config: &types.HarnessTruncationStrategyConfigurationMemberSlidingWindow{
+				Value: types.HarnessSlidingWindowConfiguration{
+					MessagesCount: ptr.Int32(1),
+				},
+			},
+		},
+		MaxIterations:  ptr.Int32(1),
+		MaxTokens:      ptr.Int32(1),
+		TimeoutSeconds: ptr.Int32(1),
+		Tags: map[string]string{
+			"key0": "__Value__",
+		},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1047,7 +1943,16 @@ func TestCheckResponseSnapshot_CreateHarnessEndpoint(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.CreateHarnessEndpoint(context.Background(), &CreateHarnessEndpointInput{})
+	got, err := svc.CreateHarnessEndpoint(context.Background(), &CreateHarnessEndpointInput{
+		HarnessId:     ptr.String("__HarnessId__"),
+		EndpointName:  ptr.String("__EndpointName__"),
+		TargetVersion: ptr.String("__TargetVersion__"),
+		Description:   ptr.String("__Description__"),
+		ClientToken:   ptr.String("__ClientToken__"),
+		Tags: map[string]string{
+			"key0": "__Value__",
+		},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1349,7 +2254,175 @@ func TestCheckResponseSnapshot_CreateMemory(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.CreateMemory(context.Background(), &CreateMemoryInput{})
+	got, err := svc.CreateMemory(context.Background(), &CreateMemoryInput{
+		ClientToken:            ptr.String("__ClientToken__"),
+		Name:                   ptr.String("__Name__"),
+		Description:            ptr.String("__Description__"),
+		EncryptionKeyArn:       ptr.String("__EncryptionKeyArn__"),
+		MemoryExecutionRoleArn: ptr.String("__MemoryExecutionRoleArn__"),
+		EventExpiryDuration:    ptr.Int32(1),
+		MemoryStrategies: []types.MemoryStrategyInput{
+			&types.MemoryStrategyInputMemberSemanticMemoryStrategy{
+				Value: types.SemanticMemoryStrategyInput{
+					Name:        ptr.String("__Name__"),
+					Description: ptr.String("__Description__"),
+					Namespaces: []string{
+						"__Member__",
+						"__Member__",
+					},
+					NamespaceTemplates: []string{
+						"__Member__",
+						"__Member__",
+					},
+					MemoryRecordSchema: &types.MemoryRecordSchema{
+						MetadataSchema: []types.MetadataSchemaEntry{
+							{
+								Key:            ptr.String("__Key__"),
+								Type:           types.MetadataValueType("STRING"),
+								ExtractionType: types.ExtractionType("LLM_INFERRED"),
+								ExtractionConfig: &types.ExtractionConfigMemberLlmExtractionConfig{
+									Value: types.LlmExtractionConfig{
+										LlmExtractionInstruction: ptr.String("__LlmExtractionInstruction__"),
+										Definition:               ptr.String("__Definition__"),
+										Validation: &types.ValidationMemberStringValidation{
+											Value: types.StringValidation{
+												AllowedValues: []string{
+													"__Member__",
+													"__Member__",
+												},
+											},
+										},
+									},
+								},
+							},
+							{
+								Key:            ptr.String("__Key__"),
+								Type:           types.MetadataValueType("STRING"),
+								ExtractionType: types.ExtractionType("LLM_INFERRED"),
+								ExtractionConfig: &types.ExtractionConfigMemberLlmExtractionConfig{
+									Value: types.LlmExtractionConfig{
+										LlmExtractionInstruction: ptr.String("__LlmExtractionInstruction__"),
+										Definition:               ptr.String("__Definition__"),
+										Validation: &types.ValidationMemberStringValidation{
+											Value: types.StringValidation{
+												AllowedValues: []string{
+													"__Member__",
+													"__Member__",
+												},
+											},
+										},
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+			&types.MemoryStrategyInputMemberSemanticMemoryStrategy{
+				Value: types.SemanticMemoryStrategyInput{
+					Name:        ptr.String("__Name__"),
+					Description: ptr.String("__Description__"),
+					Namespaces: []string{
+						"__Member__",
+						"__Member__",
+					},
+					NamespaceTemplates: []string{
+						"__Member__",
+						"__Member__",
+					},
+					MemoryRecordSchema: &types.MemoryRecordSchema{
+						MetadataSchema: []types.MetadataSchemaEntry{
+							{
+								Key:            ptr.String("__Key__"),
+								Type:           types.MetadataValueType("STRING"),
+								ExtractionType: types.ExtractionType("LLM_INFERRED"),
+								ExtractionConfig: &types.ExtractionConfigMemberLlmExtractionConfig{
+									Value: types.LlmExtractionConfig{
+										LlmExtractionInstruction: ptr.String("__LlmExtractionInstruction__"),
+										Definition:               ptr.String("__Definition__"),
+										Validation: &types.ValidationMemberStringValidation{
+											Value: types.StringValidation{
+												AllowedValues: []string{
+													"__Member__",
+													"__Member__",
+												},
+											},
+										},
+									},
+								},
+							},
+							{
+								Key:            ptr.String("__Key__"),
+								Type:           types.MetadataValueType("STRING"),
+								ExtractionType: types.ExtractionType("LLM_INFERRED"),
+								ExtractionConfig: &types.ExtractionConfigMemberLlmExtractionConfig{
+									Value: types.LlmExtractionConfig{
+										LlmExtractionInstruction: ptr.String("__LlmExtractionInstruction__"),
+										Definition:               ptr.String("__Definition__"),
+										Validation: &types.ValidationMemberStringValidation{
+											Value: types.StringValidation{
+												AllowedValues: []string{
+													"__Member__",
+													"__Member__",
+												},
+											},
+										},
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+		},
+		IndexedKeys: []types.IndexedKey{
+			{
+				Key:  ptr.String("__Key__"),
+				Type: types.MetadataValueType("STRING"),
+			},
+			{
+				Key:  ptr.String("__Key__"),
+				Type: types.MetadataValueType("STRING"),
+			},
+		},
+		StreamDeliveryResources: &types.StreamDeliveryResources{
+			Resources: []types.StreamDeliveryResource{
+				&types.StreamDeliveryResourceMemberKinesis{
+					Value: types.KinesisResource{
+						DataStreamArn: ptr.String("__DataStreamArn__"),
+						ContentConfigurations: []types.ContentConfiguration{
+							{
+								Type:  types.ContentType("MEMORY_RECORDS"),
+								Level: types.ContentLevel("METADATA_ONLY"),
+							},
+							{
+								Type:  types.ContentType("MEMORY_RECORDS"),
+								Level: types.ContentLevel("METADATA_ONLY"),
+							},
+						},
+					},
+				},
+				&types.StreamDeliveryResourceMemberKinesis{
+					Value: types.KinesisResource{
+						DataStreamArn: ptr.String("__DataStreamArn__"),
+						ContentConfigurations: []types.ContentConfiguration{
+							{
+								Type:  types.ContentType("MEMORY_RECORDS"),
+								Level: types.ContentLevel("METADATA_ONLY"),
+							},
+							{
+								Type:  types.ContentType("MEMORY_RECORDS"),
+								Level: types.ContentLevel("METADATA_ONLY"),
+							},
+						},
+					},
+				},
+			},
+		},
+		Tags: map[string]string{
+			"key0": "__Value__",
+		},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1434,7 +2507,75 @@ func TestCheckResponseSnapshot_CreateOauth2CredentialProvider(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.CreateOauth2CredentialProvider(context.Background(), &CreateOauth2CredentialProviderInput{})
+	got, err := svc.CreateOauth2CredentialProvider(context.Background(), &CreateOauth2CredentialProviderInput{
+		Name:                     ptr.String("__Name__"),
+		CredentialProviderVendor: types.CredentialProviderVendorType("GoogleOauth2"),
+		Oauth2ProviderConfigInput: &types.Oauth2ProviderConfigInputMemberCustomOauth2ProviderConfig{
+			Value: types.CustomOauth2ProviderConfigInput{
+				OauthDiscovery: &types.Oauth2DiscoveryMemberDiscoveryUrl{
+					Value: "__Oauth2DiscoveryMemberDiscoveryUrl__",
+				},
+				ClientId:     ptr.String("__ClientId__"),
+				ClientSecret: ptr.String("__ClientSecret__"),
+				ClientSecretConfig: &types.SecretReference{
+					SecretId: ptr.String("__SecretId__"),
+					JsonKey:  ptr.String("__JsonKey__"),
+				},
+				ClientSecretSource: types.SecretSourceType("MANAGED"),
+				OnBehalfOfTokenExchangeConfig: &types.OnBehalfOfTokenExchangeConfigType{
+					GrantType: types.OnBehalfOfTokenExchangeGrantTypeType("TOKEN_EXCHANGE"),
+					TokenExchangeGrantTypeConfig: &types.TokenExchangeGrantTypeConfigType{
+						ActorTokenContent: types.ActorTokenContentType("NONE"),
+						ActorTokenScopes: []string{
+							"__Member__",
+							"__Member__",
+						},
+					},
+				},
+				ClientAuthenticationMethod: types.ClientAuthenticationMethodType("CLIENT_SECRET_BASIC"),
+				PrivateKeyJwtConfig: &types.PrivateKeyJwtConfig{
+					PrivateKeySource: &types.PrivateKeySourceMemberKmsKeySource{
+						Value: types.KmsKeySourceType{
+							KmsKeyArn: ptr.String("__KmsKeyArn__"),
+						},
+					},
+					SigningAlgorithm: types.SigningAlgorithm("RS256"),
+					AdditionalHeaderClaims: map[string]string{
+						"key0": "__Value__",
+					},
+					AdditionalPayloadClaims: map[string]string{
+						"key0": "__Value__",
+					},
+				},
+				PrivateEndpoint: &types.PrivateEndpointMemberSelfManagedLatticeResource{
+					Value: &types.SelfManagedLatticeResourceMemberResourceConfigurationIdentifier{
+						Value: "__SelfManagedLatticeResourceMemberResourceConfigurationIdentifier__",
+					},
+				},
+				PrivateEndpointOverrides: []types.PrivateEndpointOverride{
+					{
+						Domain: ptr.String("__Domain__"),
+						PrivateEndpoint: &types.PrivateEndpointMemberSelfManagedLatticeResource{
+							Value: &types.SelfManagedLatticeResourceMemberResourceConfigurationIdentifier{
+								Value: "__SelfManagedLatticeResourceMemberResourceConfigurationIdentifier__",
+							},
+						},
+					},
+					{
+						Domain: ptr.String("__Domain__"),
+						PrivateEndpoint: &types.PrivateEndpointMemberSelfManagedLatticeResource{
+							Value: &types.SelfManagedLatticeResourceMemberResourceConfigurationIdentifier{
+								Value: "__SelfManagedLatticeResourceMemberResourceConfigurationIdentifier__",
+							},
+						},
+					},
+				},
+			},
+		},
+		Tags: map[string]string{
+			"key0": "__Value__",
+		},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1465,7 +2606,74 @@ func TestCheckResponseSnapshot_CreateOnlineEvaluationConfig(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.CreateOnlineEvaluationConfig(context.Background(), &CreateOnlineEvaluationConfigInput{})
+	got, err := svc.CreateOnlineEvaluationConfig(context.Background(), &CreateOnlineEvaluationConfigInput{
+		ClientToken:                ptr.String("__ClientToken__"),
+		OnlineEvaluationConfigName: ptr.String("__OnlineEvaluationConfigName__"),
+		Description:                ptr.String("__Description__"),
+		Rule: &types.Rule{
+			SamplingConfig: &types.SamplingConfig{
+				SamplingPercentage: ptr.Float64(1.0),
+			},
+			Filters: []types.Filter{
+				{
+					Key:      ptr.String("__Key__"),
+					Operator: types.FilterOperator("Equals"),
+					Value: &types.FilterValueMemberStringValue{
+						Value: "__FilterValueMemberStringValue__",
+					},
+				},
+				{
+					Key:      ptr.String("__Key__"),
+					Operator: types.FilterOperator("Equals"),
+					Value: &types.FilterValueMemberStringValue{
+						Value: "__FilterValueMemberStringValue__",
+					},
+				},
+			},
+			SessionConfig: &types.SessionConfig{
+				SessionTimeoutMinutes: ptr.Int32(1),
+			},
+		},
+		DataSourceConfig: &types.DataSourceConfigMemberCloudWatchLogs{
+			Value: types.CloudWatchLogsInputConfig{
+				LogGroupNames: []string{
+					"__Member__",
+					"__Member__",
+				},
+				ServiceNames: []string{
+					"__Member__",
+					"__Member__",
+				},
+			},
+		},
+		Evaluators: []types.EvaluatorReference{
+			&types.EvaluatorReferenceMemberEvaluatorId{
+				Value: "__EvaluatorReferenceMemberEvaluatorId__",
+			},
+			&types.EvaluatorReferenceMemberEvaluatorId{
+				Value: "__EvaluatorReferenceMemberEvaluatorId__",
+			},
+		},
+		Insights: []types.Insight{
+			{
+				InsightId: ptr.String("__InsightId__"),
+			},
+			{
+				InsightId: ptr.String("__InsightId__"),
+			},
+		},
+		ClusteringConfig: &types.ClusteringConfig{
+			Frequencies: []types.ClusteringFrequency{
+				types.ClusteringFrequency("DAILY"),
+				types.ClusteringFrequency("DAILY"),
+			},
+		},
+		EvaluationExecutionRoleArn: ptr.String("__EvaluationExecutionRoleArn__"),
+		EnableOnCreate:             ptr.Bool(true),
+		Tags: map[string]string{
+			"key0": "__Value__",
+		},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1503,7 +2711,25 @@ func TestCheckResponseSnapshot_CreatePaymentConnector(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.CreatePaymentConnector(context.Background(), &CreatePaymentConnectorInput{})
+	got, err := svc.CreatePaymentConnector(context.Background(), &CreatePaymentConnectorInput{
+		PaymentManagerId: ptr.String("__PaymentManagerId__"),
+		Name:             ptr.String("__Name__"),
+		Description:      ptr.String("__Description__"),
+		Type:             types.PaymentConnectorType("CoinbaseCDP"),
+		CredentialProviderConfigurations: []types.CredentialsProviderConfiguration{
+			&types.CredentialsProviderConfigurationMemberCoinbaseCDP{
+				Value: types.PaymentCredentialProviderConfiguration{
+					CredentialProviderArn: ptr.String("__CredentialProviderArn__"),
+				},
+			},
+			&types.CredentialsProviderConfigurationMemberCoinbaseCDP{
+				Value: types.PaymentCredentialProviderConfiguration{
+					CredentialProviderArn: ptr.String("__CredentialProviderArn__"),
+				},
+			},
+		},
+		ClientToken: ptr.String("__ClientToken__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1541,7 +2767,30 @@ func TestCheckResponseSnapshot_CreatePaymentCredentialProvider(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.CreatePaymentCredentialProvider(context.Background(), &CreatePaymentCredentialProviderInput{})
+	got, err := svc.CreatePaymentCredentialProvider(context.Background(), &CreatePaymentCredentialProviderInput{
+		Name:                     ptr.String("__Name__"),
+		CredentialProviderVendor: types.PaymentCredentialProviderVendorType("CoinbaseCDP"),
+		ProviderConfigurationInput: &types.PaymentProviderConfigurationInputMemberCoinbaseCdpConfiguration{
+			Value: types.CoinbaseCdpConfigurationInput{
+				ApiKeyId:           ptr.String("__ApiKeyId__"),
+				ApiKeySecret:       ptr.String("__ApiKeySecret__"),
+				ApiKeySecretSource: types.SecretSourceType("MANAGED"),
+				ApiKeySecretConfig: &types.SecretReference{
+					SecretId: ptr.String("__SecretId__"),
+					JsonKey:  ptr.String("__JsonKey__"),
+				},
+				WalletSecret:       ptr.String("__WalletSecret__"),
+				WalletSecretSource: types.SecretSourceType("MANAGED"),
+				WalletSecretConfig: &types.SecretReference{
+					SecretId: ptr.String("__SecretId__"),
+					JsonKey:  ptr.String("__JsonKey__"),
+				},
+			},
+		},
+		Tags: map[string]string{
+			"key0": "__Value__",
+		},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1653,7 +2902,95 @@ func TestCheckResponseSnapshot_CreatePaymentManager(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.CreatePaymentManager(context.Background(), &CreatePaymentManagerInput{})
+	got, err := svc.CreatePaymentManager(context.Background(), &CreatePaymentManagerInput{
+		Name:           ptr.String("__Name__"),
+		Description:    ptr.String("__Description__"),
+		AuthorizerType: types.PaymentsAuthorizerType("CUSTOM_JWT"),
+		AuthorizerConfiguration: &types.AuthorizerConfigurationMemberCustomJWTAuthorizer{
+			Value: types.CustomJWTAuthorizerConfiguration{
+				DiscoveryUrl: ptr.String("__DiscoveryUrl__"),
+				AllowedAudience: []string{
+					"__Member__",
+					"__Member__",
+				},
+				AllowedClients: []string{
+					"__Member__",
+					"__Member__",
+				},
+				AllowedScopes: []string{
+					"__Member__",
+					"__Member__",
+				},
+				AdvertisedScopeMapping: map[string]string{
+					"key0": "__Value__",
+				},
+				CustomClaims: []types.CustomClaimValidationType{
+					{
+						InboundTokenClaimName:      ptr.String("__InboundTokenClaimName__"),
+						InboundTokenClaimValueType: types.InboundTokenClaimValueType("STRING"),
+						AuthorizingClaimMatchValue: &types.AuthorizingClaimMatchValueType{
+							ClaimMatchValue: &types.ClaimMatchValueTypeMemberMatchValueString{
+								Value: "__ClaimMatchValueTypeMemberMatchValueString__",
+							},
+							ClaimMatchOperator: types.ClaimMatchOperatorType("EQUALS"),
+						},
+					},
+					{
+						InboundTokenClaimName:      ptr.String("__InboundTokenClaimName__"),
+						InboundTokenClaimValueType: types.InboundTokenClaimValueType("STRING"),
+						AuthorizingClaimMatchValue: &types.AuthorizingClaimMatchValueType{
+							ClaimMatchValue: &types.ClaimMatchValueTypeMemberMatchValueString{
+								Value: "__ClaimMatchValueTypeMemberMatchValueString__",
+							},
+							ClaimMatchOperator: types.ClaimMatchOperatorType("EQUALS"),
+						},
+					},
+				},
+				PrivateEndpoint: &types.PrivateEndpointMemberSelfManagedLatticeResource{
+					Value: &types.SelfManagedLatticeResourceMemberResourceConfigurationIdentifier{
+						Value: "__SelfManagedLatticeResourceMemberResourceConfigurationIdentifier__",
+					},
+				},
+				PrivateEndpointOverrides: []types.PrivateEndpointOverride{
+					{
+						Domain: ptr.String("__Domain__"),
+						PrivateEndpoint: &types.PrivateEndpointMemberSelfManagedLatticeResource{
+							Value: &types.SelfManagedLatticeResourceMemberResourceConfigurationIdentifier{
+								Value: "__SelfManagedLatticeResourceMemberResourceConfigurationIdentifier__",
+							},
+						},
+					},
+					{
+						Domain: ptr.String("__Domain__"),
+						PrivateEndpoint: &types.PrivateEndpointMemberSelfManagedLatticeResource{
+							Value: &types.SelfManagedLatticeResourceMemberResourceConfigurationIdentifier{
+								Value: "__SelfManagedLatticeResourceMemberResourceConfigurationIdentifier__",
+							},
+						},
+					},
+				},
+				AllowedWorkloadConfiguration: &types.AllowedWorkloadConfiguration{
+					HostingEnvironments: []types.HostingEnvironment{
+						{
+							Arn: ptr.String("__Arn__"),
+						},
+						{
+							Arn: ptr.String("__Arn__"),
+						},
+					},
+					WorkloadIdentities: []string{
+						"__Member__",
+						"__Member__",
+					},
+				},
+			},
+		},
+		RoleArn:     ptr.String("__RoleArn__"),
+		ClientToken: ptr.String("__ClientToken__"),
+		Tags: map[string]string{
+			"key0": "__Value__",
+		},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1691,7 +3028,19 @@ func TestCheckResponseSnapshot_CreatePolicy(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.CreatePolicy(context.Background(), &CreatePolicyInput{})
+	got, err := svc.CreatePolicy(context.Background(), &CreatePolicyInput{
+		Name: ptr.String("__Name__"),
+		Definition: &types.PolicyDefinitionMemberCedar{
+			Value: types.CedarPolicy{
+				Statement: ptr.String("__Statement__"),
+			},
+		},
+		Description:     ptr.String("__Description__"),
+		ValidationMode:  types.PolicyValidationMode("FAIL_ON_ANY_FINDINGS"),
+		EnforcementMode: types.EnforcementMode("ACTIVE"),
+		PolicyEngineId:  ptr.String("__PolicyEngineId__"),
+		ClientToken:     ptr.String("__ClientToken__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1723,7 +3072,15 @@ func TestCheckResponseSnapshot_CreatePolicyEngine(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.CreatePolicyEngine(context.Background(), &CreatePolicyEngineInput{})
+	got, err := svc.CreatePolicyEngine(context.Background(), &CreatePolicyEngineInput{
+		Name:             ptr.String("__Name__"),
+		Description:      ptr.String("__Description__"),
+		ClientToken:      ptr.String("__ClientToken__"),
+		EncryptionKeyArn: ptr.String("__EncryptionKeyArn__"),
+		Tags: map[string]string{
+			"key0": "__Value__",
+		},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1744,7 +3101,94 @@ func TestCheckResponseSnapshot_CreateRegistry(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.CreateRegistry(context.Background(), &CreateRegistryInput{})
+	got, err := svc.CreateRegistry(context.Background(), &CreateRegistryInput{
+		Name:           ptr.String("__Name__"),
+		Description:    ptr.String("__Description__"),
+		AuthorizerType: types.RegistryAuthorizerType("CUSTOM_JWT"),
+		AuthorizerConfiguration: &types.AuthorizerConfigurationMemberCustomJWTAuthorizer{
+			Value: types.CustomJWTAuthorizerConfiguration{
+				DiscoveryUrl: ptr.String("__DiscoveryUrl__"),
+				AllowedAudience: []string{
+					"__Member__",
+					"__Member__",
+				},
+				AllowedClients: []string{
+					"__Member__",
+					"__Member__",
+				},
+				AllowedScopes: []string{
+					"__Member__",
+					"__Member__",
+				},
+				AdvertisedScopeMapping: map[string]string{
+					"key0": "__Value__",
+				},
+				CustomClaims: []types.CustomClaimValidationType{
+					{
+						InboundTokenClaimName:      ptr.String("__InboundTokenClaimName__"),
+						InboundTokenClaimValueType: types.InboundTokenClaimValueType("STRING"),
+						AuthorizingClaimMatchValue: &types.AuthorizingClaimMatchValueType{
+							ClaimMatchValue: &types.ClaimMatchValueTypeMemberMatchValueString{
+								Value: "__ClaimMatchValueTypeMemberMatchValueString__",
+							},
+							ClaimMatchOperator: types.ClaimMatchOperatorType("EQUALS"),
+						},
+					},
+					{
+						InboundTokenClaimName:      ptr.String("__InboundTokenClaimName__"),
+						InboundTokenClaimValueType: types.InboundTokenClaimValueType("STRING"),
+						AuthorizingClaimMatchValue: &types.AuthorizingClaimMatchValueType{
+							ClaimMatchValue: &types.ClaimMatchValueTypeMemberMatchValueString{
+								Value: "__ClaimMatchValueTypeMemberMatchValueString__",
+							},
+							ClaimMatchOperator: types.ClaimMatchOperatorType("EQUALS"),
+						},
+					},
+				},
+				PrivateEndpoint: &types.PrivateEndpointMemberSelfManagedLatticeResource{
+					Value: &types.SelfManagedLatticeResourceMemberResourceConfigurationIdentifier{
+						Value: "__SelfManagedLatticeResourceMemberResourceConfigurationIdentifier__",
+					},
+				},
+				PrivateEndpointOverrides: []types.PrivateEndpointOverride{
+					{
+						Domain: ptr.String("__Domain__"),
+						PrivateEndpoint: &types.PrivateEndpointMemberSelfManagedLatticeResource{
+							Value: &types.SelfManagedLatticeResourceMemberResourceConfigurationIdentifier{
+								Value: "__SelfManagedLatticeResourceMemberResourceConfigurationIdentifier__",
+							},
+						},
+					},
+					{
+						Domain: ptr.String("__Domain__"),
+						PrivateEndpoint: &types.PrivateEndpointMemberSelfManagedLatticeResource{
+							Value: &types.SelfManagedLatticeResourceMemberResourceConfigurationIdentifier{
+								Value: "__SelfManagedLatticeResourceMemberResourceConfigurationIdentifier__",
+							},
+						},
+					},
+				},
+				AllowedWorkloadConfiguration: &types.AllowedWorkloadConfiguration{
+					HostingEnvironments: []types.HostingEnvironment{
+						{
+							Arn: ptr.String("__Arn__"),
+						},
+						{
+							Arn: ptr.String("__Arn__"),
+						},
+					},
+					WorkloadIdentities: []string{
+						"__Member__",
+						"__Member__",
+					},
+				},
+			},
+		},
+		ClientToken: ptr.String("__ClientToken__"),
+		ApprovalConfiguration: &types.ApprovalConfiguration{
+			AutoApproval: true,
+		},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1766,7 +3210,84 @@ func TestCheckResponseSnapshot_CreateRegistryRecord(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.CreateRegistryRecord(context.Background(), &CreateRegistryRecordInput{})
+	got, err := svc.CreateRegistryRecord(context.Background(), &CreateRegistryRecordInput{
+		RegistryId:     ptr.String("__RegistryId__"),
+		Name:           ptr.String("__Name__"),
+		Description:    ptr.String("__Description__"),
+		DescriptorType: types.DescriptorType("MCP"),
+		Descriptors: &types.Descriptors{
+			Mcp: &types.McpDescriptor{
+				Server: &types.ServerDefinition{
+					SchemaVersion: ptr.String("__SchemaVersion__"),
+					InlineContent: ptr.String("__InlineContent__"),
+				},
+				Tools: &types.ToolsDefinition{
+					ProtocolVersion: ptr.String("__ProtocolVersion__"),
+					InlineContent:   ptr.String("__InlineContent__"),
+				},
+			},
+			A2a: &types.A2aDescriptor{
+				AgentCard: &types.AgentCardDefinition{
+					SchemaVersion: ptr.String("__SchemaVersion__"),
+					InlineContent: ptr.String("__InlineContent__"),
+				},
+			},
+			Custom: &types.CustomDescriptor{
+				InlineContent: ptr.String("__InlineContent__"),
+			},
+			AgentSkills: &types.AgentSkillsDescriptor{
+				SkillMd: &types.SkillMdDefinition{
+					InlineContent: ptr.String("__InlineContent__"),
+				},
+				SkillDefinition: &types.SkillDefinition{
+					SchemaVersion: ptr.String("__SchemaVersion__"),
+					InlineContent: ptr.String("__InlineContent__"),
+				},
+			},
+		},
+		RecordVersion:       ptr.String("__RecordVersion__"),
+		SynchronizationType: types.SynchronizationType("URL"),
+		SynchronizationConfiguration: &types.SynchronizationConfiguration{
+			FromUrl: &types.FromUrlSynchronizationConfiguration{
+				Url: ptr.String("__Url__"),
+				CredentialProviderConfigurations: []types.RegistryRecordCredentialProviderConfiguration{
+					{
+						CredentialProviderType: types.RegistryRecordCredentialProviderType("OAUTH"),
+						CredentialProvider: &types.RegistryRecordCredentialProviderUnionMemberOauthCredentialProvider{
+							Value: types.RegistryRecordOAuthCredentialProvider{
+								ProviderArn: ptr.String("__ProviderArn__"),
+								GrantType:   types.RegistryRecordOAuthGrantType("CLIENT_CREDENTIALS"),
+								Scopes: []string{
+									"__Member__",
+									"__Member__",
+								},
+								CustomParameters: map[string]string{
+									"key0": "__Value__",
+								},
+							},
+						},
+					},
+					{
+						CredentialProviderType: types.RegistryRecordCredentialProviderType("OAUTH"),
+						CredentialProvider: &types.RegistryRecordCredentialProviderUnionMemberOauthCredentialProvider{
+							Value: types.RegistryRecordOAuthCredentialProvider{
+								ProviderArn: ptr.String("__ProviderArn__"),
+								GrantType:   types.RegistryRecordOAuthGrantType("CLIENT_CREDENTIALS"),
+								Scopes: []string{
+									"__Member__",
+									"__Member__",
+								},
+								CustomParameters: map[string]string{
+									"key0": "__Value__",
+								},
+							},
+						},
+					},
+				},
+			},
+		},
+		ClientToken: ptr.String("__ClientToken__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1792,7 +3313,16 @@ func TestCheckResponseSnapshot_CreateWorkloadIdentity(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.CreateWorkloadIdentity(context.Background(), &CreateWorkloadIdentityInput{})
+	got, err := svc.CreateWorkloadIdentity(context.Background(), &CreateWorkloadIdentityInput{
+		Name: ptr.String("__Name__"),
+		AllowedResourceOauth2ReturnUrls: []string{
+			"__Member__",
+			"__Member__",
+		},
+		Tags: map[string]string{
+			"key0": "__Value__",
+		},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1814,7 +3344,10 @@ func TestCheckResponseSnapshot_DeleteAgentRuntime(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DeleteAgentRuntime(context.Background(), &DeleteAgentRuntimeInput{})
+	got, err := svc.DeleteAgentRuntime(context.Background(), &DeleteAgentRuntimeInput{
+		AgentRuntimeId: ptr.String("__AgentRuntimeId__"),
+		ClientToken:    ptr.String("__ClientToken__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1837,7 +3370,11 @@ func TestCheckResponseSnapshot_DeleteAgentRuntimeEndpoint(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DeleteAgentRuntimeEndpoint(context.Background(), &DeleteAgentRuntimeEndpointInput{})
+	got, err := svc.DeleteAgentRuntimeEndpoint(context.Background(), &DeleteAgentRuntimeEndpointInput{
+		AgentRuntimeId: ptr.String("__AgentRuntimeId__"),
+		EndpointName:   ptr.String("__EndpointName__"),
+		ClientToken:    ptr.String("__ClientToken__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1856,7 +3393,9 @@ func TestCheckResponseSnapshot_DeleteApiKeyCredentialProvider(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DeleteApiKeyCredentialProvider(context.Background(), &DeleteApiKeyCredentialProviderInput{})
+	got, err := svc.DeleteApiKeyCredentialProvider(context.Background(), &DeleteApiKeyCredentialProviderInput{
+		Name: ptr.String("__Name__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1879,7 +3418,10 @@ func TestCheckResponseSnapshot_DeleteBrowser(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DeleteBrowser(context.Background(), &DeleteBrowserInput{})
+	got, err := svc.DeleteBrowser(context.Background(), &DeleteBrowserInput{
+		BrowserId:   ptr.String("__BrowserId__"),
+		ClientToken: ptr.String("__ClientToken__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1904,7 +3446,10 @@ func TestCheckResponseSnapshot_DeleteBrowserProfile(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DeleteBrowserProfile(context.Background(), &DeleteBrowserProfileInput{})
+	got, err := svc.DeleteBrowserProfile(context.Background(), &DeleteBrowserProfileInput{
+		ProfileId:   ptr.String("__ProfileId__"),
+		ClientToken: ptr.String("__ClientToken__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1927,7 +3472,10 @@ func TestCheckResponseSnapshot_DeleteCodeInterpreter(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DeleteCodeInterpreter(context.Background(), &DeleteCodeInterpreterInput{})
+	got, err := svc.DeleteCodeInterpreter(context.Background(), &DeleteCodeInterpreterInput{
+		CodeInterpreterId: ptr.String("__CodeInterpreterId__"),
+		ClientToken:       ptr.String("__ClientToken__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1949,7 +3497,9 @@ func TestCheckResponseSnapshot_DeleteConfigurationBundle(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DeleteConfigurationBundle(context.Background(), &DeleteConfigurationBundleInput{})
+	got, err := svc.DeleteConfigurationBundle(context.Background(), &DeleteConfigurationBundleInput{
+		BundleId: ptr.String("__BundleId__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1974,7 +3524,10 @@ func TestCheckResponseSnapshot_DeleteDataset(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DeleteDataset(context.Background(), &DeleteDatasetInput{})
+	got, err := svc.DeleteDataset(context.Background(), &DeleteDatasetInput{
+		DatasetId:      ptr.String("__DatasetId__"),
+		DatasetVersion: ptr.String("__DatasetVersion__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1999,7 +3552,14 @@ func TestCheckResponseSnapshot_DeleteDatasetExamples(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DeleteDatasetExamples(context.Background(), &DeleteDatasetExamplesInput{})
+	got, err := svc.DeleteDatasetExamples(context.Background(), &DeleteDatasetExamplesInput{
+		DatasetId:   ptr.String("__DatasetId__"),
+		ClientToken: ptr.String("__ClientToken__"),
+		ExampleIds: []string{
+			"__Member__",
+			"__Member__",
+		},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -2022,7 +3582,9 @@ func TestCheckResponseSnapshot_DeleteEvaluator(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DeleteEvaluator(context.Background(), &DeleteEvaluatorInput{})
+	got, err := svc.DeleteEvaluator(context.Background(), &DeleteEvaluatorInput{
+		EvaluatorId: ptr.String("__EvaluatorId__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -2048,7 +3610,9 @@ func TestCheckResponseSnapshot_DeleteGateway(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DeleteGateway(context.Background(), &DeleteGatewayInput{})
+	got, err := svc.DeleteGateway(context.Background(), &DeleteGatewayInput{
+		GatewayIdentifier: ptr.String("__GatewayIdentifier__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -2070,7 +3634,10 @@ func TestCheckResponseSnapshot_DeleteGatewayRule(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DeleteGatewayRule(context.Background(), &DeleteGatewayRuleInput{})
+	got, err := svc.DeleteGatewayRule(context.Background(), &DeleteGatewayRuleInput{
+		GatewayIdentifier: ptr.String("__GatewayIdentifier__"),
+		RuleId:            ptr.String("__RuleId__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -2097,7 +3664,10 @@ func TestCheckResponseSnapshot_DeleteGatewayTarget(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DeleteGatewayTarget(context.Background(), &DeleteGatewayTargetInput{})
+	got, err := svc.DeleteGatewayTarget(context.Background(), &DeleteGatewayTargetInput{
+		GatewayIdentifier: ptr.String("__GatewayIdentifier__"),
+		TargetId:          ptr.String("__TargetId__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -2124,7 +3694,7 @@ func TestCheckResponseSnapshot_DeleteHarness(t *testing.T) {
 					Temperature:      ptr.Float32(1.0),
 					TopP:             ptr.Float32(1.0),
 					ApiFormat:        types.HarnessBedrockApiFormat("converse_stream"),
-					AdditionalParams: nil,
+					AdditionalParams: document.NewLazyDocument("__Document__"),
 				},
 			},
 			SystemPrompt: []types.HarnessSystemContentBlock{
@@ -2333,7 +3903,11 @@ func TestCheckResponseSnapshot_DeleteHarness(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DeleteHarness(context.Background(), &DeleteHarnessInput{})
+	got, err := svc.DeleteHarness(context.Background(), &DeleteHarnessInput{
+		HarnessId:           ptr.String("__HarnessId__"),
+		ClientToken:         ptr.String("__ClientToken__"),
+		DeleteManagedMemory: ptr.Bool(true),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -2366,7 +3940,11 @@ func TestCheckResponseSnapshot_DeleteHarnessEndpoint(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DeleteHarnessEndpoint(context.Background(), &DeleteHarnessEndpointInput{})
+	got, err := svc.DeleteHarnessEndpoint(context.Background(), &DeleteHarnessEndpointInput{
+		HarnessId:    ptr.String("__HarnessId__"),
+		EndpointName: ptr.String("__EndpointName__"),
+		ClientToken:  ptr.String("__ClientToken__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -2388,7 +3966,10 @@ func TestCheckResponseSnapshot_DeleteMemory(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DeleteMemory(context.Background(), &DeleteMemoryInput{})
+	got, err := svc.DeleteMemory(context.Background(), &DeleteMemoryInput{
+		ClientToken: ptr.String("__ClientToken__"),
+		MemoryId:    ptr.String("__MemoryId__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -2407,7 +3988,9 @@ func TestCheckResponseSnapshot_DeleteOauth2CredentialProvider(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DeleteOauth2CredentialProvider(context.Background(), &DeleteOauth2CredentialProviderInput{})
+	got, err := svc.DeleteOauth2CredentialProvider(context.Background(), &DeleteOauth2CredentialProviderInput{
+		Name: ptr.String("__Name__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -2430,7 +4013,9 @@ func TestCheckResponseSnapshot_DeleteOnlineEvaluationConfig(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DeleteOnlineEvaluationConfig(context.Background(), &DeleteOnlineEvaluationConfigInput{})
+	got, err := svc.DeleteOnlineEvaluationConfig(context.Background(), &DeleteOnlineEvaluationConfigInput{
+		OnlineEvaluationConfigId: ptr.String("__OnlineEvaluationConfigId__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -2452,7 +4037,11 @@ func TestCheckResponseSnapshot_DeletePaymentConnector(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DeletePaymentConnector(context.Background(), &DeletePaymentConnectorInput{})
+	got, err := svc.DeletePaymentConnector(context.Background(), &DeletePaymentConnectorInput{
+		PaymentManagerId:   ptr.String("__PaymentManagerId__"),
+		PaymentConnectorId: ptr.String("__PaymentConnectorId__"),
+		ClientToken:        ptr.String("__ClientToken__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -2471,7 +4060,9 @@ func TestCheckResponseSnapshot_DeletePaymentCredentialProvider(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DeletePaymentCredentialProvider(context.Background(), &DeletePaymentCredentialProviderInput{})
+	got, err := svc.DeletePaymentCredentialProvider(context.Background(), &DeletePaymentCredentialProviderInput{
+		Name: ptr.String("__Name__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -2493,7 +4084,10 @@ func TestCheckResponseSnapshot_DeletePaymentManager(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DeletePaymentManager(context.Background(), &DeletePaymentManagerInput{})
+	got, err := svc.DeletePaymentManager(context.Background(), &DeletePaymentManagerInput{
+		PaymentManagerId: ptr.String("__PaymentManagerId__"),
+		ClientToken:      ptr.String("__ClientToken__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -2531,7 +4125,10 @@ func TestCheckResponseSnapshot_DeletePolicy(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DeletePolicy(context.Background(), &DeletePolicyInput{})
+	got, err := svc.DeletePolicy(context.Background(), &DeletePolicyInput{
+		PolicyEngineId: ptr.String("__PolicyEngineId__"),
+		PolicyId:       ptr.String("__PolicyId__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -2563,7 +4160,9 @@ func TestCheckResponseSnapshot_DeletePolicyEngine(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DeletePolicyEngine(context.Background(), &DeletePolicyEngineInput{})
+	got, err := svc.DeletePolicyEngine(context.Background(), &DeletePolicyEngineInput{
+		PolicyEngineId: ptr.String("__PolicyEngineId__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -2584,7 +4183,9 @@ func TestCheckResponseSnapshot_DeleteRegistry(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DeleteRegistry(context.Background(), &DeleteRegistryInput{})
+	got, err := svc.DeleteRegistry(context.Background(), &DeleteRegistryInput{
+		RegistryId: ptr.String("__RegistryId__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -2603,7 +4204,10 @@ func TestCheckResponseSnapshot_DeleteRegistryRecord(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DeleteRegistryRecord(context.Background(), &DeleteRegistryRecordInput{})
+	got, err := svc.DeleteRegistryRecord(context.Background(), &DeleteRegistryRecordInput{
+		RegistryId: ptr.String("__RegistryId__"),
+		RecordId:   ptr.String("__RecordId__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -2622,7 +4226,9 @@ func TestCheckResponseSnapshot_DeleteResourcePolicy(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DeleteResourcePolicy(context.Background(), &DeleteResourcePolicyInput{})
+	got, err := svc.DeleteResourcePolicy(context.Background(), &DeleteResourcePolicyInput{
+		ResourceArn: ptr.String("__ResourceArn__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -2641,7 +4247,9 @@ func TestCheckResponseSnapshot_DeleteWorkloadIdentity(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.DeleteWorkloadIdentity(context.Background(), &DeleteWorkloadIdentityInput{})
+	got, err := svc.DeleteWorkloadIdentity(context.Background(), &DeleteWorkloadIdentityInput{
+		Name: ptr.String("__Name__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -2803,7 +4411,10 @@ func TestCheckResponseSnapshot_GetAgentRuntime(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.GetAgentRuntime(context.Background(), &GetAgentRuntimeInput{})
+	got, err := svc.GetAgentRuntime(context.Background(), &GetAgentRuntimeInput{
+		AgentRuntimeId:      ptr.String("__AgentRuntimeId__"),
+		AgentRuntimeVersion: ptr.String("__AgentRuntimeVersion__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -2834,7 +4445,10 @@ func TestCheckResponseSnapshot_GetAgentRuntimeEndpoint(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.GetAgentRuntimeEndpoint(context.Background(), &GetAgentRuntimeEndpointInput{})
+	got, err := svc.GetAgentRuntimeEndpoint(context.Background(), &GetAgentRuntimeEndpointInput{
+		AgentRuntimeId: ptr.String("__AgentRuntimeId__"),
+		EndpointName:   ptr.String("__EndpointName__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -2863,7 +4477,9 @@ func TestCheckResponseSnapshot_GetApiKeyCredentialProvider(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.GetApiKeyCredentialProvider(context.Background(), &GetApiKeyCredentialProviderInput{})
+	got, err := svc.GetApiKeyCredentialProvider(context.Background(), &GetApiKeyCredentialProviderInput{
+		Name: ptr.String("__Name__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -2971,7 +4587,9 @@ func TestCheckResponseSnapshot_GetBrowser(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.GetBrowser(context.Background(), &GetBrowserInput{})
+	got, err := svc.GetBrowser(context.Background(), &GetBrowserInput{
+		BrowserId: ptr.String("__BrowserId__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -3001,7 +4619,9 @@ func TestCheckResponseSnapshot_GetBrowserProfile(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.GetBrowserProfile(context.Background(), &GetBrowserProfileInput{})
+	got, err := svc.GetBrowserProfile(context.Background(), &GetBrowserProfileInput{
+		ProfileId: ptr.String("__ProfileId__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -3076,7 +4696,9 @@ func TestCheckResponseSnapshot_GetCodeInterpreter(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.GetCodeInterpreter(context.Background(), &GetCodeInterpreterInput{})
+	got, err := svc.GetCodeInterpreter(context.Background(), &GetCodeInterpreterInput{
+		CodeInterpreterId: ptr.String("__CodeInterpreterId__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -3094,7 +4716,7 @@ func TestCheckResponseSnapshot_GetConfigurationBundle(t *testing.T) {
 		VersionId:   ptr.String("__VersionId__"),
 		Components: map[string]types.ComponentConfiguration{
 			"key0": {
-				Configuration: nil,
+				Configuration: document.NewLazyDocument("__Document__"),
 			},
 		},
 		LineageMetadata: &types.VersionLineageMetadata{
@@ -3121,7 +4743,10 @@ func TestCheckResponseSnapshot_GetConfigurationBundle(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.GetConfigurationBundle(context.Background(), &GetConfigurationBundleInput{})
+	got, err := svc.GetConfigurationBundle(context.Background(), &GetConfigurationBundleInput{
+		BundleId:   ptr.String("__BundleId__"),
+		BranchName: ptr.String("__BranchName__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -3139,7 +4764,7 @@ func TestCheckResponseSnapshot_GetConfigurationBundleVersion(t *testing.T) {
 		VersionId:   ptr.String("__VersionId__"),
 		Components: map[string]types.ComponentConfiguration{
 			"key0": {
-				Configuration: nil,
+				Configuration: document.NewLazyDocument("__Document__"),
 			},
 		},
 		LineageMetadata: &types.VersionLineageMetadata{
@@ -3166,7 +4791,10 @@ func TestCheckResponseSnapshot_GetConfigurationBundleVersion(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.GetConfigurationBundleVersion(context.Background(), &GetConfigurationBundleVersionInput{})
+	got, err := svc.GetConfigurationBundleVersion(context.Background(), &GetConfigurationBundleVersionInput{
+		BundleId:  ptr.String("__BundleId__"),
+		VersionId: ptr.String("__VersionId__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -3204,7 +4832,10 @@ func TestCheckResponseSnapshot_GetDataset(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.GetDataset(context.Background(), &GetDatasetInput{})
+	got, err := svc.GetDataset(context.Background(), &GetDatasetInput{
+		DatasetId:      ptr.String("__DatasetId__"),
+		DatasetVersion: ptr.String("__DatasetVersion__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -3248,7 +4879,7 @@ func TestCheckResponseSnapshot_GetEvaluator(t *testing.T) {
 								"__Member__",
 							},
 						},
-						AdditionalModelRequestFields: nil,
+						AdditionalModelRequestFields: document.NewLazyDocument("__Document__"),
 					},
 				},
 			},
@@ -3268,7 +4899,10 @@ func TestCheckResponseSnapshot_GetEvaluator(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.GetEvaluator(context.Background(), &GetEvaluatorInput{})
+	got, err := svc.GetEvaluator(context.Background(), &GetEvaluatorInput{
+		EvaluatorId:  ptr.String("__EvaluatorId__"),
+		IncludedData: types.IncludedData("ALL_DATA"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -3466,7 +5100,9 @@ func TestCheckResponseSnapshot_GetGateway(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.GetGateway(context.Background(), &GetGatewayInput{})
+	got, err := svc.GetGateway(context.Background(), &GetGatewayInput{
+		GatewayIdentifier: ptr.String("__GatewayIdentifier__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -3552,7 +5188,10 @@ func TestCheckResponseSnapshot_GetGatewayRule(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.GetGatewayRule(context.Background(), &GetGatewayRuleInput{})
+	got, err := svc.GetGatewayRule(context.Background(), &GetGatewayRuleInput{
+		GatewayIdentifier: ptr.String("__GatewayIdentifier__"),
+		RuleId:            ptr.String("__RuleId__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -3668,7 +5307,10 @@ func TestCheckResponseSnapshot_GetGatewayTarget(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.GetGatewayTarget(context.Background(), &GetGatewayTargetInput{})
+	got, err := svc.GetGatewayTarget(context.Background(), &GetGatewayTargetInput{
+		GatewayIdentifier: ptr.String("__GatewayIdentifier__"),
+		TargetId:          ptr.String("__TargetId__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -3695,7 +5337,7 @@ func TestCheckResponseSnapshot_GetHarness(t *testing.T) {
 					Temperature:      ptr.Float32(1.0),
 					TopP:             ptr.Float32(1.0),
 					ApiFormat:        types.HarnessBedrockApiFormat("converse_stream"),
-					AdditionalParams: nil,
+					AdditionalParams: document.NewLazyDocument("__Document__"),
 				},
 			},
 			SystemPrompt: []types.HarnessSystemContentBlock{
@@ -3904,7 +5546,10 @@ func TestCheckResponseSnapshot_GetHarness(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.GetHarness(context.Background(), &GetHarnessInput{})
+	got, err := svc.GetHarness(context.Background(), &GetHarnessInput{
+		HarnessId:      ptr.String("__HarnessId__"),
+		HarnessVersion: ptr.String("__HarnessVersion__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -3937,7 +5582,10 @@ func TestCheckResponseSnapshot_GetHarnessEndpoint(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.GetHarnessEndpoint(context.Background(), &GetHarnessEndpointInput{})
+	got, err := svc.GetHarnessEndpoint(context.Background(), &GetHarnessEndpointInput{
+		HarnessId:    ptr.String("__HarnessId__"),
+		EndpointName: ptr.String("__EndpointName__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -4239,7 +5887,10 @@ func TestCheckResponseSnapshot_GetMemory(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.GetMemory(context.Background(), &GetMemoryInput{})
+	got, err := svc.GetMemory(context.Background(), &GetMemoryInput{
+		MemoryId: ptr.String("__MemoryId__"),
+		View:     types.MemoryView("full"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -4328,7 +5979,9 @@ func TestCheckResponseSnapshot_GetOauth2CredentialProvider(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.GetOauth2CredentialProvider(context.Background(), &GetOauth2CredentialProviderInput{})
+	got, err := svc.GetOauth2CredentialProvider(context.Background(), &GetOauth2CredentialProviderInput{
+		Name: ptr.String("__Name__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -4421,7 +6074,9 @@ func TestCheckResponseSnapshot_GetOnlineEvaluationConfig(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.GetOnlineEvaluationConfig(context.Background(), &GetOnlineEvaluationConfigInput{})
+	got, err := svc.GetOnlineEvaluationConfig(context.Background(), &GetOnlineEvaluationConfigInput{
+		OnlineEvaluationConfigId: ptr.String("__OnlineEvaluationConfigId__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -4460,7 +6115,10 @@ func TestCheckResponseSnapshot_GetPaymentConnector(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.GetPaymentConnector(context.Background(), &GetPaymentConnectorInput{})
+	got, err := svc.GetPaymentConnector(context.Background(), &GetPaymentConnectorInput{
+		PaymentManagerId:   ptr.String("__PaymentManagerId__"),
+		PaymentConnectorId: ptr.String("__PaymentConnectorId__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -4503,7 +6161,9 @@ func TestCheckResponseSnapshot_GetPaymentCredentialProvider(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.GetPaymentCredentialProvider(context.Background(), &GetPaymentCredentialProviderInput{})
+	got, err := svc.GetPaymentCredentialProvider(context.Background(), &GetPaymentCredentialProviderInput{
+		Name: ptr.String("__Name__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -4617,7 +6277,9 @@ func TestCheckResponseSnapshot_GetPaymentManager(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.GetPaymentManager(context.Background(), &GetPaymentManagerInput{})
+	got, err := svc.GetPaymentManager(context.Background(), &GetPaymentManagerInput{
+		PaymentManagerId: ptr.String("__PaymentManagerId__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -4655,7 +6317,10 @@ func TestCheckResponseSnapshot_GetPolicy(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.GetPolicy(context.Background(), &GetPolicyInput{})
+	got, err := svc.GetPolicy(context.Background(), &GetPolicyInput{
+		PolicyEngineId: ptr.String("__PolicyEngineId__"),
+		PolicyId:       ptr.String("__PolicyId__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -4687,7 +6352,9 @@ func TestCheckResponseSnapshot_GetPolicyEngine(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.GetPolicyEngine(context.Background(), &GetPolicyEngineInput{})
+	got, err := svc.GetPolicyEngine(context.Background(), &GetPolicyEngineInput{
+		PolicyEngineId: ptr.String("__PolicyEngineId__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -4714,7 +6381,9 @@ func TestCheckResponseSnapshot_GetPolicyEngineSummary(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.GetPolicyEngineSummary(context.Background(), &GetPolicyEngineSummaryInput{})
+	got, err := svc.GetPolicyEngineSummary(context.Background(), &GetPolicyEngineSummaryInput{
+		PolicyEngineId: ptr.String("__PolicyEngineId__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -4749,7 +6418,10 @@ func TestCheckResponseSnapshot_GetPolicyGeneration(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.GetPolicyGeneration(context.Background(), &GetPolicyGenerationInput{})
+	got, err := svc.GetPolicyGeneration(context.Background(), &GetPolicyGenerationInput{
+		PolicyGenerationId: ptr.String("__PolicyGenerationId__"),
+		PolicyEngineId:     ptr.String("__PolicyEngineId__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -4780,7 +6452,10 @@ func TestCheckResponseSnapshot_GetPolicyGenerationSummary(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.GetPolicyGenerationSummary(context.Background(), &GetPolicyGenerationSummaryInput{})
+	got, err := svc.GetPolicyGenerationSummary(context.Background(), &GetPolicyGenerationSummaryInput{
+		PolicyGenerationId: ptr.String("__PolicyGenerationId__"),
+		PolicyEngineId:     ptr.String("__PolicyEngineId__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -4808,7 +6483,10 @@ func TestCheckResponseSnapshot_GetPolicySummary(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.GetPolicySummary(context.Background(), &GetPolicySummaryInput{})
+	got, err := svc.GetPolicySummary(context.Background(), &GetPolicySummaryInput{
+		PolicyEngineId: ptr.String("__PolicyEngineId__"),
+		PolicyId:       ptr.String("__PolicyId__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -4919,7 +6597,9 @@ func TestCheckResponseSnapshot_GetRegistry(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.GetRegistry(context.Background(), &GetRegistryInput{})
+	got, err := svc.GetRegistry(context.Background(), &GetRegistryInput{
+		RegistryId: ptr.String("__RegistryId__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -5020,7 +6700,10 @@ func TestCheckResponseSnapshot_GetRegistryRecord(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.GetRegistryRecord(context.Background(), &GetRegistryRecordInput{})
+	got, err := svc.GetRegistryRecord(context.Background(), &GetRegistryRecordInput{
+		RegistryId: ptr.String("__RegistryId__"),
+		RecordId:   ptr.String("__RecordId__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -5041,7 +6724,9 @@ func TestCheckResponseSnapshot_GetResourcePolicy(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.GetResourcePolicy(context.Background(), &GetResourcePolicyInput{})
+	got, err := svc.GetResourcePolicy(context.Background(), &GetResourcePolicyInput{
+		ResourceArn: ptr.String("__ResourceArn__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -5067,7 +6752,9 @@ func TestCheckResponseSnapshot_GetTokenVault(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.GetTokenVault(context.Background(), &GetTokenVaultInput{})
+	got, err := svc.GetTokenVault(context.Background(), &GetTokenVaultInput{
+		TokenVaultId: ptr.String("__TokenVaultId__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -5095,7 +6782,9 @@ func TestCheckResponseSnapshot_GetWorkloadIdentity(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.GetWorkloadIdentity(context.Background(), &GetWorkloadIdentityInput{})
+	got, err := svc.GetWorkloadIdentity(context.Background(), &GetWorkloadIdentityInput{
+		Name: ptr.String("__Name__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -5142,7 +6831,11 @@ func TestCheckResponseSnapshot_ListAgentRuntimeEndpoints(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListAgentRuntimeEndpoints(context.Background(), &ListAgentRuntimeEndpointsInput{})
+	got, err := svc.ListAgentRuntimeEndpoints(context.Background(), &ListAgentRuntimeEndpointsInput{
+		AgentRuntimeId: ptr.String("__AgentRuntimeId__"),
+		MaxResults:     ptr.Int32(1),
+		NextToken:      ptr.String("__NextToken__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -5183,7 +6876,11 @@ func TestCheckResponseSnapshot_ListAgentRuntimeVersions(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListAgentRuntimeVersions(context.Background(), &ListAgentRuntimeVersionsInput{})
+	got, err := svc.ListAgentRuntimeVersions(context.Background(), &ListAgentRuntimeVersionsInput{
+		AgentRuntimeId: ptr.String("__AgentRuntimeId__"),
+		MaxResults:     ptr.Int32(1),
+		NextToken:      ptr.String("__NextToken__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -5224,7 +6921,10 @@ func TestCheckResponseSnapshot_ListAgentRuntimes(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListAgentRuntimes(context.Background(), &ListAgentRuntimesInput{})
+	got, err := svc.ListAgentRuntimes(context.Background(), &ListAgentRuntimesInput{
+		MaxResults: ptr.Int32(1),
+		NextToken:  ptr.String("__NextToken__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -5259,7 +6959,10 @@ func TestCheckResponseSnapshot_ListApiKeyCredentialProviders(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListApiKeyCredentialProviders(context.Background(), &ListApiKeyCredentialProvidersInput{})
+	got, err := svc.ListApiKeyCredentialProviders(context.Background(), &ListApiKeyCredentialProvidersInput{
+		NextToken:  ptr.String("__NextToken__"),
+		MaxResults: ptr.Int32(1),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -5306,7 +7009,11 @@ func TestCheckResponseSnapshot_ListBrowserProfiles(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListBrowserProfiles(context.Background(), &ListBrowserProfilesInput{})
+	got, err := svc.ListBrowserProfiles(context.Background(), &ListBrowserProfilesInput{
+		MaxResults: ptr.Int32(1),
+		NextToken:  ptr.String("__NextToken__"),
+		Name:       ptr.String("__Name__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -5347,7 +7054,11 @@ func TestCheckResponseSnapshot_ListBrowsers(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListBrowsers(context.Background(), &ListBrowsersInput{})
+	got, err := svc.ListBrowsers(context.Background(), &ListBrowsersInput{
+		MaxResults: ptr.Int32(1),
+		NextToken:  ptr.String("__NextToken__"),
+		Type:       types.ResourceType("SYSTEM"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -5388,7 +7099,11 @@ func TestCheckResponseSnapshot_ListCodeInterpreters(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListCodeInterpreters(context.Background(), &ListCodeInterpretersInput{})
+	got, err := svc.ListCodeInterpreters(context.Background(), &ListCodeInterpretersInput{
+		MaxResults: ptr.Int32(1),
+		NextToken:  ptr.String("__NextToken__"),
+		Type:       types.ResourceType("SYSTEM"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -5447,7 +7162,16 @@ func TestCheckResponseSnapshot_ListConfigurationBundleVersions(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListConfigurationBundleVersions(context.Background(), &ListConfigurationBundleVersionsInput{})
+	got, err := svc.ListConfigurationBundleVersions(context.Background(), &ListConfigurationBundleVersionsInput{
+		BundleId:   ptr.String("__BundleId__"),
+		NextToken:  ptr.String("__NextToken__"),
+		MaxResults: ptr.Int32(1),
+		Filter: &types.VersionFilter{
+			BranchName:      ptr.String("__BranchName__"),
+			CreatedByName:   ptr.String("__CreatedByName__"),
+			LatestPerBranch: ptr.Bool(true),
+		},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -5484,7 +7208,10 @@ func TestCheckResponseSnapshot_ListConfigurationBundles(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListConfigurationBundles(context.Background(), &ListConfigurationBundlesInput{})
+	got, err := svc.ListConfigurationBundles(context.Background(), &ListConfigurationBundlesInput{
+		NextToken:  ptr.String("__NextToken__"),
+		MaxResults: ptr.Int32(1),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -5499,8 +7226,8 @@ func TestCheckResponseSnapshot_ListDatasetExamples(t *testing.T) {
 		DatasetId:      ptr.String("__DatasetId__"),
 		DatasetVersion: ptr.String("__DatasetVersion__"),
 		Examples: []document.Interface{
-			nil,
-			nil,
+			document.NewLazyDocument("__Document__"),
+			document.NewLazyDocument("__Document__"),
 		},
 		NextToken: ptr.String("__NextToken__"),
 	}
@@ -5512,7 +7239,12 @@ func TestCheckResponseSnapshot_ListDatasetExamples(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListDatasetExamples(context.Background(), &ListDatasetExamplesInput{})
+	got, err := svc.ListDatasetExamples(context.Background(), &ListDatasetExamplesInput{
+		DatasetId:      ptr.String("__DatasetId__"),
+		DatasetVersion: ptr.String("__DatasetVersion__"),
+		MaxResults:     ptr.Int32(1),
+		NextToken:      ptr.String("__NextToken__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -5545,7 +7277,11 @@ func TestCheckResponseSnapshot_ListDatasetVersions(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListDatasetVersions(context.Background(), &ListDatasetVersionsInput{})
+	got, err := svc.ListDatasetVersions(context.Background(), &ListDatasetVersionsInput{
+		DatasetId:  ptr.String("__DatasetId__"),
+		NextToken:  ptr.String("__NextToken__"),
+		MaxResults: ptr.Int32(1),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -5592,7 +7328,10 @@ func TestCheckResponseSnapshot_ListDatasets(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListDatasets(context.Background(), &ListDatasetsInput{})
+	got, err := svc.ListDatasets(context.Background(), &ListDatasetsInput{
+		NextToken:  ptr.String("__NextToken__"),
+		MaxResults: ptr.Int32(1),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -5641,7 +7380,10 @@ func TestCheckResponseSnapshot_ListEvaluators(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListEvaluators(context.Background(), &ListEvaluatorsInput{})
+	got, err := svc.ListEvaluators(context.Background(), &ListEvaluatorsInput{
+		NextToken:  ptr.String("__NextToken__"),
+		MaxResults: ptr.Int32(1),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -5800,7 +7542,11 @@ func TestCheckResponseSnapshot_ListGatewayRules(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListGatewayRules(context.Background(), &ListGatewayRulesInput{})
+	got, err := svc.ListGatewayRules(context.Background(), &ListGatewayRulesInput{
+		GatewayIdentifier: ptr.String("__GatewayIdentifier__"),
+		MaxResults:        ptr.Int32(1),
+		NextToken:         ptr.String("__NextToken__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -5859,7 +7605,11 @@ func TestCheckResponseSnapshot_ListGatewayTargets(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListGatewayTargets(context.Background(), &ListGatewayTargetsInput{})
+	got, err := svc.ListGatewayTargets(context.Background(), &ListGatewayTargetsInput{
+		GatewayIdentifier: ptr.String("__GatewayIdentifier__"),
+		MaxResults:        ptr.Int32(1),
+		NextToken:         ptr.String("__NextToken__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -5902,7 +7652,10 @@ func TestCheckResponseSnapshot_ListGateways(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListGateways(context.Background(), &ListGatewaysInput{})
+	got, err := svc.ListGateways(context.Background(), &ListGatewaysInput{
+		MaxResults: ptr.Int32(1),
+		NextToken:  ptr.String("__NextToken__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -5951,7 +7704,11 @@ func TestCheckResponseSnapshot_ListHarnessEndpoints(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListHarnessEndpoints(context.Background(), &ListHarnessEndpointsInput{})
+	got, err := svc.ListHarnessEndpoints(context.Background(), &ListHarnessEndpointsInput{
+		HarnessId:  ptr.String("__HarnessId__"),
+		MaxResults: ptr.Int32(1),
+		NextToken:  ptr.String("__NextToken__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -5994,7 +7751,11 @@ func TestCheckResponseSnapshot_ListHarnessVersions(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListHarnessVersions(context.Background(), &ListHarnessVersionsInput{})
+	got, err := svc.ListHarnessVersions(context.Background(), &ListHarnessVersionsInput{
+		HarnessId:  ptr.String("__HarnessId__"),
+		MaxResults: ptr.Int32(1),
+		NextToken:  ptr.String("__NextToken__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -6035,7 +7796,10 @@ func TestCheckResponseSnapshot_ListHarnesses(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListHarnesses(context.Background(), &ListHarnessesInput{})
+	got, err := svc.ListHarnesses(context.Background(), &ListHarnessesInput{
+		MaxResults: ptr.Int32(1),
+		NextToken:  ptr.String("__NextToken__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -6074,7 +7838,10 @@ func TestCheckResponseSnapshot_ListMemories(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListMemories(context.Background(), &ListMemoriesInput{})
+	got, err := svc.ListMemories(context.Background(), &ListMemoriesInput{
+		MaxResults: ptr.Int32(1),
+		NextToken:  ptr.String("__NextToken__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -6111,7 +7878,10 @@ func TestCheckResponseSnapshot_ListOauth2CredentialProviders(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListOauth2CredentialProviders(context.Background(), &ListOauth2CredentialProvidersInput{})
+	got, err := svc.ListOauth2CredentialProviders(context.Background(), &ListOauth2CredentialProvidersInput{
+		NextToken:  ptr.String("__NextToken__"),
+		MaxResults: ptr.Int32(1),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -6184,7 +7954,10 @@ func TestCheckResponseSnapshot_ListOnlineEvaluationConfigs(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListOnlineEvaluationConfigs(context.Background(), &ListOnlineEvaluationConfigsInput{})
+	got, err := svc.ListOnlineEvaluationConfigs(context.Background(), &ListOnlineEvaluationConfigsInput{
+		NextToken:  ptr.String("__NextToken__"),
+		MaxResults: ptr.Int32(1),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -6221,7 +7994,11 @@ func TestCheckResponseSnapshot_ListPaymentConnectors(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListPaymentConnectors(context.Background(), &ListPaymentConnectorsInput{})
+	got, err := svc.ListPaymentConnectors(context.Background(), &ListPaymentConnectorsInput{
+		PaymentManagerId: ptr.String("__PaymentManagerId__"),
+		MaxResults:       ptr.Int32(1),
+		NextToken:        ptr.String("__NextToken__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -6258,7 +8035,10 @@ func TestCheckResponseSnapshot_ListPaymentCredentialProviders(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListPaymentCredentialProviders(context.Background(), &ListPaymentCredentialProvidersInput{})
+	got, err := svc.ListPaymentCredentialProviders(context.Background(), &ListPaymentCredentialProvidersInput{
+		NextToken:  ptr.String("__NextToken__"),
+		MaxResults: ptr.Int32(1),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -6303,7 +8083,10 @@ func TestCheckResponseSnapshot_ListPaymentManagers(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListPaymentManagers(context.Background(), &ListPaymentManagersInput{})
+	got, err := svc.ListPaymentManagers(context.Background(), &ListPaymentManagersInput{
+		MaxResults: ptr.Int32(1),
+		NextToken:  ptr.String("__NextToken__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -6366,7 +8149,12 @@ func TestCheckResponseSnapshot_ListPolicies(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListPolicies(context.Background(), &ListPoliciesInput{})
+	got, err := svc.ListPolicies(context.Background(), &ListPoliciesInput{
+		NextToken:           ptr.String("__NextToken__"),
+		MaxResults:          ptr.Int32(1),
+		PolicyEngineId:      ptr.String("__PolicyEngineId__"),
+		TargetResourceScope: ptr.String("__TargetResourceScope__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -6407,7 +8195,10 @@ func TestCheckResponseSnapshot_ListPolicyEngineSummaries(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListPolicyEngineSummaries(context.Background(), &ListPolicyEngineSummariesInput{})
+	got, err := svc.ListPolicyEngineSummaries(context.Background(), &ListPolicyEngineSummariesInput{
+		NextToken:  ptr.String("__NextToken__"),
+		MaxResults: ptr.Int32(1),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -6458,7 +8249,10 @@ func TestCheckResponseSnapshot_ListPolicyEngines(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListPolicyEngines(context.Background(), &ListPolicyEnginesInput{})
+	got, err := svc.ListPolicyEngines(context.Background(), &ListPolicyEnginesInput{
+		NextToken:  ptr.String("__NextToken__"),
+		MaxResults: ptr.Int32(1),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -6519,7 +8313,12 @@ func TestCheckResponseSnapshot_ListPolicyGenerationAssets(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListPolicyGenerationAssets(context.Background(), &ListPolicyGenerationAssetsInput{})
+	got, err := svc.ListPolicyGenerationAssets(context.Background(), &ListPolicyGenerationAssetsInput{
+		PolicyGenerationId: ptr.String("__PolicyGenerationId__"),
+		PolicyEngineId:     ptr.String("__PolicyEngineId__"),
+		NextToken:          ptr.String("__NextToken__"),
+		MaxResults:         ptr.Int32(1),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -6568,7 +8367,11 @@ func TestCheckResponseSnapshot_ListPolicyGenerationSummaries(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListPolicyGenerationSummaries(context.Background(), &ListPolicyGenerationSummariesInput{})
+	got, err := svc.ListPolicyGenerationSummaries(context.Background(), &ListPolicyGenerationSummariesInput{
+		NextToken:      ptr.String("__NextToken__"),
+		MaxResults:     ptr.Int32(1),
+		PolicyEngineId: ptr.String("__PolicyEngineId__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -6625,7 +8428,11 @@ func TestCheckResponseSnapshot_ListPolicyGenerations(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListPolicyGenerations(context.Background(), &ListPolicyGenerationsInput{})
+	got, err := svc.ListPolicyGenerations(context.Background(), &ListPolicyGenerationsInput{
+		NextToken:      ptr.String("__NextToken__"),
+		MaxResults:     ptr.Int32(1),
+		PolicyEngineId: ptr.String("__PolicyEngineId__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -6668,7 +8475,12 @@ func TestCheckResponseSnapshot_ListPolicySummaries(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListPolicySummaries(context.Background(), &ListPolicySummariesInput{})
+	got, err := svc.ListPolicySummaries(context.Background(), &ListPolicySummariesInput{
+		NextToken:           ptr.String("__NextToken__"),
+		MaxResults:          ptr.Int32(1),
+		PolicyEngineId:      ptr.String("__PolicyEngineId__"),
+		TargetResourceScope: ptr.String("__TargetResourceScope__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -6713,7 +8525,12 @@ func TestCheckResponseSnapshot_ListRegistries(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListRegistries(context.Background(), &ListRegistriesInput{})
+	got, err := svc.ListRegistries(context.Background(), &ListRegistriesInput{
+		MaxResults:     ptr.Int32(1),
+		NextToken:      ptr.String("__NextToken__"),
+		Status:         types.RegistryStatus("CREATING"),
+		AuthorizerType: types.RegistryAuthorizerType("CUSTOM_JWT"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -6760,7 +8577,14 @@ func TestCheckResponseSnapshot_ListRegistryRecords(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListRegistryRecords(context.Background(), &ListRegistryRecordsInput{})
+	got, err := svc.ListRegistryRecords(context.Background(), &ListRegistryRecordsInput{
+		RegistryId:     ptr.String("__RegistryId__"),
+		MaxResults:     ptr.Int32(1),
+		NextToken:      ptr.String("__NextToken__"),
+		Name:           ptr.String("__Name__"),
+		Status:         types.RegistryRecordStatus("DRAFT"),
+		DescriptorType: types.DescriptorType("MCP"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -6783,7 +8607,9 @@ func TestCheckResponseSnapshot_ListTagsForResource(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListTagsForResource(context.Background(), &ListTagsForResourceInput{})
+	got, err := svc.ListTagsForResource(context.Background(), &ListTagsForResourceInput{
+		ResourceArn: ptr.String("__ResourceArn__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -6814,7 +8640,10 @@ func TestCheckResponseSnapshot_ListWorkloadIdentities(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.ListWorkloadIdentities(context.Background(), &ListWorkloadIdentitiesInput{})
+	got, err := svc.ListWorkloadIdentities(context.Background(), &ListWorkloadIdentitiesInput{
+		NextToken:  ptr.String("__NextToken__"),
+		MaxResults: ptr.Int32(1),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -6835,7 +8664,10 @@ func TestCheckResponseSnapshot_PutResourcePolicy(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.PutResourcePolicy(context.Background(), &PutResourcePolicyInput{})
+	got, err := svc.PutResourcePolicy(context.Background(), &PutResourcePolicyInput{
+		ResourceArn: ptr.String("__ResourceArn__"),
+		Policy:      ptr.String("__Policy__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -6861,7 +8693,13 @@ func TestCheckResponseSnapshot_SetTokenVaultCMK(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.SetTokenVaultCMK(context.Background(), &SetTokenVaultCMKInput{})
+	got, err := svc.SetTokenVaultCMK(context.Background(), &SetTokenVaultCMKInput{
+		TokenVaultId: ptr.String("__TokenVaultId__"),
+		KmsConfiguration: &types.KmsConfiguration{
+			KeyType:   types.KeyType("CustomerManagedKey"),
+			KmsKeyArn: ptr.String("__KmsKeyArn__"),
+		},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -6896,7 +8734,17 @@ func TestCheckResponseSnapshot_StartPolicyGeneration(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.StartPolicyGeneration(context.Background(), &StartPolicyGenerationInput{})
+	got, err := svc.StartPolicyGeneration(context.Background(), &StartPolicyGenerationInput{
+		PolicyEngineId: ptr.String("__PolicyEngineId__"),
+		Resource: &types.ResourceMemberArn{
+			Value: "__ResourceMemberArn__",
+		},
+		Content: &types.ContentMemberRawText{
+			Value: "__ContentMemberRawText__",
+		},
+		Name:        ptr.String("__Name__"),
+		ClientToken: ptr.String("__ClientToken__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -6921,7 +8769,10 @@ func TestCheckResponseSnapshot_SubmitRegistryRecordForApproval(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.SubmitRegistryRecordForApproval(context.Background(), &SubmitRegistryRecordForApprovalInput{})
+	got, err := svc.SubmitRegistryRecordForApproval(context.Background(), &SubmitRegistryRecordForApprovalInput{
+		RegistryId: ptr.String("__RegistryId__"),
+		RecordId:   ptr.String("__RecordId__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -7139,7 +8990,13 @@ func TestCheckResponseSnapshot_SynchronizeGatewayTargets(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.SynchronizeGatewayTargets(context.Background(), &SynchronizeGatewayTargetsInput{})
+	got, err := svc.SynchronizeGatewayTargets(context.Background(), &SynchronizeGatewayTargetsInput{
+		GatewayIdentifier: ptr.String("__GatewayIdentifier__"),
+		TargetIdList: []string{
+			"__Member__",
+			"__Member__",
+		},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -7158,7 +9015,12 @@ func TestCheckResponseSnapshot_TagResource(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.TagResource(context.Background(), &TagResourceInput{})
+	got, err := svc.TagResource(context.Background(), &TagResourceInput{
+		ResourceArn: ptr.String("__ResourceArn__"),
+		Tags: map[string]string{
+			"key0": "__Value__",
+		},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -7177,7 +9039,13 @@ func TestCheckResponseSnapshot_UntagResource(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.UntagResource(context.Background(), &UntagResourceInput{})
+	got, err := svc.UntagResource(context.Background(), &UntagResourceInput{
+		ResourceArn: ptr.String("__ResourceArn__"),
+		TagKeys: []string{
+			"__Member__",
+			"__Member__",
+		},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -7206,7 +9074,141 @@ func TestCheckResponseSnapshot_UpdateAgentRuntime(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.UpdateAgentRuntime(context.Background(), &UpdateAgentRuntimeInput{})
+	got, err := svc.UpdateAgentRuntime(context.Background(), &UpdateAgentRuntimeInput{
+		AgentRuntimeId: ptr.String("__AgentRuntimeId__"),
+		AgentRuntimeArtifact: &types.AgentRuntimeArtifactMemberContainerConfiguration{
+			Value: types.ContainerConfiguration{
+				ContainerUri: ptr.String("__ContainerUri__"),
+			},
+		},
+		RoleArn: ptr.String("__RoleArn__"),
+		NetworkConfiguration: &types.NetworkConfiguration{
+			NetworkMode: types.NetworkMode("PUBLIC"),
+			NetworkModeConfig: &types.VpcConfig{
+				SecurityGroups: []string{
+					"__Member__",
+					"__Member__",
+				},
+				Subnets: []string{
+					"__Member__",
+					"__Member__",
+				},
+				RequireServiceS3Endpoint: ptr.Bool(true),
+			},
+		},
+		Description: ptr.String("__Description__"),
+		AuthorizerConfiguration: &types.AuthorizerConfigurationMemberCustomJWTAuthorizer{
+			Value: types.CustomJWTAuthorizerConfiguration{
+				DiscoveryUrl: ptr.String("__DiscoveryUrl__"),
+				AllowedAudience: []string{
+					"__Member__",
+					"__Member__",
+				},
+				AllowedClients: []string{
+					"__Member__",
+					"__Member__",
+				},
+				AllowedScopes: []string{
+					"__Member__",
+					"__Member__",
+				},
+				AdvertisedScopeMapping: map[string]string{
+					"key0": "__Value__",
+				},
+				CustomClaims: []types.CustomClaimValidationType{
+					{
+						InboundTokenClaimName:      ptr.String("__InboundTokenClaimName__"),
+						InboundTokenClaimValueType: types.InboundTokenClaimValueType("STRING"),
+						AuthorizingClaimMatchValue: &types.AuthorizingClaimMatchValueType{
+							ClaimMatchValue: &types.ClaimMatchValueTypeMemberMatchValueString{
+								Value: "__ClaimMatchValueTypeMemberMatchValueString__",
+							},
+							ClaimMatchOperator: types.ClaimMatchOperatorType("EQUALS"),
+						},
+					},
+					{
+						InboundTokenClaimName:      ptr.String("__InboundTokenClaimName__"),
+						InboundTokenClaimValueType: types.InboundTokenClaimValueType("STRING"),
+						AuthorizingClaimMatchValue: &types.AuthorizingClaimMatchValueType{
+							ClaimMatchValue: &types.ClaimMatchValueTypeMemberMatchValueString{
+								Value: "__ClaimMatchValueTypeMemberMatchValueString__",
+							},
+							ClaimMatchOperator: types.ClaimMatchOperatorType("EQUALS"),
+						},
+					},
+				},
+				PrivateEndpoint: &types.PrivateEndpointMemberSelfManagedLatticeResource{
+					Value: &types.SelfManagedLatticeResourceMemberResourceConfigurationIdentifier{
+						Value: "__SelfManagedLatticeResourceMemberResourceConfigurationIdentifier__",
+					},
+				},
+				PrivateEndpointOverrides: []types.PrivateEndpointOverride{
+					{
+						Domain: ptr.String("__Domain__"),
+						PrivateEndpoint: &types.PrivateEndpointMemberSelfManagedLatticeResource{
+							Value: &types.SelfManagedLatticeResourceMemberResourceConfigurationIdentifier{
+								Value: "__SelfManagedLatticeResourceMemberResourceConfigurationIdentifier__",
+							},
+						},
+					},
+					{
+						Domain: ptr.String("__Domain__"),
+						PrivateEndpoint: &types.PrivateEndpointMemberSelfManagedLatticeResource{
+							Value: &types.SelfManagedLatticeResourceMemberResourceConfigurationIdentifier{
+								Value: "__SelfManagedLatticeResourceMemberResourceConfigurationIdentifier__",
+							},
+						},
+					},
+				},
+				AllowedWorkloadConfiguration: &types.AllowedWorkloadConfiguration{
+					HostingEnvironments: []types.HostingEnvironment{
+						{
+							Arn: ptr.String("__Arn__"),
+						},
+						{
+							Arn: ptr.String("__Arn__"),
+						},
+					},
+					WorkloadIdentities: []string{
+						"__Member__",
+						"__Member__",
+					},
+				},
+			},
+		},
+		RequestHeaderConfiguration: &types.RequestHeaderConfigurationMemberRequestHeaderAllowlist{
+			Value: []string{
+				"__Member__",
+				"__Member__",
+			},
+		},
+		ProtocolConfiguration: &types.ProtocolConfiguration{
+			ServerProtocol: types.ServerProtocol("MCP"),
+		},
+		LifecycleConfiguration: &types.LifecycleConfiguration{
+			IdleRuntimeSessionTimeout: ptr.Int32(1),
+			MaxLifetime:               ptr.Int32(1),
+		},
+		MetadataConfiguration: &types.RuntimeMetadataConfiguration{
+			RequireMMDSV2: ptr.Bool(true),
+		},
+		EnvironmentVariables: map[string]string{
+			"key0": "__Value__",
+		},
+		FilesystemConfigurations: []types.FilesystemConfiguration{
+			&types.FilesystemConfigurationMemberSessionStorage{
+				Value: types.SessionStorageConfiguration{
+					MountPath: ptr.String("__MountPath__"),
+				},
+			},
+			&types.FilesystemConfigurationMemberSessionStorage{
+				Value: types.SessionStorageConfiguration{
+					MountPath: ptr.String("__MountPath__"),
+				},
+			},
+		},
+		ClientToken: ptr.String("__ClientToken__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -7233,7 +9235,13 @@ func TestCheckResponseSnapshot_UpdateAgentRuntimeEndpoint(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.UpdateAgentRuntimeEndpoint(context.Background(), &UpdateAgentRuntimeEndpointInput{})
+	got, err := svc.UpdateAgentRuntimeEndpoint(context.Background(), &UpdateAgentRuntimeEndpointInput{
+		AgentRuntimeId:      ptr.String("__AgentRuntimeId__"),
+		EndpointName:        ptr.String("__EndpointName__"),
+		AgentRuntimeVersion: ptr.String("__AgentRuntimeVersion__"),
+		Description:         ptr.String("__Description__"),
+		ClientToken:         ptr.String("__ClientToken__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -7262,7 +9270,15 @@ func TestCheckResponseSnapshot_UpdateApiKeyCredentialProvider(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.UpdateApiKeyCredentialProvider(context.Background(), &UpdateApiKeyCredentialProviderInput{})
+	got, err := svc.UpdateApiKeyCredentialProvider(context.Background(), &UpdateApiKeyCredentialProviderInput{
+		Name:   ptr.String("__Name__"),
+		ApiKey: ptr.String("__ApiKey__"),
+		ApiKeySecretConfig: &types.SecretReference{
+			SecretId: ptr.String("__SecretId__"),
+			JsonKey:  ptr.String("__JsonKey__"),
+		},
+		ApiKeySecretSource: types.SecretSourceType("MANAGED"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -7286,7 +9302,28 @@ func TestCheckResponseSnapshot_UpdateConfigurationBundle(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.UpdateConfigurationBundle(context.Background(), &UpdateConfigurationBundleInput{})
+	got, err := svc.UpdateConfigurationBundle(context.Background(), &UpdateConfigurationBundleInput{
+		ClientToken: ptr.String("__ClientToken__"),
+		BundleId:    ptr.String("__BundleId__"),
+		BundleName:  ptr.String("__BundleName__"),
+		Description: ptr.String("__Description__"),
+		Components: map[string]types.ComponentConfiguration{
+			"key0": {
+				Configuration: document.NewLazyDocument("__Document__"),
+			},
+		},
+		ParentVersionIds: []string{
+			"__Member__",
+			"__Member__",
+		},
+		BranchName:    ptr.String("__BranchName__"),
+		CommitMessage: ptr.String("__CommitMessage__"),
+		CreatedBy: &types.VersionCreatedBySource{
+			Name: ptr.String("__Name__"),
+			Arn:  ptr.String("__Arn__"),
+		},
+		KmsKeyArn: ptr.String("__KmsKeyArn__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -7309,7 +9346,11 @@ func TestCheckResponseSnapshot_UpdateDataset(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.UpdateDataset(context.Background(), &UpdateDatasetInput{})
+	got, err := svc.UpdateDataset(context.Background(), &UpdateDatasetInput{
+		DatasetId:   ptr.String("__DatasetId__"),
+		ClientToken: ptr.String("__ClientToken__"),
+		Description: ptr.String("__Description__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -7334,7 +9375,14 @@ func TestCheckResponseSnapshot_UpdateDatasetExamples(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.UpdateDatasetExamples(context.Background(), &UpdateDatasetExamplesInput{})
+	got, err := svc.UpdateDatasetExamples(context.Background(), &UpdateDatasetExamplesInput{
+		DatasetId:   ptr.String("__DatasetId__"),
+		ClientToken: ptr.String("__ClientToken__"),
+		Examples: []document.Interface{
+			document.NewLazyDocument("__Document__"),
+			document.NewLazyDocument("__Document__"),
+		},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -7358,7 +9406,47 @@ func TestCheckResponseSnapshot_UpdateEvaluator(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.UpdateEvaluator(context.Background(), &UpdateEvaluatorInput{})
+	got, err := svc.UpdateEvaluator(context.Background(), &UpdateEvaluatorInput{
+		ClientToken: ptr.String("__ClientToken__"),
+		EvaluatorId: ptr.String("__EvaluatorId__"),
+		Description: ptr.String("__Description__"),
+		EvaluatorConfig: &types.EvaluatorConfigMemberLlmAsAJudge{
+			Value: types.LlmAsAJudgeEvaluatorConfig{
+				Instructions: ptr.String("__Instructions__"),
+				RatingScale: &types.RatingScaleMemberNumerical{
+					Value: []types.NumericalScaleDefinition{
+						{
+							Definition: ptr.String("__Definition__"),
+							Value:      ptr.Float64(1.0),
+							Label:      ptr.String("__Label__"),
+						},
+						{
+							Definition: ptr.String("__Definition__"),
+							Value:      ptr.Float64(1.0),
+							Label:      ptr.String("__Label__"),
+						},
+					},
+				},
+				ModelConfig: &types.EvaluatorModelConfigMemberBedrockEvaluatorModelConfig{
+					Value: types.BedrockEvaluatorModelConfig{
+						ModelId: ptr.String("__ModelId__"),
+						InferenceConfig: &types.InferenceConfiguration{
+							MaxTokens:   ptr.Int32(1),
+							Temperature: ptr.Float32(1.0),
+							TopP:        ptr.Float32(1.0),
+							StopSequences: []string{
+								"__Member__",
+								"__Member__",
+							},
+						},
+						AdditionalModelRequestFields: document.NewLazyDocument("__Document__"),
+					},
+				},
+			},
+		},
+		Level:     types.EvaluatorLevel("TOOL_CALL"),
+		KmsKeyArn: ptr.String("__KmsKeyArn__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -7556,7 +9644,173 @@ func TestCheckResponseSnapshot_UpdateGateway(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.UpdateGateway(context.Background(), &UpdateGatewayInput{})
+	got, err := svc.UpdateGateway(context.Background(), &UpdateGatewayInput{
+		GatewayIdentifier: ptr.String("__GatewayIdentifier__"),
+		Name:              ptr.String("__Name__"),
+		Description:       ptr.String("__Description__"),
+		RoleArn:           ptr.String("__RoleArn__"),
+		ProtocolType:      types.GatewayProtocolType("MCP"),
+		ProtocolConfiguration: &types.GatewayProtocolConfigurationMemberMcp{
+			Value: types.MCPGatewayConfiguration{
+				SupportedVersions: []string{
+					"__Member__",
+					"__Member__",
+				},
+				Instructions: ptr.String("__Instructions__"),
+				SearchType:   types.SearchType("SEMANTIC"),
+				SessionConfiguration: &types.SessionConfiguration{
+					SessionTimeoutInSeconds: ptr.Int32(1),
+				},
+				StreamingConfiguration: &types.StreamingConfiguration{
+					EnableResponseStreaming: ptr.Bool(true),
+				},
+			},
+		},
+		AuthorizerType: types.AuthorizerType("CUSTOM_JWT"),
+		AuthorizerConfiguration: &types.AuthorizerConfigurationMemberCustomJWTAuthorizer{
+			Value: types.CustomJWTAuthorizerConfiguration{
+				DiscoveryUrl: ptr.String("__DiscoveryUrl__"),
+				AllowedAudience: []string{
+					"__Member__",
+					"__Member__",
+				},
+				AllowedClients: []string{
+					"__Member__",
+					"__Member__",
+				},
+				AllowedScopes: []string{
+					"__Member__",
+					"__Member__",
+				},
+				AdvertisedScopeMapping: map[string]string{
+					"key0": "__Value__",
+				},
+				CustomClaims: []types.CustomClaimValidationType{
+					{
+						InboundTokenClaimName:      ptr.String("__InboundTokenClaimName__"),
+						InboundTokenClaimValueType: types.InboundTokenClaimValueType("STRING"),
+						AuthorizingClaimMatchValue: &types.AuthorizingClaimMatchValueType{
+							ClaimMatchValue: &types.ClaimMatchValueTypeMemberMatchValueString{
+								Value: "__ClaimMatchValueTypeMemberMatchValueString__",
+							},
+							ClaimMatchOperator: types.ClaimMatchOperatorType("EQUALS"),
+						},
+					},
+					{
+						InboundTokenClaimName:      ptr.String("__InboundTokenClaimName__"),
+						InboundTokenClaimValueType: types.InboundTokenClaimValueType("STRING"),
+						AuthorizingClaimMatchValue: &types.AuthorizingClaimMatchValueType{
+							ClaimMatchValue: &types.ClaimMatchValueTypeMemberMatchValueString{
+								Value: "__ClaimMatchValueTypeMemberMatchValueString__",
+							},
+							ClaimMatchOperator: types.ClaimMatchOperatorType("EQUALS"),
+						},
+					},
+				},
+				PrivateEndpoint: &types.PrivateEndpointMemberSelfManagedLatticeResource{
+					Value: &types.SelfManagedLatticeResourceMemberResourceConfigurationIdentifier{
+						Value: "__SelfManagedLatticeResourceMemberResourceConfigurationIdentifier__",
+					},
+				},
+				PrivateEndpointOverrides: []types.PrivateEndpointOverride{
+					{
+						Domain: ptr.String("__Domain__"),
+						PrivateEndpoint: &types.PrivateEndpointMemberSelfManagedLatticeResource{
+							Value: &types.SelfManagedLatticeResourceMemberResourceConfigurationIdentifier{
+								Value: "__SelfManagedLatticeResourceMemberResourceConfigurationIdentifier__",
+							},
+						},
+					},
+					{
+						Domain: ptr.String("__Domain__"),
+						PrivateEndpoint: &types.PrivateEndpointMemberSelfManagedLatticeResource{
+							Value: &types.SelfManagedLatticeResourceMemberResourceConfigurationIdentifier{
+								Value: "__SelfManagedLatticeResourceMemberResourceConfigurationIdentifier__",
+							},
+						},
+					},
+				},
+				AllowedWorkloadConfiguration: &types.AllowedWorkloadConfiguration{
+					HostingEnvironments: []types.HostingEnvironment{
+						{
+							Arn: ptr.String("__Arn__"),
+						},
+						{
+							Arn: ptr.String("__Arn__"),
+						},
+					},
+					WorkloadIdentities: []string{
+						"__Member__",
+						"__Member__",
+					},
+				},
+			},
+		},
+		KmsKeyArn: ptr.String("__KmsKeyArn__"),
+		CustomTransformConfiguration: &types.CustomTransformConfiguration{
+			Lambda: &types.LambdaTransformConfiguration{
+				Arn: ptr.String("__Arn__"),
+			},
+		},
+		InterceptorConfigurations: []types.GatewayInterceptorConfiguration{
+			{
+				Interceptor: &types.InterceptorConfigurationMemberLambda{
+					Value: types.LambdaInterceptorConfiguration{
+						Arn: ptr.String("__Arn__"),
+					},
+				},
+				InterceptionPoints: []types.GatewayInterceptionPoint{
+					types.GatewayInterceptionPoint("REQUEST"),
+					types.GatewayInterceptionPoint("REQUEST"),
+				},
+				InputConfiguration: &types.InterceptorInputConfiguration{
+					PassRequestHeaders: ptr.Bool(true),
+					PayloadFilter: &types.InterceptorPayloadFilter{
+						Exclude: []types.InterceptorPayloadExclusionSelector{
+							&types.InterceptorPayloadExclusionSelectorMemberField{
+								Value: types.InterceptorPayloadExclusion("RESPONSE_BODY"),
+							},
+							&types.InterceptorPayloadExclusionSelectorMemberField{
+								Value: types.InterceptorPayloadExclusion("RESPONSE_BODY"),
+							},
+						},
+					},
+				},
+			},
+			{
+				Interceptor: &types.InterceptorConfigurationMemberLambda{
+					Value: types.LambdaInterceptorConfiguration{
+						Arn: ptr.String("__Arn__"),
+					},
+				},
+				InterceptionPoints: []types.GatewayInterceptionPoint{
+					types.GatewayInterceptionPoint("REQUEST"),
+					types.GatewayInterceptionPoint("REQUEST"),
+				},
+				InputConfiguration: &types.InterceptorInputConfiguration{
+					PassRequestHeaders: ptr.Bool(true),
+					PayloadFilter: &types.InterceptorPayloadFilter{
+						Exclude: []types.InterceptorPayloadExclusionSelector{
+							&types.InterceptorPayloadExclusionSelectorMemberField{
+								Value: types.InterceptorPayloadExclusion("RESPONSE_BODY"),
+							},
+							&types.InterceptorPayloadExclusionSelectorMemberField{
+								Value: types.InterceptorPayloadExclusion("RESPONSE_BODY"),
+							},
+						},
+					},
+				},
+			},
+		},
+		PolicyEngineConfiguration: &types.GatewayPolicyEngineConfiguration{
+			Arn:  ptr.String("__Arn__"),
+			Mode: types.GatewayPolicyEngineMode("LOG_ONLY"),
+		},
+		ExceptionLevel: types.ExceptionLevel("DEBUG"),
+		WafConfiguration: &types.WafConfiguration{
+			FailureMode: types.WafFailureMode("FAIL_CLOSE"),
+		},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -7642,7 +9896,68 @@ func TestCheckResponseSnapshot_UpdateGatewayRule(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.UpdateGatewayRule(context.Background(), &UpdateGatewayRuleInput{})
+	got, err := svc.UpdateGatewayRule(context.Background(), &UpdateGatewayRuleInput{
+		GatewayIdentifier: ptr.String("__GatewayIdentifier__"),
+		RuleId:            ptr.String("__RuleId__"),
+		Priority:          ptr.Int32(1),
+		Conditions: []types.Condition{
+			&types.ConditionMemberMatchPrincipals{
+				Value: types.MatchPrincipals{
+					AnyOf: []types.MatchPrincipalEntry{
+						&types.MatchPrincipalEntryMemberIamPrincipal{
+							Value: types.IamPrincipal{
+								Arn:      ptr.String("__Arn__"),
+								Operator: types.PrincipalMatchOperator("StringEquals"),
+							},
+						},
+						&types.MatchPrincipalEntryMemberIamPrincipal{
+							Value: types.IamPrincipal{
+								Arn:      ptr.String("__Arn__"),
+								Operator: types.PrincipalMatchOperator("StringEquals"),
+							},
+						},
+					},
+				},
+			},
+			&types.ConditionMemberMatchPrincipals{
+				Value: types.MatchPrincipals{
+					AnyOf: []types.MatchPrincipalEntry{
+						&types.MatchPrincipalEntryMemberIamPrincipal{
+							Value: types.IamPrincipal{
+								Arn:      ptr.String("__Arn__"),
+								Operator: types.PrincipalMatchOperator("StringEquals"),
+							},
+						},
+						&types.MatchPrincipalEntryMemberIamPrincipal{
+							Value: types.IamPrincipal{
+								Arn:      ptr.String("__Arn__"),
+								Operator: types.PrincipalMatchOperator("StringEquals"),
+							},
+						},
+					},
+				},
+			},
+		},
+		Actions: []types.Action{
+			&types.ActionMemberConfigurationBundle{
+				Value: &types.ConfigurationBundleActionMemberStaticOverride{
+					Value: types.StaticOverride{
+						BundleArn:     ptr.String("__BundleArn__"),
+						BundleVersion: ptr.String("__BundleVersion__"),
+					},
+				},
+			},
+			&types.ActionMemberConfigurationBundle{
+				Value: &types.ConfigurationBundleActionMemberStaticOverride{
+					Value: types.StaticOverride{
+						BundleArn:     ptr.String("__BundleArn__"),
+						BundleVersion: ptr.String("__BundleVersion__"),
+					},
+				},
+			},
+		},
+		Description: ptr.String("__Description__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -7758,7 +10073,77 @@ func TestCheckResponseSnapshot_UpdateGatewayTarget(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.UpdateGatewayTarget(context.Background(), &UpdateGatewayTargetInput{})
+	got, err := svc.UpdateGatewayTarget(context.Background(), &UpdateGatewayTargetInput{
+		GatewayIdentifier: ptr.String("__GatewayIdentifier__"),
+		TargetId:          ptr.String("__TargetId__"),
+		Name:              ptr.String("__Name__"),
+		Description:       ptr.String("__Description__"),
+		TargetConfiguration: &types.TargetConfigurationMemberMcp{
+			Value: &types.McpTargetConfigurationMemberOpenApiSchema{
+				Value: &types.ApiSchemaConfigurationMemberS3{
+					Value: types.S3Configuration{
+						Uri:                  ptr.String("__Uri__"),
+						BucketOwnerAccountId: ptr.String("__BucketOwnerAccountId__"),
+					},
+				},
+			},
+		},
+		CredentialProviderConfigurations: []types.CredentialProviderConfiguration{
+			{
+				CredentialProviderType: types.CredentialProviderType("GATEWAY_IAM_ROLE"),
+				CredentialProvider: &types.CredentialProviderMemberOauthCredentialProvider{
+					Value: types.OAuthCredentialProvider{
+						ProviderArn: ptr.String("__ProviderArn__"),
+						Scopes: []string{
+							"__Member__",
+							"__Member__",
+						},
+						CustomParameters: map[string]string{
+							"key0": "__Value__",
+						},
+						GrantType:        types.OAuthGrantType("CLIENT_CREDENTIALS"),
+						DefaultReturnUrl: ptr.String("__DefaultReturnUrl__"),
+					},
+				},
+			},
+			{
+				CredentialProviderType: types.CredentialProviderType("GATEWAY_IAM_ROLE"),
+				CredentialProvider: &types.CredentialProviderMemberOauthCredentialProvider{
+					Value: types.OAuthCredentialProvider{
+						ProviderArn: ptr.String("__ProviderArn__"),
+						Scopes: []string{
+							"__Member__",
+							"__Member__",
+						},
+						CustomParameters: map[string]string{
+							"key0": "__Value__",
+						},
+						GrantType:        types.OAuthGrantType("CLIENT_CREDENTIALS"),
+						DefaultReturnUrl: ptr.String("__DefaultReturnUrl__"),
+					},
+				},
+			},
+		},
+		MetadataConfiguration: &types.MetadataConfiguration{
+			AllowedRequestHeaders: []string{
+				"__Member__",
+				"__Member__",
+			},
+			AllowedQueryParameters: []string{
+				"__Member__",
+				"__Member__",
+			},
+			AllowedResponseHeaders: []string{
+				"__Member__",
+				"__Member__",
+			},
+		},
+		PrivateEndpoint: &types.PrivateEndpointMemberSelfManagedLatticeResource{
+			Value: &types.SelfManagedLatticeResourceMemberResourceConfigurationIdentifier{
+				Value: "__SelfManagedLatticeResourceMemberResourceConfigurationIdentifier__",
+			},
+		},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -7785,7 +10170,7 @@ func TestCheckResponseSnapshot_UpdateHarness(t *testing.T) {
 					Temperature:      ptr.Float32(1.0),
 					TopP:             ptr.Float32(1.0),
 					ApiFormat:        types.HarnessBedrockApiFormat("converse_stream"),
-					AdditionalParams: nil,
+					AdditionalParams: document.NewLazyDocument("__Document__"),
 				},
 			},
 			SystemPrompt: []types.HarnessSystemContentBlock{
@@ -7994,7 +10379,219 @@ func TestCheckResponseSnapshot_UpdateHarness(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.UpdateHarness(context.Background(), &UpdateHarnessInput{})
+	got, err := svc.UpdateHarness(context.Background(), &UpdateHarnessInput{
+		HarnessId:        ptr.String("__HarnessId__"),
+		ClientToken:      ptr.String("__ClientToken__"),
+		ExecutionRoleArn: ptr.String("__ExecutionRoleArn__"),
+		Environment: &types.HarnessEnvironmentProviderRequestMemberAgentCoreRuntimeEnvironment{
+			Value: types.HarnessAgentCoreRuntimeEnvironmentRequest{
+				LifecycleConfiguration: &types.LifecycleConfiguration{
+					IdleRuntimeSessionTimeout: ptr.Int32(1),
+					MaxLifetime:               ptr.Int32(1),
+				},
+				NetworkConfiguration: &types.NetworkConfiguration{
+					NetworkMode: types.NetworkMode("PUBLIC"),
+					NetworkModeConfig: &types.VpcConfig{
+						SecurityGroups: []string{
+							"__Member__",
+							"__Member__",
+						},
+						Subnets: []string{
+							"__Member__",
+							"__Member__",
+						},
+						RequireServiceS3Endpoint: ptr.Bool(true),
+					},
+				},
+				FilesystemConfigurations: []types.FilesystemConfiguration{
+					&types.FilesystemConfigurationMemberSessionStorage{
+						Value: types.SessionStorageConfiguration{
+							MountPath: ptr.String("__MountPath__"),
+						},
+					},
+					&types.FilesystemConfigurationMemberSessionStorage{
+						Value: types.SessionStorageConfiguration{
+							MountPath: ptr.String("__MountPath__"),
+						},
+					},
+				},
+			},
+		},
+		EnvironmentArtifact: &types.UpdatedHarnessEnvironmentArtifact{
+			OptionalValue: &types.HarnessEnvironmentArtifactMemberContainerConfiguration{
+				Value: types.ContainerConfiguration{
+					ContainerUri: ptr.String("__ContainerUri__"),
+				},
+			},
+		},
+		EnvironmentVariables: map[string]string{
+			"key0": "__Value__",
+		},
+		AuthorizerConfiguration: &types.UpdatedAuthorizerConfiguration{
+			OptionalValue: &types.AuthorizerConfigurationMemberCustomJWTAuthorizer{
+				Value: types.CustomJWTAuthorizerConfiguration{
+					DiscoveryUrl: ptr.String("__DiscoveryUrl__"),
+					AllowedAudience: []string{
+						"__Member__",
+						"__Member__",
+					},
+					AllowedClients: []string{
+						"__Member__",
+						"__Member__",
+					},
+					AllowedScopes: []string{
+						"__Member__",
+						"__Member__",
+					},
+					AdvertisedScopeMapping: map[string]string{
+						"key0": "__Value__",
+					},
+					CustomClaims: []types.CustomClaimValidationType{
+						{
+							InboundTokenClaimName:      ptr.String("__InboundTokenClaimName__"),
+							InboundTokenClaimValueType: types.InboundTokenClaimValueType("STRING"),
+							AuthorizingClaimMatchValue: &types.AuthorizingClaimMatchValueType{
+								ClaimMatchValue: &types.ClaimMatchValueTypeMemberMatchValueString{
+									Value: "__ClaimMatchValueTypeMemberMatchValueString__",
+								},
+								ClaimMatchOperator: types.ClaimMatchOperatorType("EQUALS"),
+							},
+						},
+						{
+							InboundTokenClaimName:      ptr.String("__InboundTokenClaimName__"),
+							InboundTokenClaimValueType: types.InboundTokenClaimValueType("STRING"),
+							AuthorizingClaimMatchValue: &types.AuthorizingClaimMatchValueType{
+								ClaimMatchValue: &types.ClaimMatchValueTypeMemberMatchValueString{
+									Value: "__ClaimMatchValueTypeMemberMatchValueString__",
+								},
+								ClaimMatchOperator: types.ClaimMatchOperatorType("EQUALS"),
+							},
+						},
+					},
+					PrivateEndpoint: &types.PrivateEndpointMemberSelfManagedLatticeResource{
+						Value: &types.SelfManagedLatticeResourceMemberResourceConfigurationIdentifier{
+							Value: "__SelfManagedLatticeResourceMemberResourceConfigurationIdentifier__",
+						},
+					},
+					PrivateEndpointOverrides: []types.PrivateEndpointOverride{
+						{
+							Domain: ptr.String("__Domain__"),
+							PrivateEndpoint: &types.PrivateEndpointMemberSelfManagedLatticeResource{
+								Value: &types.SelfManagedLatticeResourceMemberResourceConfigurationIdentifier{
+									Value: "__SelfManagedLatticeResourceMemberResourceConfigurationIdentifier__",
+								},
+							},
+						},
+						{
+							Domain: ptr.String("__Domain__"),
+							PrivateEndpoint: &types.PrivateEndpointMemberSelfManagedLatticeResource{
+								Value: &types.SelfManagedLatticeResourceMemberResourceConfigurationIdentifier{
+									Value: "__SelfManagedLatticeResourceMemberResourceConfigurationIdentifier__",
+								},
+							},
+						},
+					},
+					AllowedWorkloadConfiguration: &types.AllowedWorkloadConfiguration{
+						HostingEnvironments: []types.HostingEnvironment{
+							{
+								Arn: ptr.String("__Arn__"),
+							},
+							{
+								Arn: ptr.String("__Arn__"),
+							},
+						},
+						WorkloadIdentities: []string{
+							"__Member__",
+							"__Member__",
+						},
+					},
+				},
+			},
+		},
+		Model: &types.HarnessModelConfigurationMemberBedrockModelConfig{
+			Value: types.HarnessBedrockModelConfig{
+				ModelId:          ptr.String("__ModelId__"),
+				MaxTokens:        ptr.Int32(1),
+				Temperature:      ptr.Float32(1.0),
+				TopP:             ptr.Float32(1.0),
+				ApiFormat:        types.HarnessBedrockApiFormat("converse_stream"),
+				AdditionalParams: document.NewLazyDocument("__Document__"),
+			},
+		},
+		SystemPrompt: []types.HarnessSystemContentBlock{
+			&types.HarnessSystemContentBlockMemberText{
+				Value: "__HarnessSystemContentBlockMemberText__",
+			},
+			&types.HarnessSystemContentBlockMemberText{
+				Value: "__HarnessSystemContentBlockMemberText__",
+			},
+		},
+		Tools: []types.HarnessTool{
+			{
+				Type: types.HarnessToolType("remote_mcp"),
+				Name: ptr.String("__Name__"),
+				Config: &types.HarnessToolConfigurationMemberRemoteMcp{
+					Value: types.HarnessRemoteMcpConfig{
+						Url: ptr.String("__Url__"),
+						Headers: map[string]string{
+							"key0": "__Value__",
+						},
+					},
+				},
+			},
+			{
+				Type: types.HarnessToolType("remote_mcp"),
+				Name: ptr.String("__Name__"),
+				Config: &types.HarnessToolConfigurationMemberRemoteMcp{
+					Value: types.HarnessRemoteMcpConfig{
+						Url: ptr.String("__Url__"),
+						Headers: map[string]string{
+							"key0": "__Value__",
+						},
+					},
+				},
+			},
+		},
+		Skills: []types.HarnessSkill{
+			&types.HarnessSkillMemberPath{
+				Value: "__HarnessSkillMemberPath__",
+			},
+			&types.HarnessSkillMemberPath{
+				Value: "__HarnessSkillMemberPath__",
+			},
+		},
+		AllowedTools: []string{
+			"__Member__",
+			"__Member__",
+		},
+		Memory: &types.UpdatedHarnessMemoryConfiguration{
+			OptionalValue: &types.HarnessMemoryConfigurationMemberAgentCoreMemoryConfiguration{
+				Value: types.HarnessAgentCoreMemoryConfiguration{
+					Arn:           ptr.String("__Arn__"),
+					ActorId:       ptr.String("__ActorId__"),
+					MessagesCount: ptr.Int32(1),
+					RetrievalConfig: map[string]types.HarnessAgentCoreMemoryRetrievalConfig{
+						"key0": {
+							TopK:           ptr.Int32(1),
+							RelevanceScore: ptr.Float32(1.0),
+							StrategyId:     ptr.String("__StrategyId__"),
+						},
+					},
+				},
+			},
+		},
+		Truncation: &types.HarnessTruncationConfiguration{
+			Strategy: types.HarnessTruncationStrategy("sliding_window"),
+			Config: &types.HarnessTruncationStrategyConfigurationMemberSlidingWindow{
+				Value: types.HarnessSlidingWindowConfiguration{
+					MessagesCount: ptr.Int32(1),
+				},
+			},
+		},
+		MaxIterations:  ptr.Int32(1),
+		MaxTokens:      ptr.Int32(1),
+		TimeoutSeconds: ptr.Int32(1),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -8027,7 +10624,13 @@ func TestCheckResponseSnapshot_UpdateHarnessEndpoint(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.UpdateHarnessEndpoint(context.Background(), &UpdateHarnessEndpointInput{})
+	got, err := svc.UpdateHarnessEndpoint(context.Background(), &UpdateHarnessEndpointInput{
+		HarnessId:     ptr.String("__HarnessId__"),
+		EndpointName:  ptr.String("__EndpointName__"),
+		TargetVersion: ptr.String("__TargetVersion__"),
+		Description:   ptr.String("__Description__"),
+		ClientToken:   ptr.String("__ClientToken__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -8329,7 +10932,391 @@ func TestCheckResponseSnapshot_UpdateMemory(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.UpdateMemory(context.Background(), &UpdateMemoryInput{})
+	got, err := svc.UpdateMemory(context.Background(), &UpdateMemoryInput{
+		ClientToken:            ptr.String("__ClientToken__"),
+		MemoryId:               ptr.String("__MemoryId__"),
+		Description:            ptr.String("__Description__"),
+		EventExpiryDuration:    ptr.Int32(1),
+		MemoryExecutionRoleArn: ptr.String("__MemoryExecutionRoleArn__"),
+		MemoryStrategies: &types.ModifyMemoryStrategies{
+			AddMemoryStrategies: []types.MemoryStrategyInput{
+				&types.MemoryStrategyInputMemberSemanticMemoryStrategy{
+					Value: types.SemanticMemoryStrategyInput{
+						Name:        ptr.String("__Name__"),
+						Description: ptr.String("__Description__"),
+						Namespaces: []string{
+							"__Member__",
+							"__Member__",
+						},
+						NamespaceTemplates: []string{
+							"__Member__",
+							"__Member__",
+						},
+						MemoryRecordSchema: &types.MemoryRecordSchema{
+							MetadataSchema: []types.MetadataSchemaEntry{
+								{
+									Key:            ptr.String("__Key__"),
+									Type:           types.MetadataValueType("STRING"),
+									ExtractionType: types.ExtractionType("LLM_INFERRED"),
+									ExtractionConfig: &types.ExtractionConfigMemberLlmExtractionConfig{
+										Value: types.LlmExtractionConfig{
+											LlmExtractionInstruction: ptr.String("__LlmExtractionInstruction__"),
+											Definition:               ptr.String("__Definition__"),
+											Validation: &types.ValidationMemberStringValidation{
+												Value: types.StringValidation{
+													AllowedValues: []string{
+														"__Member__",
+														"__Member__",
+													},
+												},
+											},
+										},
+									},
+								},
+								{
+									Key:            ptr.String("__Key__"),
+									Type:           types.MetadataValueType("STRING"),
+									ExtractionType: types.ExtractionType("LLM_INFERRED"),
+									ExtractionConfig: &types.ExtractionConfigMemberLlmExtractionConfig{
+										Value: types.LlmExtractionConfig{
+											LlmExtractionInstruction: ptr.String("__LlmExtractionInstruction__"),
+											Definition:               ptr.String("__Definition__"),
+											Validation: &types.ValidationMemberStringValidation{
+												Value: types.StringValidation{
+													AllowedValues: []string{
+														"__Member__",
+														"__Member__",
+													},
+												},
+											},
+										},
+									},
+								},
+							},
+						},
+					},
+				},
+				&types.MemoryStrategyInputMemberSemanticMemoryStrategy{
+					Value: types.SemanticMemoryStrategyInput{
+						Name:        ptr.String("__Name__"),
+						Description: ptr.String("__Description__"),
+						Namespaces: []string{
+							"__Member__",
+							"__Member__",
+						},
+						NamespaceTemplates: []string{
+							"__Member__",
+							"__Member__",
+						},
+						MemoryRecordSchema: &types.MemoryRecordSchema{
+							MetadataSchema: []types.MetadataSchemaEntry{
+								{
+									Key:            ptr.String("__Key__"),
+									Type:           types.MetadataValueType("STRING"),
+									ExtractionType: types.ExtractionType("LLM_INFERRED"),
+									ExtractionConfig: &types.ExtractionConfigMemberLlmExtractionConfig{
+										Value: types.LlmExtractionConfig{
+											LlmExtractionInstruction: ptr.String("__LlmExtractionInstruction__"),
+											Definition:               ptr.String("__Definition__"),
+											Validation: &types.ValidationMemberStringValidation{
+												Value: types.StringValidation{
+													AllowedValues: []string{
+														"__Member__",
+														"__Member__",
+													},
+												},
+											},
+										},
+									},
+								},
+								{
+									Key:            ptr.String("__Key__"),
+									Type:           types.MetadataValueType("STRING"),
+									ExtractionType: types.ExtractionType("LLM_INFERRED"),
+									ExtractionConfig: &types.ExtractionConfigMemberLlmExtractionConfig{
+										Value: types.LlmExtractionConfig{
+											LlmExtractionInstruction: ptr.String("__LlmExtractionInstruction__"),
+											Definition:               ptr.String("__Definition__"),
+											Validation: &types.ValidationMemberStringValidation{
+												Value: types.StringValidation{
+													AllowedValues: []string{
+														"__Member__",
+														"__Member__",
+													},
+												},
+											},
+										},
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+			ModifyMemoryStrategies: []types.ModifyMemoryStrategyInput{
+				{
+					MemoryStrategyId: ptr.String("__MemoryStrategyId__"),
+					Description:      ptr.String("__Description__"),
+					Namespaces: []string{
+						"__Member__",
+						"__Member__",
+					},
+					NamespaceTemplates: []string{
+						"__Member__",
+						"__Member__",
+					},
+					Configuration: &types.ModifyStrategyConfiguration{
+						Extraction: &types.ModifyExtractionConfigurationMemberCustomExtractionConfiguration{
+							Value: &types.CustomExtractionConfigurationInputMemberSemanticExtractionOverride{
+								Value: types.SemanticOverrideExtractionConfigurationInput{
+									AppendToPrompt: ptr.String("__AppendToPrompt__"),
+									ModelId:        ptr.String("__ModelId__"),
+								},
+							},
+						},
+						Consolidation: &types.ModifyConsolidationConfigurationMemberCustomConsolidationConfiguration{
+							Value: &types.CustomConsolidationConfigurationInputMemberSemanticConsolidationOverride{
+								Value: types.SemanticOverrideConsolidationConfigurationInput{
+									AppendToPrompt: ptr.String("__AppendToPrompt__"),
+									ModelId:        ptr.String("__ModelId__"),
+								},
+							},
+						},
+						Reflection: &types.ModifyReflectionConfigurationMemberEpisodicReflectionConfiguration{
+							Value: types.EpisodicReflectionConfigurationInput{
+								Namespaces: []string{
+									"__Member__",
+									"__Member__",
+								},
+								NamespaceTemplates: []string{
+									"__Member__",
+									"__Member__",
+								},
+								MemoryRecordSchema: &types.MemoryRecordSchema{
+									MetadataSchema: []types.MetadataSchemaEntry{
+										{
+											Key:            ptr.String("__Key__"),
+											Type:           types.MetadataValueType("STRING"),
+											ExtractionType: types.ExtractionType("LLM_INFERRED"),
+											ExtractionConfig: &types.ExtractionConfigMemberLlmExtractionConfig{
+												Value: types.LlmExtractionConfig{
+													LlmExtractionInstruction: ptr.String("__LlmExtractionInstruction__"),
+													Definition:               ptr.String("__Definition__"),
+													Validation: &types.ValidationMemberStringValidation{
+														Value: types.StringValidation{},
+													},
+												},
+											},
+										},
+										{
+											Key:            ptr.String("__Key__"),
+											Type:           types.MetadataValueType("STRING"),
+											ExtractionType: types.ExtractionType("LLM_INFERRED"),
+											ExtractionConfig: &types.ExtractionConfigMemberLlmExtractionConfig{
+												Value: types.LlmExtractionConfig{},
+											},
+										},
+									},
+								},
+							},
+						},
+						SelfManagedConfiguration: &types.ModifySelfManagedConfiguration{
+							TriggerConditions: []types.TriggerConditionInput{
+								&types.TriggerConditionInputMemberMessageBasedTrigger{
+									Value: types.MessageBasedTriggerInput{
+										MessageCount: ptr.Int32(1),
+									},
+								},
+								&types.TriggerConditionInputMemberMessageBasedTrigger{
+									Value: types.MessageBasedTriggerInput{
+										MessageCount: ptr.Int32(1),
+									},
+								},
+							},
+							InvocationConfiguration: &types.ModifyInvocationConfigurationInput{
+								TopicArn:                  ptr.String("__TopicArn__"),
+								PayloadDeliveryBucketName: ptr.String("__PayloadDeliveryBucketName__"),
+							},
+							HistoricalContextWindowSize: ptr.Int32(1),
+						},
+					},
+					MemoryRecordSchema: &types.MemoryRecordSchema{
+						MetadataSchema: []types.MetadataSchemaEntry{
+							{
+								Key:            ptr.String("__Key__"),
+								Type:           types.MetadataValueType("STRING"),
+								ExtractionType: types.ExtractionType("LLM_INFERRED"),
+								ExtractionConfig: &types.ExtractionConfigMemberLlmExtractionConfig{
+									Value: types.LlmExtractionConfig{},
+								},
+							},
+							{
+								Key:            ptr.String("__Key__"),
+								Type:           types.MetadataValueType("STRING"),
+								ExtractionType: types.ExtractionType("LLM_INFERRED"),
+								ExtractionConfig: &types.ExtractionConfigMemberLlmExtractionConfig{
+									Value: types.LlmExtractionConfig{},
+								},
+							},
+						},
+					},
+				},
+				{
+					MemoryStrategyId: ptr.String("__MemoryStrategyId__"),
+					Description:      ptr.String("__Description__"),
+					Namespaces: []string{
+						"__Member__",
+						"__Member__",
+					},
+					NamespaceTemplates: []string{
+						"__Member__",
+						"__Member__",
+					},
+					Configuration: &types.ModifyStrategyConfiguration{
+						Extraction: &types.ModifyExtractionConfigurationMemberCustomExtractionConfiguration{
+							Value: &types.CustomExtractionConfigurationInputMemberSemanticExtractionOverride{
+								Value: types.SemanticOverrideExtractionConfigurationInput{
+									AppendToPrompt: ptr.String("__AppendToPrompt__"),
+									ModelId:        ptr.String("__ModelId__"),
+								},
+							},
+						},
+						Consolidation: &types.ModifyConsolidationConfigurationMemberCustomConsolidationConfiguration{
+							Value: &types.CustomConsolidationConfigurationInputMemberSemanticConsolidationOverride{
+								Value: types.SemanticOverrideConsolidationConfigurationInput{
+									AppendToPrompt: ptr.String("__AppendToPrompt__"),
+									ModelId:        ptr.String("__ModelId__"),
+								},
+							},
+						},
+						Reflection: &types.ModifyReflectionConfigurationMemberEpisodicReflectionConfiguration{
+							Value: types.EpisodicReflectionConfigurationInput{
+								Namespaces: []string{
+									"__Member__",
+									"__Member__",
+								},
+								NamespaceTemplates: []string{
+									"__Member__",
+									"__Member__",
+								},
+								MemoryRecordSchema: &types.MemoryRecordSchema{
+									MetadataSchema: []types.MetadataSchemaEntry{
+										{
+											Key:            ptr.String("__Key__"),
+											Type:           types.MetadataValueType("STRING"),
+											ExtractionType: types.ExtractionType("LLM_INFERRED"),
+											ExtractionConfig: &types.ExtractionConfigMemberLlmExtractionConfig{
+												Value: types.LlmExtractionConfig{},
+											},
+										},
+										{
+											Key:            ptr.String("__Key__"),
+											Type:           types.MetadataValueType("STRING"),
+											ExtractionType: types.ExtractionType("LLM_INFERRED"),
+											ExtractionConfig: &types.ExtractionConfigMemberLlmExtractionConfig{
+												Value: types.LlmExtractionConfig{},
+											},
+										},
+									},
+								},
+							},
+						},
+						SelfManagedConfiguration: &types.ModifySelfManagedConfiguration{
+							TriggerConditions: []types.TriggerConditionInput{
+								&types.TriggerConditionInputMemberMessageBasedTrigger{
+									Value: types.MessageBasedTriggerInput{
+										MessageCount: ptr.Int32(1),
+									},
+								},
+								&types.TriggerConditionInputMemberMessageBasedTrigger{
+									Value: types.MessageBasedTriggerInput{
+										MessageCount: ptr.Int32(1),
+									},
+								},
+							},
+							InvocationConfiguration: &types.ModifyInvocationConfigurationInput{
+								TopicArn:                  ptr.String("__TopicArn__"),
+								PayloadDeliveryBucketName: ptr.String("__PayloadDeliveryBucketName__"),
+							},
+							HistoricalContextWindowSize: ptr.Int32(1),
+						},
+					},
+					MemoryRecordSchema: &types.MemoryRecordSchema{
+						MetadataSchema: []types.MetadataSchemaEntry{
+							{
+								Key:            ptr.String("__Key__"),
+								Type:           types.MetadataValueType("STRING"),
+								ExtractionType: types.ExtractionType("LLM_INFERRED"),
+								ExtractionConfig: &types.ExtractionConfigMemberLlmExtractionConfig{
+									Value: types.LlmExtractionConfig{},
+								},
+							},
+							{
+								Key:            ptr.String("__Key__"),
+								Type:           types.MetadataValueType("STRING"),
+								ExtractionType: types.ExtractionType("LLM_INFERRED"),
+								ExtractionConfig: &types.ExtractionConfigMemberLlmExtractionConfig{
+									Value: types.LlmExtractionConfig{},
+								},
+							},
+						},
+					},
+				},
+			},
+			DeleteMemoryStrategies: []types.DeleteMemoryStrategyInput{
+				{
+					MemoryStrategyId: ptr.String("__MemoryStrategyId__"),
+				},
+				{
+					MemoryStrategyId: ptr.String("__MemoryStrategyId__"),
+				},
+			},
+		},
+		AddIndexedKeys: []types.IndexedKey{
+			{
+				Key:  ptr.String("__Key__"),
+				Type: types.MetadataValueType("STRING"),
+			},
+			{
+				Key:  ptr.String("__Key__"),
+				Type: types.MetadataValueType("STRING"),
+			},
+		},
+		StreamDeliveryResources: &types.StreamDeliveryResources{
+			Resources: []types.StreamDeliveryResource{
+				&types.StreamDeliveryResourceMemberKinesis{
+					Value: types.KinesisResource{
+						DataStreamArn: ptr.String("__DataStreamArn__"),
+						ContentConfigurations: []types.ContentConfiguration{
+							{
+								Type:  types.ContentType("MEMORY_RECORDS"),
+								Level: types.ContentLevel("METADATA_ONLY"),
+							},
+							{
+								Type:  types.ContentType("MEMORY_RECORDS"),
+								Level: types.ContentLevel("METADATA_ONLY"),
+							},
+						},
+					},
+				},
+				&types.StreamDeliveryResourceMemberKinesis{
+					Value: types.KinesisResource{
+						DataStreamArn: ptr.String("__DataStreamArn__"),
+						ContentConfigurations: []types.ContentConfiguration{
+							{
+								Type:  types.ContentType("MEMORY_RECORDS"),
+								Level: types.ContentLevel("METADATA_ONLY"),
+							},
+							{
+								Type:  types.ContentType("MEMORY_RECORDS"),
+								Level: types.ContentLevel("METADATA_ONLY"),
+							},
+						},
+					},
+				},
+			},
+		},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -8417,7 +11404,72 @@ func TestCheckResponseSnapshot_UpdateOauth2CredentialProvider(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.UpdateOauth2CredentialProvider(context.Background(), &UpdateOauth2CredentialProviderInput{})
+	got, err := svc.UpdateOauth2CredentialProvider(context.Background(), &UpdateOauth2CredentialProviderInput{
+		Name:                     ptr.String("__Name__"),
+		CredentialProviderVendor: types.CredentialProviderVendorType("GoogleOauth2"),
+		Oauth2ProviderConfigInput: &types.Oauth2ProviderConfigInputMemberCustomOauth2ProviderConfig{
+			Value: types.CustomOauth2ProviderConfigInput{
+				OauthDiscovery: &types.Oauth2DiscoveryMemberDiscoveryUrl{
+					Value: "__Oauth2DiscoveryMemberDiscoveryUrl__",
+				},
+				ClientId:     ptr.String("__ClientId__"),
+				ClientSecret: ptr.String("__ClientSecret__"),
+				ClientSecretConfig: &types.SecretReference{
+					SecretId: ptr.String("__SecretId__"),
+					JsonKey:  ptr.String("__JsonKey__"),
+				},
+				ClientSecretSource: types.SecretSourceType("MANAGED"),
+				OnBehalfOfTokenExchangeConfig: &types.OnBehalfOfTokenExchangeConfigType{
+					GrantType: types.OnBehalfOfTokenExchangeGrantTypeType("TOKEN_EXCHANGE"),
+					TokenExchangeGrantTypeConfig: &types.TokenExchangeGrantTypeConfigType{
+						ActorTokenContent: types.ActorTokenContentType("NONE"),
+						ActorTokenScopes: []string{
+							"__Member__",
+							"__Member__",
+						},
+					},
+				},
+				ClientAuthenticationMethod: types.ClientAuthenticationMethodType("CLIENT_SECRET_BASIC"),
+				PrivateKeyJwtConfig: &types.PrivateKeyJwtConfig{
+					PrivateKeySource: &types.PrivateKeySourceMemberKmsKeySource{
+						Value: types.KmsKeySourceType{
+							KmsKeyArn: ptr.String("__KmsKeyArn__"),
+						},
+					},
+					SigningAlgorithm: types.SigningAlgorithm("RS256"),
+					AdditionalHeaderClaims: map[string]string{
+						"key0": "__Value__",
+					},
+					AdditionalPayloadClaims: map[string]string{
+						"key0": "__Value__",
+					},
+				},
+				PrivateEndpoint: &types.PrivateEndpointMemberSelfManagedLatticeResource{
+					Value: &types.SelfManagedLatticeResourceMemberResourceConfigurationIdentifier{
+						Value: "__SelfManagedLatticeResourceMemberResourceConfigurationIdentifier__",
+					},
+				},
+				PrivateEndpointOverrides: []types.PrivateEndpointOverride{
+					{
+						Domain: ptr.String("__Domain__"),
+						PrivateEndpoint: &types.PrivateEndpointMemberSelfManagedLatticeResource{
+							Value: &types.SelfManagedLatticeResourceMemberResourceConfigurationIdentifier{
+								Value: "__SelfManagedLatticeResourceMemberResourceConfigurationIdentifier__",
+							},
+						},
+					},
+					{
+						Domain: ptr.String("__Domain__"),
+						PrivateEndpoint: &types.PrivateEndpointMemberSelfManagedLatticeResource{
+							Value: &types.SelfManagedLatticeResourceMemberResourceConfigurationIdentifier{
+								Value: "__SelfManagedLatticeResourceMemberResourceConfigurationIdentifier__",
+							},
+						},
+					},
+				},
+			},
+		},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -8443,7 +11495,71 @@ func TestCheckResponseSnapshot_UpdateOnlineEvaluationConfig(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.UpdateOnlineEvaluationConfig(context.Background(), &UpdateOnlineEvaluationConfigInput{})
+	got, err := svc.UpdateOnlineEvaluationConfig(context.Background(), &UpdateOnlineEvaluationConfigInput{
+		ClientToken:              ptr.String("__ClientToken__"),
+		OnlineEvaluationConfigId: ptr.String("__OnlineEvaluationConfigId__"),
+		Description:              ptr.String("__Description__"),
+		Rule: &types.Rule{
+			SamplingConfig: &types.SamplingConfig{
+				SamplingPercentage: ptr.Float64(1.0),
+			},
+			Filters: []types.Filter{
+				{
+					Key:      ptr.String("__Key__"),
+					Operator: types.FilterOperator("Equals"),
+					Value: &types.FilterValueMemberStringValue{
+						Value: "__FilterValueMemberStringValue__",
+					},
+				},
+				{
+					Key:      ptr.String("__Key__"),
+					Operator: types.FilterOperator("Equals"),
+					Value: &types.FilterValueMemberStringValue{
+						Value: "__FilterValueMemberStringValue__",
+					},
+				},
+			},
+			SessionConfig: &types.SessionConfig{
+				SessionTimeoutMinutes: ptr.Int32(1),
+			},
+		},
+		DataSourceConfig: &types.DataSourceConfigMemberCloudWatchLogs{
+			Value: types.CloudWatchLogsInputConfig{
+				LogGroupNames: []string{
+					"__Member__",
+					"__Member__",
+				},
+				ServiceNames: []string{
+					"__Member__",
+					"__Member__",
+				},
+			},
+		},
+		Evaluators: []types.EvaluatorReference{
+			&types.EvaluatorReferenceMemberEvaluatorId{
+				Value: "__EvaluatorReferenceMemberEvaluatorId__",
+			},
+			&types.EvaluatorReferenceMemberEvaluatorId{
+				Value: "__EvaluatorReferenceMemberEvaluatorId__",
+			},
+		},
+		Insights: []types.Insight{
+			{
+				InsightId: ptr.String("__InsightId__"),
+			},
+			{
+				InsightId: ptr.String("__InsightId__"),
+			},
+		},
+		ClusteringConfig: &types.ClusteringConfig{
+			Frequencies: []types.ClusteringFrequency{
+				types.ClusteringFrequency("DAILY"),
+				types.ClusteringFrequency("DAILY"),
+			},
+		},
+		EvaluationExecutionRoleArn: ptr.String("__EvaluationExecutionRoleArn__"),
+		ExecutionStatus:            types.OnlineEvaluationExecutionStatus("ENABLED"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -8481,7 +11597,25 @@ func TestCheckResponseSnapshot_UpdatePaymentConnector(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.UpdatePaymentConnector(context.Background(), &UpdatePaymentConnectorInput{})
+	got, err := svc.UpdatePaymentConnector(context.Background(), &UpdatePaymentConnectorInput{
+		PaymentManagerId:   ptr.String("__PaymentManagerId__"),
+		PaymentConnectorId: ptr.String("__PaymentConnectorId__"),
+		Description:        ptr.String("__Description__"),
+		Type:               types.PaymentConnectorType("CoinbaseCDP"),
+		CredentialProviderConfigurations: []types.CredentialsProviderConfiguration{
+			&types.CredentialsProviderConfigurationMemberCoinbaseCDP{
+				Value: types.PaymentCredentialProviderConfiguration{
+					CredentialProviderArn: ptr.String("__CredentialProviderArn__"),
+				},
+			},
+			&types.CredentialsProviderConfigurationMemberCoinbaseCDP{
+				Value: types.PaymentCredentialProviderConfiguration{
+					CredentialProviderArn: ptr.String("__CredentialProviderArn__"),
+				},
+			},
+		},
+		ClientToken: ptr.String("__ClientToken__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -8521,7 +11655,27 @@ func TestCheckResponseSnapshot_UpdatePaymentCredentialProvider(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.UpdatePaymentCredentialProvider(context.Background(), &UpdatePaymentCredentialProviderInput{})
+	got, err := svc.UpdatePaymentCredentialProvider(context.Background(), &UpdatePaymentCredentialProviderInput{
+		Name:                     ptr.String("__Name__"),
+		CredentialProviderVendor: types.PaymentCredentialProviderVendorType("CoinbaseCDP"),
+		ProviderConfigurationInput: &types.PaymentProviderConfigurationInputMemberCoinbaseCdpConfiguration{
+			Value: types.CoinbaseCdpConfigurationInput{
+				ApiKeyId:           ptr.String("__ApiKeyId__"),
+				ApiKeySecret:       ptr.String("__ApiKeySecret__"),
+				ApiKeySecretSource: types.SecretSourceType("MANAGED"),
+				ApiKeySecretConfig: &types.SecretReference{
+					SecretId: ptr.String("__SecretId__"),
+					JsonKey:  ptr.String("__JsonKey__"),
+				},
+				WalletSecret:       ptr.String("__WalletSecret__"),
+				WalletSecretSource: types.SecretSourceType("MANAGED"),
+				WalletSecretConfig: &types.SecretReference{
+					SecretId: ptr.String("__SecretId__"),
+					JsonKey:  ptr.String("__JsonKey__"),
+				},
+			},
+		},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -8551,7 +11705,92 @@ func TestCheckResponseSnapshot_UpdatePaymentManager(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.UpdatePaymentManager(context.Background(), &UpdatePaymentManagerInput{})
+	got, err := svc.UpdatePaymentManager(context.Background(), &UpdatePaymentManagerInput{
+		PaymentManagerId: ptr.String("__PaymentManagerId__"),
+		Description:      ptr.String("__Description__"),
+		AuthorizerType:   types.PaymentsAuthorizerType("CUSTOM_JWT"),
+		AuthorizerConfiguration: &types.AuthorizerConfigurationMemberCustomJWTAuthorizer{
+			Value: types.CustomJWTAuthorizerConfiguration{
+				DiscoveryUrl: ptr.String("__DiscoveryUrl__"),
+				AllowedAudience: []string{
+					"__Member__",
+					"__Member__",
+				},
+				AllowedClients: []string{
+					"__Member__",
+					"__Member__",
+				},
+				AllowedScopes: []string{
+					"__Member__",
+					"__Member__",
+				},
+				AdvertisedScopeMapping: map[string]string{
+					"key0": "__Value__",
+				},
+				CustomClaims: []types.CustomClaimValidationType{
+					{
+						InboundTokenClaimName:      ptr.String("__InboundTokenClaimName__"),
+						InboundTokenClaimValueType: types.InboundTokenClaimValueType("STRING"),
+						AuthorizingClaimMatchValue: &types.AuthorizingClaimMatchValueType{
+							ClaimMatchValue: &types.ClaimMatchValueTypeMemberMatchValueString{
+								Value: "__ClaimMatchValueTypeMemberMatchValueString__",
+							},
+							ClaimMatchOperator: types.ClaimMatchOperatorType("EQUALS"),
+						},
+					},
+					{
+						InboundTokenClaimName:      ptr.String("__InboundTokenClaimName__"),
+						InboundTokenClaimValueType: types.InboundTokenClaimValueType("STRING"),
+						AuthorizingClaimMatchValue: &types.AuthorizingClaimMatchValueType{
+							ClaimMatchValue: &types.ClaimMatchValueTypeMemberMatchValueString{
+								Value: "__ClaimMatchValueTypeMemberMatchValueString__",
+							},
+							ClaimMatchOperator: types.ClaimMatchOperatorType("EQUALS"),
+						},
+					},
+				},
+				PrivateEndpoint: &types.PrivateEndpointMemberSelfManagedLatticeResource{
+					Value: &types.SelfManagedLatticeResourceMemberResourceConfigurationIdentifier{
+						Value: "__SelfManagedLatticeResourceMemberResourceConfigurationIdentifier__",
+					},
+				},
+				PrivateEndpointOverrides: []types.PrivateEndpointOverride{
+					{
+						Domain: ptr.String("__Domain__"),
+						PrivateEndpoint: &types.PrivateEndpointMemberSelfManagedLatticeResource{
+							Value: &types.SelfManagedLatticeResourceMemberResourceConfigurationIdentifier{
+								Value: "__SelfManagedLatticeResourceMemberResourceConfigurationIdentifier__",
+							},
+						},
+					},
+					{
+						Domain: ptr.String("__Domain__"),
+						PrivateEndpoint: &types.PrivateEndpointMemberSelfManagedLatticeResource{
+							Value: &types.SelfManagedLatticeResourceMemberResourceConfigurationIdentifier{
+								Value: "__SelfManagedLatticeResourceMemberResourceConfigurationIdentifier__",
+							},
+						},
+					},
+				},
+				AllowedWorkloadConfiguration: &types.AllowedWorkloadConfiguration{
+					HostingEnvironments: []types.HostingEnvironment{
+						{
+							Arn: ptr.String("__Arn__"),
+						},
+						{
+							Arn: ptr.String("__Arn__"),
+						},
+					},
+					WorkloadIdentities: []string{
+						"__Member__",
+						"__Member__",
+					},
+				},
+			},
+		},
+		RoleArn:     ptr.String("__RoleArn__"),
+		ClientToken: ptr.String("__ClientToken__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -8589,7 +11828,20 @@ func TestCheckResponseSnapshot_UpdatePolicy(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.UpdatePolicy(context.Background(), &UpdatePolicyInput{})
+	got, err := svc.UpdatePolicy(context.Background(), &UpdatePolicyInput{
+		PolicyEngineId: ptr.String("__PolicyEngineId__"),
+		PolicyId:       ptr.String("__PolicyId__"),
+		Description: &types.UpdatedDescription{
+			OptionalValue: ptr.String("__OptionalValue__"),
+		},
+		Definition: &types.PolicyDefinitionMemberCedar{
+			Value: types.CedarPolicy{
+				Statement: ptr.String("__Statement__"),
+			},
+		},
+		ValidationMode:  types.PolicyValidationMode("FAIL_ON_ANY_FINDINGS"),
+		EnforcementMode: types.EnforcementMode("ACTIVE"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -8621,7 +11873,12 @@ func TestCheckResponseSnapshot_UpdatePolicyEngine(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.UpdatePolicyEngine(context.Background(), &UpdatePolicyEngineInput{})
+	got, err := svc.UpdatePolicyEngine(context.Background(), &UpdatePolicyEngineInput{
+		PolicyEngineId: ptr.String("__PolicyEngineId__"),
+		Description: &types.UpdatedDescription{
+			OptionalValue: ptr.String("__OptionalValue__"),
+		},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -8732,7 +11989,99 @@ func TestCheckResponseSnapshot_UpdateRegistry(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.UpdateRegistry(context.Background(), &UpdateRegistryInput{})
+	got, err := svc.UpdateRegistry(context.Background(), &UpdateRegistryInput{
+		RegistryId: ptr.String("__RegistryId__"),
+		Name:       ptr.String("__Name__"),
+		Description: &types.UpdatedDescription{
+			OptionalValue: ptr.String("__OptionalValue__"),
+		},
+		AuthorizerConfiguration: &types.UpdatedAuthorizerConfiguration{
+			OptionalValue: &types.AuthorizerConfigurationMemberCustomJWTAuthorizer{
+				Value: types.CustomJWTAuthorizerConfiguration{
+					DiscoveryUrl: ptr.String("__DiscoveryUrl__"),
+					AllowedAudience: []string{
+						"__Member__",
+						"__Member__",
+					},
+					AllowedClients: []string{
+						"__Member__",
+						"__Member__",
+					},
+					AllowedScopes: []string{
+						"__Member__",
+						"__Member__",
+					},
+					AdvertisedScopeMapping: map[string]string{
+						"key0": "__Value__",
+					},
+					CustomClaims: []types.CustomClaimValidationType{
+						{
+							InboundTokenClaimName:      ptr.String("__InboundTokenClaimName__"),
+							InboundTokenClaimValueType: types.InboundTokenClaimValueType("STRING"),
+							AuthorizingClaimMatchValue: &types.AuthorizingClaimMatchValueType{
+								ClaimMatchValue: &types.ClaimMatchValueTypeMemberMatchValueString{
+									Value: "__ClaimMatchValueTypeMemberMatchValueString__",
+								},
+								ClaimMatchOperator: types.ClaimMatchOperatorType("EQUALS"),
+							},
+						},
+						{
+							InboundTokenClaimName:      ptr.String("__InboundTokenClaimName__"),
+							InboundTokenClaimValueType: types.InboundTokenClaimValueType("STRING"),
+							AuthorizingClaimMatchValue: &types.AuthorizingClaimMatchValueType{
+								ClaimMatchValue: &types.ClaimMatchValueTypeMemberMatchValueString{
+									Value: "__ClaimMatchValueTypeMemberMatchValueString__",
+								},
+								ClaimMatchOperator: types.ClaimMatchOperatorType("EQUALS"),
+							},
+						},
+					},
+					PrivateEndpoint: &types.PrivateEndpointMemberSelfManagedLatticeResource{
+						Value: &types.SelfManagedLatticeResourceMemberResourceConfigurationIdentifier{
+							Value: "__SelfManagedLatticeResourceMemberResourceConfigurationIdentifier__",
+						},
+					},
+					PrivateEndpointOverrides: []types.PrivateEndpointOverride{
+						{
+							Domain: ptr.String("__Domain__"),
+							PrivateEndpoint: &types.PrivateEndpointMemberSelfManagedLatticeResource{
+								Value: &types.SelfManagedLatticeResourceMemberResourceConfigurationIdentifier{
+									Value: "__SelfManagedLatticeResourceMemberResourceConfigurationIdentifier__",
+								},
+							},
+						},
+						{
+							Domain: ptr.String("__Domain__"),
+							PrivateEndpoint: &types.PrivateEndpointMemberSelfManagedLatticeResource{
+								Value: &types.SelfManagedLatticeResourceMemberResourceConfigurationIdentifier{
+									Value: "__SelfManagedLatticeResourceMemberResourceConfigurationIdentifier__",
+								},
+							},
+						},
+					},
+					AllowedWorkloadConfiguration: &types.AllowedWorkloadConfiguration{
+						HostingEnvironments: []types.HostingEnvironment{
+							{
+								Arn: ptr.String("__Arn__"),
+							},
+							{
+								Arn: ptr.String("__Arn__"),
+							},
+						},
+						WorkloadIdentities: []string{
+							"__Member__",
+							"__Member__",
+						},
+					},
+				},
+			},
+		},
+		ApprovalConfiguration: &types.UpdatedApprovalConfiguration{
+			OptionalValue: &types.ApprovalConfiguration{
+				AutoApproval: true,
+			},
+		},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -8833,7 +12182,109 @@ func TestCheckResponseSnapshot_UpdateRegistryRecord(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.UpdateRegistryRecord(context.Background(), &UpdateRegistryRecordInput{})
+	got, err := svc.UpdateRegistryRecord(context.Background(), &UpdateRegistryRecordInput{
+		RegistryId: ptr.String("__RegistryId__"),
+		RecordId:   ptr.String("__RecordId__"),
+		Name:       ptr.String("__Name__"),
+		Description: &types.UpdatedDescription{
+			OptionalValue: ptr.String("__OptionalValue__"),
+		},
+		DescriptorType: types.DescriptorType("MCP"),
+		Descriptors: &types.UpdatedDescriptors{
+			OptionalValue: &types.UpdatedDescriptorsUnion{
+				Mcp: &types.UpdatedMcpDescriptor{
+					OptionalValue: &types.UpdatedMcpDescriptorFields{
+						Server: &types.UpdatedServerDefinition{
+							OptionalValue: &types.ServerDefinition{
+								SchemaVersion: ptr.String("__SchemaVersion__"),
+								InlineContent: ptr.String("__InlineContent__"),
+							},
+						},
+						Tools: &types.UpdatedToolsDefinition{
+							OptionalValue: &types.ToolsDefinition{
+								ProtocolVersion: ptr.String("__ProtocolVersion__"),
+								InlineContent:   ptr.String("__InlineContent__"),
+							},
+						},
+					},
+				},
+				A2a: &types.UpdatedA2aDescriptor{
+					OptionalValue: &types.A2aDescriptor{
+						AgentCard: &types.AgentCardDefinition{
+							SchemaVersion: ptr.String("__SchemaVersion__"),
+							InlineContent: ptr.String("__InlineContent__"),
+						},
+					},
+				},
+				Custom: &types.UpdatedCustomDescriptor{
+					OptionalValue: &types.CustomDescriptor{
+						InlineContent: ptr.String("__InlineContent__"),
+					},
+				},
+				AgentSkills: &types.UpdatedAgentSkillsDescriptor{
+					OptionalValue: &types.UpdatedAgentSkillsDescriptorFields{
+						SkillMd: &types.UpdatedSkillMdDefinition{
+							OptionalValue: &types.SkillMdDefinition{
+								InlineContent: ptr.String("__InlineContent__"),
+							},
+						},
+						SkillDefinition: &types.UpdatedSkillDefinition{
+							OptionalValue: &types.SkillDefinition{
+								SchemaVersion: ptr.String("__SchemaVersion__"),
+								InlineContent: ptr.String("__InlineContent__"),
+							},
+						},
+					},
+				},
+			},
+		},
+		RecordVersion: ptr.String("__RecordVersion__"),
+		SynchronizationType: &types.UpdatedSynchronizationType{
+			OptionalValue: types.SynchronizationType("URL"),
+		},
+		SynchronizationConfiguration: &types.UpdatedSynchronizationConfiguration{
+			OptionalValue: &types.SynchronizationConfiguration{
+				FromUrl: &types.FromUrlSynchronizationConfiguration{
+					Url: ptr.String("__Url__"),
+					CredentialProviderConfigurations: []types.RegistryRecordCredentialProviderConfiguration{
+						{
+							CredentialProviderType: types.RegistryRecordCredentialProviderType("OAUTH"),
+							CredentialProvider: &types.RegistryRecordCredentialProviderUnionMemberOauthCredentialProvider{
+								Value: types.RegistryRecordOAuthCredentialProvider{
+									ProviderArn: ptr.String("__ProviderArn__"),
+									GrantType:   types.RegistryRecordOAuthGrantType("CLIENT_CREDENTIALS"),
+									Scopes: []string{
+										"__Member__",
+										"__Member__",
+									},
+									CustomParameters: map[string]string{
+										"key0": "__Value__",
+									},
+								},
+							},
+						},
+						{
+							CredentialProviderType: types.RegistryRecordCredentialProviderType("OAUTH"),
+							CredentialProvider: &types.RegistryRecordCredentialProviderUnionMemberOauthCredentialProvider{
+								Value: types.RegistryRecordOAuthCredentialProvider{
+									ProviderArn: ptr.String("__ProviderArn__"),
+									GrantType:   types.RegistryRecordOAuthGrantType("CLIENT_CREDENTIALS"),
+									Scopes: []string{
+										"__Member__",
+										"__Member__",
+									},
+									CustomParameters: map[string]string{
+										"key0": "__Value__",
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+		},
+		TriggerSynchronization: ptr.Bool(true),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -8859,7 +12310,12 @@ func TestCheckResponseSnapshot_UpdateRegistryRecordStatus(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.UpdateRegistryRecordStatus(context.Background(), &UpdateRegistryRecordStatusInput{})
+	got, err := svc.UpdateRegistryRecordStatus(context.Background(), &UpdateRegistryRecordStatusInput{
+		RegistryId:   ptr.String("__RegistryId__"),
+		RecordId:     ptr.String("__RecordId__"),
+		Status:       types.RegistryRecordStatus("DRAFT"),
+		StatusReason: ptr.String("__StatusReason__"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -8887,7 +12343,13 @@ func TestCheckResponseSnapshot_UpdateWorkloadIdentity(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	got, err := svc.UpdateWorkloadIdentity(context.Background(), &UpdateWorkloadIdentityInput{})
+	got, err := svc.UpdateWorkloadIdentity(context.Background(), &UpdateWorkloadIdentityInput{
+		Name: ptr.String("__Name__"),
+		AllowedResourceOauth2ReturnUrls: []string{
+			"__Member__",
+			"__Member__",
+		},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -8908,7 +12370,18 @@ func TestCheckResponseSnapshot_Error_AccessDeniedException(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	_, opErr := svc.AddDatasetExamples(context.Background(), &AddDatasetExamplesInput{})
+	_, opErr := svc.AddDatasetExamples(context.Background(), &AddDatasetExamplesInput{
+		DatasetId:   ptr.String("__DatasetId__"),
+		ClientToken: ptr.String("__ClientToken__"),
+		Source: &types.DataSourceTypeMemberInlineExamples{
+			Value: types.InlineExamplesSource{
+				Examples: []document.Interface{
+					document.NewLazyDocument("__Document__"),
+					document.NewLazyDocument("__Document__"),
+				},
+			},
+		},
+	})
 	if opErr == nil {
 		t.Fatal("expected error, got nil")
 	}
@@ -8933,7 +12406,13 @@ func TestCheckResponseSnapshot_Error_ConcurrentModificationException(t *testing.
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	_, opErr := svc.SetTokenVaultCMK(context.Background(), &SetTokenVaultCMKInput{})
+	_, opErr := svc.SetTokenVaultCMK(context.Background(), &SetTokenVaultCMKInput{
+		TokenVaultId: ptr.String("__TokenVaultId__"),
+		KmsConfiguration: &types.KmsConfiguration{
+			KeyType:   types.KeyType("CustomerManagedKey"),
+			KmsKeyArn: ptr.String("__KmsKeyArn__"),
+		},
+	})
 	if opErr == nil {
 		t.Fatal("expected error, got nil")
 	}
@@ -8958,7 +12437,18 @@ func TestCheckResponseSnapshot_Error_ConflictException(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	_, opErr := svc.AddDatasetExamples(context.Background(), &AddDatasetExamplesInput{})
+	_, opErr := svc.AddDatasetExamples(context.Background(), &AddDatasetExamplesInput{
+		DatasetId:   ptr.String("__DatasetId__"),
+		ClientToken: ptr.String("__ClientToken__"),
+		Source: &types.DataSourceTypeMemberInlineExamples{
+			Value: types.InlineExamplesSource{
+				Examples: []document.Interface{
+					document.NewLazyDocument("__Document__"),
+					document.NewLazyDocument("__Document__"),
+				},
+			},
+		},
+	})
 	if opErr == nil {
 		t.Fatal("expected error, got nil")
 	}
@@ -8983,7 +12473,18 @@ func TestCheckResponseSnapshot_Error_DecryptionFailure(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	_, opErr := svc.CreateApiKeyCredentialProvider(context.Background(), &CreateApiKeyCredentialProviderInput{})
+	_, opErr := svc.CreateApiKeyCredentialProvider(context.Background(), &CreateApiKeyCredentialProviderInput{
+		Name:   ptr.String("__Name__"),
+		ApiKey: ptr.String("__ApiKey__"),
+		ApiKeySecretConfig: &types.SecretReference{
+			SecretId: ptr.String("__SecretId__"),
+			JsonKey:  ptr.String("__JsonKey__"),
+		},
+		ApiKeySecretSource: types.SecretSourceType("MANAGED"),
+		Tags: map[string]string{
+			"key0": "__Value__",
+		},
+	})
 	if opErr == nil {
 		t.Fatal("expected error, got nil")
 	}
@@ -9008,7 +12509,18 @@ func TestCheckResponseSnapshot_Error_EncryptionFailure(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	_, opErr := svc.CreateApiKeyCredentialProvider(context.Background(), &CreateApiKeyCredentialProviderInput{})
+	_, opErr := svc.CreateApiKeyCredentialProvider(context.Background(), &CreateApiKeyCredentialProviderInput{
+		Name:   ptr.String("__Name__"),
+		ApiKey: ptr.String("__ApiKey__"),
+		ApiKeySecretConfig: &types.SecretReference{
+			SecretId: ptr.String("__SecretId__"),
+			JsonKey:  ptr.String("__JsonKey__"),
+		},
+		ApiKeySecretSource: types.SecretSourceType("MANAGED"),
+		Tags: map[string]string{
+			"key0": "__Value__",
+		},
+	})
 	if opErr == nil {
 		t.Fatal("expected error, got nil")
 	}
@@ -9033,7 +12545,18 @@ func TestCheckResponseSnapshot_Error_InternalServerException(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	_, opErr := svc.AddDatasetExamples(context.Background(), &AddDatasetExamplesInput{})
+	_, opErr := svc.AddDatasetExamples(context.Background(), &AddDatasetExamplesInput{
+		DatasetId:   ptr.String("__DatasetId__"),
+		ClientToken: ptr.String("__ClientToken__"),
+		Source: &types.DataSourceTypeMemberInlineExamples{
+			Value: types.InlineExamplesSource{
+				Examples: []document.Interface{
+					document.NewLazyDocument("__Document__"),
+					document.NewLazyDocument("__Document__"),
+				},
+			},
+		},
+	})
 	if opErr == nil {
 		t.Fatal("expected error, got nil")
 	}
@@ -9058,7 +12581,18 @@ func TestCheckResponseSnapshot_Error_ResourceLimitExceededException(t *testing.T
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	_, opErr := svc.CreateApiKeyCredentialProvider(context.Background(), &CreateApiKeyCredentialProviderInput{})
+	_, opErr := svc.CreateApiKeyCredentialProvider(context.Background(), &CreateApiKeyCredentialProviderInput{
+		Name:   ptr.String("__Name__"),
+		ApiKey: ptr.String("__ApiKey__"),
+		ApiKeySecretConfig: &types.SecretReference{
+			SecretId: ptr.String("__SecretId__"),
+			JsonKey:  ptr.String("__JsonKey__"),
+		},
+		ApiKeySecretSource: types.SecretSourceType("MANAGED"),
+		Tags: map[string]string{
+			"key0": "__Value__",
+		},
+	})
 	if opErr == nil {
 		t.Fatal("expected error, got nil")
 	}
@@ -9083,7 +12617,18 @@ func TestCheckResponseSnapshot_Error_ResourceNotFoundException(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	_, opErr := svc.AddDatasetExamples(context.Background(), &AddDatasetExamplesInput{})
+	_, opErr := svc.AddDatasetExamples(context.Background(), &AddDatasetExamplesInput{
+		DatasetId:   ptr.String("__DatasetId__"),
+		ClientToken: ptr.String("__ClientToken__"),
+		Source: &types.DataSourceTypeMemberInlineExamples{
+			Value: types.InlineExamplesSource{
+				Examples: []document.Interface{
+					document.NewLazyDocument("__Document__"),
+					document.NewLazyDocument("__Document__"),
+				},
+			},
+		},
+	})
 	if opErr == nil {
 		t.Fatal("expected error, got nil")
 	}
@@ -9108,7 +12653,175 @@ func TestCheckResponseSnapshot_Error_ServiceException(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	_, opErr := svc.CreateMemory(context.Background(), &CreateMemoryInput{})
+	_, opErr := svc.CreateMemory(context.Background(), &CreateMemoryInput{
+		ClientToken:            ptr.String("__ClientToken__"),
+		Name:                   ptr.String("__Name__"),
+		Description:            ptr.String("__Description__"),
+		EncryptionKeyArn:       ptr.String("__EncryptionKeyArn__"),
+		MemoryExecutionRoleArn: ptr.String("__MemoryExecutionRoleArn__"),
+		EventExpiryDuration:    ptr.Int32(1),
+		MemoryStrategies: []types.MemoryStrategyInput{
+			&types.MemoryStrategyInputMemberSemanticMemoryStrategy{
+				Value: types.SemanticMemoryStrategyInput{
+					Name:        ptr.String("__Name__"),
+					Description: ptr.String("__Description__"),
+					Namespaces: []string{
+						"__Member__",
+						"__Member__",
+					},
+					NamespaceTemplates: []string{
+						"__Member__",
+						"__Member__",
+					},
+					MemoryRecordSchema: &types.MemoryRecordSchema{
+						MetadataSchema: []types.MetadataSchemaEntry{
+							{
+								Key:            ptr.String("__Key__"),
+								Type:           types.MetadataValueType("STRING"),
+								ExtractionType: types.ExtractionType("LLM_INFERRED"),
+								ExtractionConfig: &types.ExtractionConfigMemberLlmExtractionConfig{
+									Value: types.LlmExtractionConfig{
+										LlmExtractionInstruction: ptr.String("__LlmExtractionInstruction__"),
+										Definition:               ptr.String("__Definition__"),
+										Validation: &types.ValidationMemberStringValidation{
+											Value: types.StringValidation{
+												AllowedValues: []string{
+													"__Member__",
+													"__Member__",
+												},
+											},
+										},
+									},
+								},
+							},
+							{
+								Key:            ptr.String("__Key__"),
+								Type:           types.MetadataValueType("STRING"),
+								ExtractionType: types.ExtractionType("LLM_INFERRED"),
+								ExtractionConfig: &types.ExtractionConfigMemberLlmExtractionConfig{
+									Value: types.LlmExtractionConfig{
+										LlmExtractionInstruction: ptr.String("__LlmExtractionInstruction__"),
+										Definition:               ptr.String("__Definition__"),
+										Validation: &types.ValidationMemberStringValidation{
+											Value: types.StringValidation{
+												AllowedValues: []string{
+													"__Member__",
+													"__Member__",
+												},
+											},
+										},
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+			&types.MemoryStrategyInputMemberSemanticMemoryStrategy{
+				Value: types.SemanticMemoryStrategyInput{
+					Name:        ptr.String("__Name__"),
+					Description: ptr.String("__Description__"),
+					Namespaces: []string{
+						"__Member__",
+						"__Member__",
+					},
+					NamespaceTemplates: []string{
+						"__Member__",
+						"__Member__",
+					},
+					MemoryRecordSchema: &types.MemoryRecordSchema{
+						MetadataSchema: []types.MetadataSchemaEntry{
+							{
+								Key:            ptr.String("__Key__"),
+								Type:           types.MetadataValueType("STRING"),
+								ExtractionType: types.ExtractionType("LLM_INFERRED"),
+								ExtractionConfig: &types.ExtractionConfigMemberLlmExtractionConfig{
+									Value: types.LlmExtractionConfig{
+										LlmExtractionInstruction: ptr.String("__LlmExtractionInstruction__"),
+										Definition:               ptr.String("__Definition__"),
+										Validation: &types.ValidationMemberStringValidation{
+											Value: types.StringValidation{
+												AllowedValues: []string{
+													"__Member__",
+													"__Member__",
+												},
+											},
+										},
+									},
+								},
+							},
+							{
+								Key:            ptr.String("__Key__"),
+								Type:           types.MetadataValueType("STRING"),
+								ExtractionType: types.ExtractionType("LLM_INFERRED"),
+								ExtractionConfig: &types.ExtractionConfigMemberLlmExtractionConfig{
+									Value: types.LlmExtractionConfig{
+										LlmExtractionInstruction: ptr.String("__LlmExtractionInstruction__"),
+										Definition:               ptr.String("__Definition__"),
+										Validation: &types.ValidationMemberStringValidation{
+											Value: types.StringValidation{
+												AllowedValues: []string{
+													"__Member__",
+													"__Member__",
+												},
+											},
+										},
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+		},
+		IndexedKeys: []types.IndexedKey{
+			{
+				Key:  ptr.String("__Key__"),
+				Type: types.MetadataValueType("STRING"),
+			},
+			{
+				Key:  ptr.String("__Key__"),
+				Type: types.MetadataValueType("STRING"),
+			},
+		},
+		StreamDeliveryResources: &types.StreamDeliveryResources{
+			Resources: []types.StreamDeliveryResource{
+				&types.StreamDeliveryResourceMemberKinesis{
+					Value: types.KinesisResource{
+						DataStreamArn: ptr.String("__DataStreamArn__"),
+						ContentConfigurations: []types.ContentConfiguration{
+							{
+								Type:  types.ContentType("MEMORY_RECORDS"),
+								Level: types.ContentLevel("METADATA_ONLY"),
+							},
+							{
+								Type:  types.ContentType("MEMORY_RECORDS"),
+								Level: types.ContentLevel("METADATA_ONLY"),
+							},
+						},
+					},
+				},
+				&types.StreamDeliveryResourceMemberKinesis{
+					Value: types.KinesisResource{
+						DataStreamArn: ptr.String("__DataStreamArn__"),
+						ContentConfigurations: []types.ContentConfiguration{
+							{
+								Type:  types.ContentType("MEMORY_RECORDS"),
+								Level: types.ContentLevel("METADATA_ONLY"),
+							},
+							{
+								Type:  types.ContentType("MEMORY_RECORDS"),
+								Level: types.ContentLevel("METADATA_ONLY"),
+							},
+						},
+					},
+				},
+			},
+		},
+		Tags: map[string]string{
+			"key0": "__Value__",
+		},
+	})
 	if opErr == nil {
 		t.Fatal("expected error, got nil")
 	}
@@ -9133,7 +12846,18 @@ func TestCheckResponseSnapshot_Error_ServiceQuotaExceededException(t *testing.T)
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	_, opErr := svc.AddDatasetExamples(context.Background(), &AddDatasetExamplesInput{})
+	_, opErr := svc.AddDatasetExamples(context.Background(), &AddDatasetExamplesInput{
+		DatasetId:   ptr.String("__DatasetId__"),
+		ClientToken: ptr.String("__ClientToken__"),
+		Source: &types.DataSourceTypeMemberInlineExamples{
+			Value: types.InlineExamplesSource{
+				Examples: []document.Interface{
+					document.NewLazyDocument("__Document__"),
+					document.NewLazyDocument("__Document__"),
+				},
+			},
+		},
+	})
 	if opErr == nil {
 		t.Fatal("expected error, got nil")
 	}
@@ -9158,7 +12882,175 @@ func TestCheckResponseSnapshot_Error_ThrottledException(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	_, opErr := svc.CreateMemory(context.Background(), &CreateMemoryInput{})
+	_, opErr := svc.CreateMemory(context.Background(), &CreateMemoryInput{
+		ClientToken:            ptr.String("__ClientToken__"),
+		Name:                   ptr.String("__Name__"),
+		Description:            ptr.String("__Description__"),
+		EncryptionKeyArn:       ptr.String("__EncryptionKeyArn__"),
+		MemoryExecutionRoleArn: ptr.String("__MemoryExecutionRoleArn__"),
+		EventExpiryDuration:    ptr.Int32(1),
+		MemoryStrategies: []types.MemoryStrategyInput{
+			&types.MemoryStrategyInputMemberSemanticMemoryStrategy{
+				Value: types.SemanticMemoryStrategyInput{
+					Name:        ptr.String("__Name__"),
+					Description: ptr.String("__Description__"),
+					Namespaces: []string{
+						"__Member__",
+						"__Member__",
+					},
+					NamespaceTemplates: []string{
+						"__Member__",
+						"__Member__",
+					},
+					MemoryRecordSchema: &types.MemoryRecordSchema{
+						MetadataSchema: []types.MetadataSchemaEntry{
+							{
+								Key:            ptr.String("__Key__"),
+								Type:           types.MetadataValueType("STRING"),
+								ExtractionType: types.ExtractionType("LLM_INFERRED"),
+								ExtractionConfig: &types.ExtractionConfigMemberLlmExtractionConfig{
+									Value: types.LlmExtractionConfig{
+										LlmExtractionInstruction: ptr.String("__LlmExtractionInstruction__"),
+										Definition:               ptr.String("__Definition__"),
+										Validation: &types.ValidationMemberStringValidation{
+											Value: types.StringValidation{
+												AllowedValues: []string{
+													"__Member__",
+													"__Member__",
+												},
+											},
+										},
+									},
+								},
+							},
+							{
+								Key:            ptr.String("__Key__"),
+								Type:           types.MetadataValueType("STRING"),
+								ExtractionType: types.ExtractionType("LLM_INFERRED"),
+								ExtractionConfig: &types.ExtractionConfigMemberLlmExtractionConfig{
+									Value: types.LlmExtractionConfig{
+										LlmExtractionInstruction: ptr.String("__LlmExtractionInstruction__"),
+										Definition:               ptr.String("__Definition__"),
+										Validation: &types.ValidationMemberStringValidation{
+											Value: types.StringValidation{
+												AllowedValues: []string{
+													"__Member__",
+													"__Member__",
+												},
+											},
+										},
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+			&types.MemoryStrategyInputMemberSemanticMemoryStrategy{
+				Value: types.SemanticMemoryStrategyInput{
+					Name:        ptr.String("__Name__"),
+					Description: ptr.String("__Description__"),
+					Namespaces: []string{
+						"__Member__",
+						"__Member__",
+					},
+					NamespaceTemplates: []string{
+						"__Member__",
+						"__Member__",
+					},
+					MemoryRecordSchema: &types.MemoryRecordSchema{
+						MetadataSchema: []types.MetadataSchemaEntry{
+							{
+								Key:            ptr.String("__Key__"),
+								Type:           types.MetadataValueType("STRING"),
+								ExtractionType: types.ExtractionType("LLM_INFERRED"),
+								ExtractionConfig: &types.ExtractionConfigMemberLlmExtractionConfig{
+									Value: types.LlmExtractionConfig{
+										LlmExtractionInstruction: ptr.String("__LlmExtractionInstruction__"),
+										Definition:               ptr.String("__Definition__"),
+										Validation: &types.ValidationMemberStringValidation{
+											Value: types.StringValidation{
+												AllowedValues: []string{
+													"__Member__",
+													"__Member__",
+												},
+											},
+										},
+									},
+								},
+							},
+							{
+								Key:            ptr.String("__Key__"),
+								Type:           types.MetadataValueType("STRING"),
+								ExtractionType: types.ExtractionType("LLM_INFERRED"),
+								ExtractionConfig: &types.ExtractionConfigMemberLlmExtractionConfig{
+									Value: types.LlmExtractionConfig{
+										LlmExtractionInstruction: ptr.String("__LlmExtractionInstruction__"),
+										Definition:               ptr.String("__Definition__"),
+										Validation: &types.ValidationMemberStringValidation{
+											Value: types.StringValidation{
+												AllowedValues: []string{
+													"__Member__",
+													"__Member__",
+												},
+											},
+										},
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+		},
+		IndexedKeys: []types.IndexedKey{
+			{
+				Key:  ptr.String("__Key__"),
+				Type: types.MetadataValueType("STRING"),
+			},
+			{
+				Key:  ptr.String("__Key__"),
+				Type: types.MetadataValueType("STRING"),
+			},
+		},
+		StreamDeliveryResources: &types.StreamDeliveryResources{
+			Resources: []types.StreamDeliveryResource{
+				&types.StreamDeliveryResourceMemberKinesis{
+					Value: types.KinesisResource{
+						DataStreamArn: ptr.String("__DataStreamArn__"),
+						ContentConfigurations: []types.ContentConfiguration{
+							{
+								Type:  types.ContentType("MEMORY_RECORDS"),
+								Level: types.ContentLevel("METADATA_ONLY"),
+							},
+							{
+								Type:  types.ContentType("MEMORY_RECORDS"),
+								Level: types.ContentLevel("METADATA_ONLY"),
+							},
+						},
+					},
+				},
+				&types.StreamDeliveryResourceMemberKinesis{
+					Value: types.KinesisResource{
+						DataStreamArn: ptr.String("__DataStreamArn__"),
+						ContentConfigurations: []types.ContentConfiguration{
+							{
+								Type:  types.ContentType("MEMORY_RECORDS"),
+								Level: types.ContentLevel("METADATA_ONLY"),
+							},
+							{
+								Type:  types.ContentType("MEMORY_RECORDS"),
+								Level: types.ContentLevel("METADATA_ONLY"),
+							},
+						},
+					},
+				},
+			},
+		},
+		Tags: map[string]string{
+			"key0": "__Value__",
+		},
+	})
 	if opErr == nil {
 		t.Fatal("expected error, got nil")
 	}
@@ -9183,7 +13075,18 @@ func TestCheckResponseSnapshot_Error_ThrottlingException(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	_, opErr := svc.AddDatasetExamples(context.Background(), &AddDatasetExamplesInput{})
+	_, opErr := svc.AddDatasetExamples(context.Background(), &AddDatasetExamplesInput{
+		DatasetId:   ptr.String("__DatasetId__"),
+		ClientToken: ptr.String("__ClientToken__"),
+		Source: &types.DataSourceTypeMemberInlineExamples{
+			Value: types.InlineExamplesSource{
+				Examples: []document.Interface{
+					document.NewLazyDocument("__Document__"),
+					document.NewLazyDocument("__Document__"),
+				},
+			},
+		},
+	})
 	if opErr == nil {
 		t.Fatal("expected error, got nil")
 	}
@@ -9208,7 +13111,18 @@ func TestCheckResponseSnapshot_Error_UnauthorizedException(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	_, opErr := svc.CreateApiKeyCredentialProvider(context.Background(), &CreateApiKeyCredentialProviderInput{})
+	_, opErr := svc.CreateApiKeyCredentialProvider(context.Background(), &CreateApiKeyCredentialProviderInput{
+		Name:   ptr.String("__Name__"),
+		ApiKey: ptr.String("__ApiKey__"),
+		ApiKeySecretConfig: &types.SecretReference{
+			SecretId: ptr.String("__SecretId__"),
+			JsonKey:  ptr.String("__JsonKey__"),
+		},
+		ApiKeySecretSource: types.SecretSourceType("MANAGED"),
+		Tags: map[string]string{
+			"key0": "__Value__",
+		},
+	})
 	if opErr == nil {
 		t.Fatal("expected error, got nil")
 	}
@@ -9244,7 +13158,18 @@ func TestCheckResponseSnapshot_Error_ValidationException(t *testing.T) {
 		t.Fatal(err)
 	}
 	svc := serdeRespClient(status, header, body)
-	_, opErr := svc.AddDatasetExamples(context.Background(), &AddDatasetExamplesInput{})
+	_, opErr := svc.AddDatasetExamples(context.Background(), &AddDatasetExamplesInput{
+		DatasetId:   ptr.String("__DatasetId__"),
+		ClientToken: ptr.String("__ClientToken__"),
+		Source: &types.DataSourceTypeMemberInlineExamples{
+			Value: types.InlineExamplesSource{
+				Examples: []document.Interface{
+					document.NewLazyDocument("__Document__"),
+					document.NewLazyDocument("__Document__"),
+				},
+			},
+		},
+	})
 	if opErr == nil {
 		t.Fatal("expected error, got nil")
 	}
