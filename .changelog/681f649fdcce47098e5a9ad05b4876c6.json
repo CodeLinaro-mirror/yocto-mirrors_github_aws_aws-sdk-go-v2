@@ -1,0 +1,7 @@
+{
+    "id": "681f649f-dcce-4709-8e5a-9ad05b4876c6",
+    "type": "feature",
+    "description": "Dummy changelog to unblock catapult dry-run for a test-only change. REMOVE before merge.",
+    "collapse": false,
+    "modules": ["service/rolesanywhere"]
+}
