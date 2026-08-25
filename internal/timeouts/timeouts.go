@@ -15,8 +15,6 @@ import (
 // entry in serviceInactivityTimeoutMillis.
 const DefaultReadTimeout = 5 * time.Minute
 
-// enableReadTimeoutEnvVar opts a public build in to the default read timeout.
-// Internal builds are gated by enableReadTimeout2026 instead.
 const enableReadTimeoutEnvVar = "AWS_ENABLE_DEFAULT_READ_TIMEOUT_2026"
 
 var enableFromEnv = sync.OnceValue(func() bool {
@@ -26,10 +24,8 @@ var enableFromEnv = sync.OnceValue(func() bool {
 // GetServiceReadTimeout reports the SDK's default read timeout for a service,
 // and whether one applies.
 func GetServiceReadTimeout(serviceID string) (time.Duration, bool) {
-	if enableReadTimeout2026 {
-		if len(readTimeout2026Rollout) > 0 && !readTimeout2026Rollout[serviceID] {
-			return 0, false
-		}
+	if enableReadTimeout2026 && !readTimeout2026Rollout[serviceID] {
+		return 0, false
 	} else if !enableFromEnv() {
 		return 0, false
 	}
