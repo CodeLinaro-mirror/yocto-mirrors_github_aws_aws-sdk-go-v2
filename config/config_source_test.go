@@ -344,6 +344,67 @@ func TestUserAgentCredentials(t *testing.T) {
 	}
 }
 
+// A provider that doesn't implement aws.CredentialProviderSource records no
+// features, but the client must still send a User-Agent.
+func TestUserAgentCredentials_providerSources(t *testing.T) {
+	cases := map[string]struct {
+		Credentials aws.CredentialsProvider
+		Expect      []middleware.UserAgentFeature
+	}{
+		"provider without sources": {
+			Credentials: aws.CredentialsProviderFunc(func(context.Context) (aws.Credentials, error) {
+				return aws.Credentials{AccessKeyID: "key", SecretAccessKey: "secret"}, nil
+			}),
+			Expect: nil,
+		},
+		"provider with sources": {
+			Credentials: aws.NewCredentialsCache(credentials.NewStaticCredentialsProvider("key", "id", "session")),
+			Expect:      []middleware.UserAgentFeature{middleware.UserAgentFeatureCredentialsCode},
+		},
+	}
+
+	for name, c := range cases {
+		t.Run(name, func(t *testing.T) {
+			var ua stsCaptureUserAgentFeatures
+			client := sts.NewFromConfig(aws.Config{
+				Region:      "us-east-1",
+				HTTPClient:  &ua,
+				Retryer:     func() aws.Retryer { return aws.NopRetryer{} },
+				Credentials: c.Credentials,
+			})
+
+			in := "test"
+			client.DecodeAuthorizationMessage(context.TODO(), &sts.DecodeAuthorizationMessageInput{EncodedMessage: &in})
+
+			if ua.ua == "" {
+				t.Fatal("expect a User-Agent to be sent, got none")
+			}
+			compareFeatures(t, c.Expect, credentialsFeatures(ua.ua))
+		})
+	}
+}
+
+// credentialsFeatures returns the credentials provider features in a User-Agent.
+func credentialsFeatures(ua string) []string {
+	result := make([]string, 0)
+	for _, part := range strings.Split(ua, " ") {
+		after, ok := strings.CutPrefix(part, "m/")
+		if !ok {
+			continue
+		}
+		for _, f := range strings.Split(after, ",") {
+			if len(f) == 0 {
+				continue
+			}
+			// as in captureFeatures, lowercase ids and "0" are credentials features
+			if r := f[0]; (r >= 'e' && r <= 'z') || r == '0' {
+				result = append(result, f)
+			}
+		}
+	}
+	return result
+}
+
 func compareFeatures(t *testing.T, expected []middleware.UserAgentFeature, actual []string) {
 	expectedStr := make([]string, 0, len(expected))
 	for _, e := range expected {
