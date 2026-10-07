@@ -2,7 +2,7 @@
     "id": "99492a8e-b5ac-418f-b4d8-cfabf934493c",
     "type": "dependency",
     "collapse": true,
-    "description": "Update to smithy-go v1.28.3.",
+    "description": "Update to smithy-go v1.28.4.",
     "modules": [
         ".",
         "aws/protocol/eventstream",
